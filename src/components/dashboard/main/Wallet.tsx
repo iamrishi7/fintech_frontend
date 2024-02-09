@@ -1,0 +1,105 @@
+"use client";
+import CustomModal from "@/components/misc/CustomModal";
+import CustomTabs from "@/components/misc/CustomTabs";
+import {
+  Box,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+  Tooltip,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { FC, useState } from "react";
+import { IoWallet } from "react-icons/io5";
+import FundRequestForm from "./FundRequestForm";
+import WalletTransferForm from "./WalletTransferForm";
+
+interface WalletModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Wallet = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Tooltip label="Click for more options" hasArrow rounded={4}>
+        <HStack
+          rounded={"full"}
+          bgColor={"#FFF"}
+          boxShadow={"md"}
+          overflow={"hidden"}
+          gap={0}
+          cursor={"pointer"}
+          onClick={onOpen}
+        >
+          <Box
+            boxSize={12}
+            bgColor={"brand.primary"}
+            display={"grid"}
+            placeContent={"center"}
+          >
+            <Icon as={IoWallet} color={"#FFF"} fontSize={"2xl"} />
+          </Box>
+          <Box px={2} minW={28}>
+            <Text
+              fontSize={"xs"}
+              fontWeight={"medium"}
+              color={"gray.500"}
+              lineHeight={1}
+            >
+              Wallet
+            </Text>
+            <Text fontSize={"md"} fontWeight={"semibold"}>
+              ₹500000
+            </Text>
+          </Box>
+        </HStack>
+      </Tooltip>
+
+      <WalletModal isOpen={isOpen} onClose={onClose} />
+    </>
+  );
+};
+
+const WalletModal: FC<WalletModalProps> = ({ isOpen, onClose }) => {
+  const [intent, setIntent] = useState<string | number>("request");
+  const tabList = [
+    {
+      id: "request",
+      label: "Fund Request",
+    },
+    {
+      id: "transfer",
+      label: "Wallet Transfer",
+    },
+  ];
+  return (
+    <>
+      <CustomModal
+        title={intent == "request" ? "New Fund Request" : "Transfer Your Funds"}
+        isOpen={isOpen}
+        onClose={onClose}
+        showFooter={false}
+      >
+        <HStack w={"full"} justifyContent={"center"}>
+          <CustomTabs
+            tabList={tabList}
+            onChange={(value) => setIntent(value)}
+            boxShadow={"none"}
+          />
+        </HStack>
+        <Box my={8}>
+          {intent == "request" ? (
+            <FundRequestForm onClose={onClose} />
+          ) : (
+            <WalletTransferForm onClose={onClose} />
+          )}
+        </Box>
+      </CustomModal>
+    </>
+  );
+};
+
+export default Wallet;
