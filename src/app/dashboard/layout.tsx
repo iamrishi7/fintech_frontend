@@ -16,7 +16,7 @@ import {
   HStack,
   Tooltip,
 } from "@chakra-ui/react";
-// Here we have used react-icons package for the icons
+
 import { FaBell, FaHandHoldingHeart, FaSatelliteDish } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import {
@@ -36,13 +36,14 @@ import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import ServerStatus from "@/components/dashboard/main/ServerStatus";
 import MessageRibbon from "@/components/dashboard/main/MessageRibbon";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import Wallet from "@/components/dashboard/main/Wallet";
+import { IoMdLogOut } from "react-icons/io";
+import { usePathname, useRouter } from "next/navigation";
 
 interface LayoutProps {
   children: ReactNode;
 }
-
 
 const Index: FC<LayoutProps> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -118,114 +119,312 @@ const Index: FC<LayoutProps> = ({ children }) => {
           <ServerStatus />
         </Box>
       </Box>
-
     </>
   );
 };
 
-const SidebarContent = ({ ...props }: BoxProps) => (
-  <Box
-    as="nav"
-    pos="fixed"
-    top="0"
-    left="0"
-    zIndex="sticky"
-    h="full"
-    p={[4, "8"]}
-    pr={[4, "0"]}
-    overflowX="hidden"
-    overflowY="auto"
-    w={["full", "18%"]}
-    {...props}
-  >
-    <Flex
-      as={"a"}
-      href="/dashboard"
-      px="4"
-      pb={6}
-      mb={4}
-      align="center"
-      borderBottom={"0.5px solid"}
-      borderBottomColor={"gray.300"}
-    >
-      <Icon as={RiFlashlightFill} h={8} w={8} />
-      <Text
-        fontSize="xl"
-        ml="2"
-        color={useColorModeValue("brand.500", "white")}
-        fontWeight="semibold"
-      >
-        Pesa24
-      </Text>
-    </Flex>
-    <Flex
-      direction="column"
+const SidebarContent = ({ ...props }: BoxProps) => {
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  function handleLogout() {
+    replace("/")
+  }
+
+  return (
+    <Box
       as="nav"
-      fontSize="md"
-      color="gray.600"
-      aria-label="Main Navigation"
+      pos="fixed"
+      top="0"
+      left="0"
+      zIndex="sticky"
+      h="full"
+      p={[4, "8"]}
+      overflowX="hidden"
+      overflowY="auto"
+      w={["full", "18%"]}
+      {...props}
     >
-      <NavItem icon={AiOutlineHome}>Dashboard</NavItem>
-      <NavItem icon={AiOutlineTeam}>Team</NavItem>
-      <NavItem icon={BsGear}>Profile</NavItem>
-      <br />
-      <Text
-        fontWeight={"semibold"}
-        fontSize={"sm"}
-        pb={2}
+      <Flex
+        as={"a"}
+        href="/dashboard"
+        px="4"
+        pb={6}
         mb={4}
+        align="center"
         borderBottom={"0.5px solid"}
         borderBottomColor={"gray.300"}
       >
-        SERVICES
-      </Text>
-      <NavItem icon={IoFingerPrint}>AePS</NavItem>
-      <NavItem icon={FaSatelliteDish}>Bill Pay</NavItem>
-      <NavItem icon={SiRazorpay}>Payout</NavItem>
-      <NavItem icon={IoPhonePortraitOutline}>Recharge</NavItem>
-      <NavItem icon={GiTakeMyMoney}>CMS Deposit</NavItem>
-      <NavItem icon={FaHandHoldingHeart}>LIC</NavItem>
-      <br />
-      <Text
-        fontWeight={"semibold"}
-        fontSize={"sm"}
-        pb={2}
-        mb={4}
-        borderBottom={"0.5px solid"}
-        borderBottomColor={"gray.300"}
+        <Icon as={RiFlashlightFill} h={8} w={8} />
+        <Text
+          fontSize="xl"
+          ml="2"
+          color={useColorModeValue("brand.500", "white")}
+          fontWeight="semibold"
+        >
+          NXGENIUS
+        </Text>
+      </Flex>
+      <Flex
+        direction="column"
+        as="nav"
+        fontSize="md"
+        color="gray.600"
+        aria-label="Main Navigation"
       >
-        MONEY
-      </Text>
-      <NavItem icon={GiReceiveMoney}>Fund Request</NavItem>
-      <NavItem icon={IoWallet}>Wallet Transfer</NavItem>
-      <NavItem icon={FaMoneyBillTransfer}>Cashflow</NavItem>
-      <br />
-      <Text
-        fontWeight={"semibold"}
-        fontSize={"sm"}
-        pb={2}
-        mb={4}
-        borderBottom={"0.5px solid"}
-        borderBottomColor={"gray.300"}
-      >
-        REPORTS
-      </Text>
-      <NavItem icon={BsClipboardDataFill}>Ledger</NavItem>
-      <NavItem icon={BsCalendar2CheckFill}>Daily Sales</NavItem>
-      <NavItem icon={IoFingerPrint}>AePS</NavItem>
-      <NavItem icon={FaSatelliteDish}>Bill Pay</NavItem>
-      <NavItem icon={SiRazorpay}>Payout</NavItem>
-      <NavItem icon={IoPhonePortraitOutline}>Recharge</NavItem>
-      <NavItem icon={GiTakeMyMoney}>CMS Deposit</NavItem>
-      <NavItem icon={FaHandHoldingHeart}>LIC</NavItem>
-    </Flex>
-  </Box>
-);
+        <NavItem
+          icon={AiOutlineHome}
+          isActive={pathname == "/dashboard"}
+          link={"/dashboard"}
+        >
+          Dashboard
+        </NavItem>
+        <NavItem
+          icon={AiOutlineTeam}
+          isActive={pathname?.split("/")?.includes("team")}
+          link={"/dashboard/team"}
+        >
+          Team
+        </NavItem>
+        <NavItem
+          icon={BsGear}
+          isActive={pathname?.split("/")?.includes("profile")}
+          link={"/dashboard/profile"}
+        >
+          Profile
+        </NavItem>
+        <br />
+        <Text
+          fontWeight={"semibold"}
+          fontSize={"sm"}
+          pb={2}
+          mb={4}
+          borderBottom={"0.5px solid"}
+          borderBottomColor={"gray.300"}
+        >
+          SERVICES
+        </Text>
+        <NavItem
+          icon={IoFingerPrint}
+          isActive={
+            pathname?.split("/")?.includes("aeps") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/aeps"}
+        >
+          AePS
+        </NavItem>
+        <NavItem
+          icon={FaSatelliteDish}
+          isActive={
+            pathname?.split("/")?.includes("bill-pay") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/bill-pay"}
+        >
+          Bill Pay
+        </NavItem>
+        <NavItem
+          icon={SiRazorpay}
+          isActive={
+            pathname?.split("/")?.includes("payout") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/payout"}
+        >
+          Payout
+        </NavItem>
+        <NavItem
+          icon={IoPhonePortraitOutline}
+          isActive={
+            pathname?.split("/")?.includes("recharge") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/recharge"}
+        >
+          Recharge
+        </NavItem>
+        <NavItem
+          icon={GiTakeMyMoney}
+          isActive={
+            pathname?.split("/")?.includes("cms-deposit") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/cms-deposit"}
+        >
+          CMS Deposit
+        </NavItem>
+        <NavItem
+          icon={FaHandHoldingHeart}
+          isActive={
+            pathname?.split("/")?.includes("lic") &&
+            pathname?.split("/")?.includes("services")
+          }
+          link={"/dashboard/services/lic"}
+        >
+          LIC
+        </NavItem>
+        <br />
+        <Text
+          fontWeight={"semibold"}
+          fontSize={"sm"}
+          pb={2}
+          mb={4}
+          borderBottom={"0.5px solid"}
+          borderBottomColor={"gray.300"}
+        >
+          MONEY
+        </Text>
+        <NavItem
+          icon={GiReceiveMoney}
+          isActive={
+            pathname?.split("/")?.includes("fund-request") &&
+            pathname?.split("/")?.includes("manage")
+          }
+          link={"/dashboard/manage/fund-request"}
+        >
+          Fund Request
+        </NavItem>
+        <NavItem
+          icon={IoWallet}
+          isActive={
+            pathname?.split("/")?.includes("wallet-transfer") &&
+            pathname?.split("/")?.includes("manage")
+          }
+          link={"/dashboard/manage/wallet-transfer"}
+        >
+          Wallet Transfer
+        </NavItem>
+        <NavItem
+          icon={FaMoneyBillTransfer}
+          isActive={
+            pathname?.split("/")?.includes("cashflow") &&
+            pathname?.split("/")?.includes("manage")
+          }
+          link={"/dashboard/manage/cashflow"}
+        >
+          Cashflow
+        </NavItem>
+        <br />
+        <Text
+          fontWeight={"semibold"}
+          fontSize={"sm"}
+          pb={2}
+          mb={4}
+          borderBottom={"0.5px solid"}
+          borderBottomColor={"gray.300"}
+        >
+          REPORTS
+        </Text>
+        <NavItem
+          icon={BsClipboardDataFill}
+          isActive={
+            pathname?.split("/")?.includes("ledger") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/ledger"}
+        >
+          Ledger
+        </NavItem>
+        <NavItem
+          icon={BsCalendar2CheckFill}
+          isActive={
+            pathname?.split("/")?.includes("daily-sales") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/daily-sales"}
+        >
+          Daily Sales
+        </NavItem>
+        <NavItem
+          icon={IoFingerPrint}
+          isActive={
+            pathname?.split("/")?.includes("aeps") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/aeps"}
+        >
+          AePS
+        </NavItem>
+        <NavItem
+          icon={FaSatelliteDish}
+          isActive={
+            pathname?.split("/")?.includes("bill-pay") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/bill-pay"}
+        >
+          Bill Pay
+        </NavItem>
+        <NavItem
+          icon={SiRazorpay}
+          isActive={
+            pathname?.split("/")?.includes("payout") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/payout"}
+        >
+          Payout
+        </NavItem>
+        <NavItem
+          icon={IoPhonePortraitOutline}
+          isActive={
+            pathname?.split("/")?.includes("recharge") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/recharge"}
+        >
+          Recharge
+        </NavItem>
+        <NavItem
+          icon={GiTakeMyMoney}
+          isActive={
+            pathname?.split("/")?.includes("cms-deposit") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/cms-deposit"}
+        >
+          CMS Deposit
+        </NavItem>
+        <NavItem
+          icon={FaHandHoldingHeart}
+          isActive={
+            pathname?.split("/")?.includes("lic") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/lic"}
+        >
+          LIC
+        </NavItem>
+
+        <br />
+        <br />
+        <br />
+        <HStack
+          px={4}
+          py={2}
+          w={"full"}
+          rounded={8}
+          alignItems={"center"}
+          justifyContent={"center"}
+          transition={"all .3s ease"}
+          cursor={"pointer"}
+          _hover={{ bgColor: "gray.200" }}
+          color={"red.400"}
+          onClick={handleLogout}
+        >
+          <Icon as={IoMdLogOut} boxSize={6} />
+          <Text>Logout</Text>
+        </HStack>
+      </Flex>
+    </Box>
+  );
+};
 
 const NavItem = (props: any) => {
   const color = useColorModeValue("gray.600", "gray.300");
 
-  const { icon, children } = props;
+  const { icon, children, isActive = false, link } = props;
   return (
     <Flex
       align="center"
@@ -238,14 +437,18 @@ const NavItem = (props: any) => {
       transition=".15s ease"
       color={useColorModeValue("inherit", "gray.400")}
       rounded={4}
+      boxShadow={isActive ? "base" : "none"}
+      bgColor={isActive ? "#FFF" : "transparent"}
       _hover={{
         bg: "white",
       }}
+      as={"a"}
+      href={link ?? "#"}
     >
       {icon && (
         <Box
           mr="4"
-          bgColor={"#FFF"}
+          bgColor={isActive ? "brand.primary" : "#FFF"}
           p={2}
           rounded={4}
           display={"grid"}
@@ -257,6 +460,7 @@ const NavItem = (props: any) => {
         >
           <Icon
             fontSize={"lg"}
+            color={isActive ? "#FFF" : "auto"}
             _groupHover={{
               color: "#FFF",
             }}
@@ -268,6 +472,5 @@ const NavItem = (props: any) => {
     </Flex>
   );
 };
-
 
 export default Index;

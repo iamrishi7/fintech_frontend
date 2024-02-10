@@ -52,7 +52,7 @@ const Wallet = () => {
               Wallet
             </Text>
             <Text fontSize={"md"} fontWeight={"semibold"}>
-              ₹500000
+              ₹{Number(500000)?.toLocaleString("en-IN") ?? 0}
             </Text>
           </Box>
         </HStack>

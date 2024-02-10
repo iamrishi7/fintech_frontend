@@ -24,6 +24,7 @@ const RecentTransactions = () => {
       <VStack w={"full"} gap={4} maxH={"sm"} overflowY={"scroll"}>
         {data?.map((item, key) => (
           <Box
+            key={key}
             pos={"relative"}
             p={4}
             rounded={"8"}
@@ -54,7 +55,7 @@ const RecentTransactions = () => {
             </HStack>
             <HStack alignItems={"center"} m={2}>
               <Text fontWeight={"bold"} color={"gray.600"} fontSize={"lg"}>
-                ₹2500
+                ₹{Number(2500)?.toLocaleString("en-IN") ?? 0}
               </Text>
               <Text
                 fontSize={"8"}

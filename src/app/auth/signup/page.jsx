@@ -53,14 +53,14 @@ const SplitWithImage = () => {
               // boxShadow="lg"
               p={{ base: 5, sm: 10 }}
             >
-              <VStack spacing={4} w="100%">
-                <FormControl id="email">
+              <VStack spacing={8} w="100%">
+                <FormControl id="email" variant={'floating'}>
                   <FormLabel>Email</FormLabel>
-                  <Input rounded="md" type="email" />
+                  <Input rounded="md" type="email" placeholder=" " />
                 </FormControl>
-                <FormControl id="password">
+                <FormControl id="password" variant={'floating'}>
                   <FormLabel>Password</FormLabel>
-                  <Input rounded="md" type="password" />
+                  <Input rounded="md" type="password" placeholder=" " />
                 </FormControl>
               </VStack>
               <VStack w="100%">
@@ -76,6 +76,10 @@ const SplitWithImage = () => {
                 >
                   Register
                 </Button>
+                <br />
+                <Text as={'a'} href={'/auth/login'} color={'twitter.700'}>
+                  Already have an account? Login here!
+                </Text>
               </VStack>
             </VStack>
           </Stack>

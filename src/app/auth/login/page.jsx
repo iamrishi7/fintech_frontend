@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import * as React from "react";
 import {
   FormControl,
@@ -13,6 +13,7 @@ import {
   Link,
   Image,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import Navbar from "@/components/main/Navbar";
 
@@ -28,7 +29,13 @@ const SplitWithImage = () => {
             src="https://bit.ly/2k1H1t6"
           />
         </Flex>
-        <Flex p={8} flex={1} align="center" justifyContent="center">
+        <Flex
+          p={8}
+          flex={1}
+          align="center"
+          justifyContent="center"
+          direction={"column"}
+        >
           <Stack spacing={4}>
             <Stack align="center">
               <Heading fontSize="2xl">Sign in to your account</Heading>
@@ -40,25 +47,25 @@ const SplitWithImage = () => {
               h="max-content !important"
               bg={useColorModeValue("white", "gray.700")}
               rounded="lg"
-            //   boxShadow="lg"
+              //   boxShadow="lg"
               p={{ base: 5, sm: 10 }}
             >
-              <VStack spacing={4} w="100%">
-                <FormControl id="email">
+              <VStack spacing={8} w="100%">
+                <FormControl id="email" variant={"floating"}>
                   <FormLabel>Email</FormLabel>
-                  <Input rounded="md" type="email" />
+                  <Input rounded="md" type="email" placeholder=" " />
                 </FormControl>
-                <FormControl id="password">
+                <FormControl id="password" variant={"floating"}>
                   <FormLabel>Password</FormLabel>
-                  <Input rounded="md" type="password" />
+                  <Input rounded="md" type="password" placeholder=" " />
                 </FormControl>
               </VStack>
               <VStack w="100%">
-                <Stack direction="row" justifyContent="space-between" w="100%">
+                <Stack direction="row" justifyContent="space-between" w="100%" mb={8}>
                   <Checkbox colorScheme="green" size="md">
                     Remember me
                   </Checkbox>
-                  <Link fontSize={{ base: "md", sm: "md" }}>
+                  <Link fontSize={{ base: "md", sm: "md" }} color={'twitter.600'}>
                     Forgot password?
                   </Link>
                 </Stack>
@@ -74,9 +81,21 @@ const SplitWithImage = () => {
                 >
                   Sign in
                 </Button>
+                <br />
+                <Text as={"a"} href={"/auth/signup"} color={"twitter.700"}>
+                  Don't have an account? Register here!
+                </Text>
               </VStack>
             </VStack>
           </Stack>
+
+          <br />
+          <br />
+          <br />
+          <Text fontSize={"xs"}>
+            &copy; Copyright {new Date().getFullYear()} - Pesa24 Technologies
+            Pvt. Ltd.
+          </Text>
         </Flex>
       </Stack>
     </>

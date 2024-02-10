@@ -47,7 +47,7 @@ const RecentFundRequests = () => {
             {data?.map((item, key) => (
               <Tr key={key}>
                 <Td borderBottom={0}>FND234</Td>
-                <Td borderBottom={0}>₹50,000</Td>
+                <Td borderBottom={0}>₹{Number(50000)?.toLocaleString("en-IN") ?? 0}</Td>
                 <Td>
                   <HStack alignItems={"flex-start"}>
                     <Avatar size={"xs"} name="Sangam Kumar" />
@@ -58,12 +58,14 @@ const RecentFundRequests = () => {
                 <Td borderBottom={0}>
                   <HStack gap={4}>
                     <IconButton
+                      aria-label="approve"
                       size={"xs"}
                       rounded={"full"}
                       icon={<FaCheck />}
                       colorScheme="whatsapp"
                     />
                     <IconButton
+                      aria-label="reject"
                       size={"xs"}
                       rounded={"full"}
                       icon={<FaXmark />}
