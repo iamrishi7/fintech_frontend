@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -14,10 +14,43 @@ import {
   Image,
   Flex,
   Text,
+  useToast,
+  InputGroup,
+  InputRightAddon,
+  InputRightElement,
 } from "@chakra-ui/react";
 import Navbar from "@/components/main/Navbar";
+import { API } from "@/lib/api";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
-const SplitWithImage = () => {
+const Login = () => {
+  const Toast = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  async function login() {
+    try {
+      if (!email || !password) {
+        Toast({
+          status: "warning",
+          description: "Email & password  are required.",
+        });
+        return;
+      }
+      const res = await API.login({ email: email, password: password });
+
+      console.log(res);
+    } catch (error) {
+      Toast({
+        status: "error",
+        title: "Error while logging in",
+        description: error?.message,
+      });
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -52,20 +85,44 @@ const SplitWithImage = () => {
             >
               <VStack spacing={8} w="100%">
                 <FormControl id="email" variant={"floating"}>
+                  <Input
+                    rounded="md"
+                    type="email"
+                    placeholder=" "
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                   <FormLabel>Email</FormLabel>
-                  <Input rounded="md" type="email" placeholder=" " />
                 </FormControl>
                 <FormControl id="password" variant={"floating"}>
-                  <FormLabel>Password</FormLabel>
-                  <Input rounded="md" type="password" placeholder=" " />
+                  <InputGroup>
+                    <Input
+                      rounded="md"
+                      type={showPassword ? "text" : "password"}
+                      placeholder=" "
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <FormLabel>Password</FormLabel>
+                    <InputRightElement
+                      children={showPassword ? <BsEye /> : <BsEyeSlash />}
+                      onClick={() => setShowPassword(!showPassword)}
+                    />
+                  </InputGroup>
                 </FormControl>
               </VStack>
               <VStack w="100%">
-                <Stack direction="row" justifyContent="space-between" w="100%" mb={8}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  w="100%"
+                  mb={8}
+                >
                   <Checkbox colorScheme="green" size="md">
                     Remember me
                   </Checkbox>
-                  <Link fontSize={{ base: "md", sm: "md" }} color={'twitter.600'}>
+                  <Link
+                    fontSize={{ base: "md", sm: "md" }}
+                    color={"twitter.600"}
+                  >
                     Forgot password?
                   </Link>
                 </Stack>
@@ -78,6 +135,7 @@ const SplitWithImage = () => {
                   mt={4}
                   rounded="md"
                   w="100%"
+                  onClick={login}
                 >
                   Sign in
                 </Button>
@@ -102,4 +160,4 @@ const SplitWithImage = () => {
   );
 };
 
-export default SplitWithImage;
+export default Login;

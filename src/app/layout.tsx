@@ -58,7 +58,12 @@ export default function RootLayout({
         <title>Pesa24</title>
       </head>
       <body>
-        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+        <ChakraProvider
+          theme={theme}
+          toastOptions={{ defaultOptions: { position: "top" } }}
+        >
+          {children}
+        </ChakraProvider>
       </body>
     </html>
   );
