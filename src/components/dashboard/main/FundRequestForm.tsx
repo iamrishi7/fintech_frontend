@@ -75,11 +75,12 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
               </FormControl>
             </Stack>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
-              <Box w={["full"]} h={"32"}>
+              <Box w={["full"]}>
                 <FileDropzone
                   onUpload={(files) => console.log(files)}
                   accept="image/*,application/pdf"
                   label="Upload payment receipt"
+                  height={32}
                 />
               </Box>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>

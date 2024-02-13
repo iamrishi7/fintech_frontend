@@ -93,7 +93,7 @@ const FileDropzone: FC<FileDropzoneProps> = ({
           </VStack>
         )}
       </VStack>
-      <HStack py={4}>
+      <HStack py={4} pos={'relative'} justifyContent={'center'}>
         {selectedImages.map((image, index) => (
           <Box key={index} pos={"relative"}>
             <Icon

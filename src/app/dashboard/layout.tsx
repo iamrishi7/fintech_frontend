@@ -17,7 +17,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-import { FaBell, FaHandHoldingHeart, FaSatelliteDish } from "react-icons/fa";
+import { FaBell, FaHandHoldingHeart, FaSatelliteDish, FaUser } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import {
   BsGear,
@@ -142,7 +142,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       p={[4, "8"]}
       overflowX="hidden"
       overflowY="auto"
-      w={["full", "18%"]}
+      w={["full", "18%", "18%", "18%"]}
       {...props}
     >
       <Flex
@@ -187,7 +187,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
           Team
         </NavItem>
         <NavItem
-          icon={BsGear}
+          icon={FaUser}
           isActive={pathname?.split("/")?.includes("profile")}
           link={"/dashboard/profile"}
         >
@@ -295,16 +295,6 @@ const SidebarContent = ({ ...props }: BoxProps) => {
         >
           Wallet Transfer
         </NavItem>
-        <NavItem
-          icon={FaMoneyBillTransfer}
-          isActive={
-            pathname?.split("/")?.includes("cashflow") &&
-            pathname?.split("/")?.includes("manage")
-          }
-          link={"/dashboard/manage/cashflow"}
-        >
-          Cashflow
-        </NavItem>
         <br />
         <Text
           fontWeight={"semibold"}
@@ -335,6 +325,16 @@ const SidebarContent = ({ ...props }: BoxProps) => {
           link={"/dashboard/reports/daily-sales"}
         >
           Daily Sales
+        </NavItem>
+        <NavItem
+          icon={FaMoneyBillTransfer}
+          isActive={
+            pathname?.split("/")?.includes("fund-flow") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/dashboard/reports/fund-flow"}
+        >
+          Fund Flow
         </NavItem>
         <NavItem
           icon={IoFingerPrint}
