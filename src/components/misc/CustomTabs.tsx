@@ -5,6 +5,7 @@ import React, { FC, useEffect, useState } from "react";
 interface TabItem {
   label: string;
   id: string | number;
+  isDisabled?: boolean;
 }
 
 interface CustomTabsProps {
@@ -20,7 +21,9 @@ const CustomTabs: FC<CustomTabsProps> = ({
   size,
   boxShadow,
 }) => {
-  const [activeTab, setActiveTab] = useState(tabList[0]?.id);
+  const [activeTab, setActiveTab] = useState(
+    tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id
+  );
 
   useEffect(() => {
     onChange(activeTab);
@@ -47,6 +50,8 @@ const CustomTabs: FC<CustomTabsProps> = ({
             }}
             onClick={() => setActiveTab(item?.id)}
             size={size ?? "md"}
+            isDisabled={item?.isDisabled}
+            textTransform={'capitalize'}
           >
             {item?.label}
           </Button>

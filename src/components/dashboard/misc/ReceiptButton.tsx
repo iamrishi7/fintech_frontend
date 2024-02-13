@@ -1,34 +1,34 @@
 "use client";
-import { ButtonProps } from "@chakra-ui/react";
+import { ButtonProps, IconButton, useDisclosure } from "@chakra-ui/react";
 import React, { FC } from "react";
+import { IoReceipt } from "react-icons/io5";
+import Receipt from "./receipt/Receipt";
 
 interface ReceiptButtonProps {
-  size: ButtonProps["size"];
-  data: object | undefined;
+  size?: ButtonProps["size"];
+  data?: object | undefined;
 }
-
-interface ReceiptProps {
-  amount: number;
-  showLogo?: boolean;
-  showFooter?: boolean;
-  footerMessage?: string;
-  timestamp: string;
-  status: string | boolean;
-}
-
-const Layout1: FC<ReceiptProps> = ({
-  amount,
-  showLogo = true,
-  showFooter = true,
-  footerMessage,
-  timestamp,
-  status,
-}) => {
-  return <></>;
-};
 
 const ReceiptButton: FC<ReceiptButtonProps> = ({ size, data }) => {
-  return <></>;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <IconButton
+        aria-label="receipt"
+        size={"xs"}
+        rounded={"full"}
+        icon={<IoReceipt />}
+        colorScheme="whatsapp"
+        onClick={onOpen}
+      />
+
+      <Receipt
+        isOpen={isOpen}
+        onClose={onClose}
+        data={{ ...data, status: "success" }}
+      />
+    </>
+  );
 };
 
 export default ReceiptButton;

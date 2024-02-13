@@ -1,5 +1,7 @@
 "use client";
 import PinDrawer from "@/components/dashboard/misc/PinDrawer";
+import RecentPayouts from "@/components/dashboard/services/RecentPayouts";
+import CustomTabs from "@/components/misc/CustomTabs";
 import {
   Box,
   Button,
@@ -20,6 +22,7 @@ interface PayoutDataParams {
   account_number?: string | number;
   confirm_account_number?: string | number;
   ifsc?: string;
+  beneficiary_name?: string;
   amount?: number;
 }
 
@@ -28,9 +31,12 @@ const page = ({
   confirm_account_number,
   ifsc,
   amount,
+  beneficiary_name,
 }: PayoutDataParams) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+
   const [isLoading, setIsLoading] = useState(false);
+  const [provider, setProvider] = useState("razorpay");
   const [formData, setFormData] = useState<null | object>(null);
 
   async function handleFormSubmit() {
@@ -43,12 +49,23 @@ const page = ({
 
   return (
     <>
-      <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Payout
-      </Heading>
+      <Stack direction={["column", "row"]} justifyContent={"space-between"}>
+        <Heading as={"h1"} fontSize={"xl"} mb={8}>
+          Payout
+        </Heading>
+
+        <CustomTabs
+          tabList={[
+            { id: "razorpay", label: "razorpay", isDisabled: true },
+            { id: "paydeer", label: "paydeer" },
+          ]}
+          onChange={(value) => setProvider(value)}
+        />
+      </Stack>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
+            beneficiary_name: beneficiary_name,
             account_number: account_number,
             confirm_account_number: confirm_account_number,
             ifsc: ifsc,
@@ -69,9 +86,18 @@ const page = ({
               >
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
+                    name="beneficiary_name"
+                    onChange={handleChange}
+                    value={values?.beneficiary_name}
+                    placeholder=" "
+                  />
+                  <FormLabel>Beneficiary Name</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
                     name="account_number"
                     onChange={handleChange}
-                    value={account_number}
+                    value={values?.account_number}
                     placeholder=" "
                   />
                   <FormLabel>Account Number</FormLabel>
@@ -80,7 +106,7 @@ const page = ({
                   <Input
                     name="confirm_account_number"
                     onChange={handleChange}
-                    value={confirm_account_number}
+                    value={values?.confirm_account_number}
                     placeholder=" "
                   />
                   <FormLabel>Confirm Account Number</FormLabel>
@@ -89,7 +115,7 @@ const page = ({
                   <Input
                     name="ifsc"
                     onChange={handleChange}
-                    value={ifsc}
+                    value={values?.ifsc}
                     placeholder=" "
                   />
                   <FormLabel>IFSC</FormLabel>
@@ -99,7 +125,7 @@ const page = ({
                     <NumberInputField
                       name="amount"
                       onChange={handleChange}
-                      value={amount}
+                      value={values?.amount}
                       placeholder="₹"
                     />
                     <FormLabel>Amount (₹)</FormLabel>
@@ -124,6 +150,14 @@ const page = ({
           )}
         </Formik>
       </Box>
+
+      <br />
+      <br />
+
+      <Heading as={"h1"} fontSize={"xl"} mb={8}>
+        Recent Payouts
+      </Heading>
+      <RecentPayouts />
 
       <PinDrawer
         isOpen={isOpen}
