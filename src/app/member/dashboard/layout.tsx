@@ -17,7 +17,12 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-import { FaBell, FaHandHoldingHeart, FaSatelliteDish, FaUser } from "react-icons/fa";
+import {
+  FaBell,
+  FaHandHoldingHeart,
+  FaSatelliteDish,
+  FaUser,
+} from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import {
   BsGear,
@@ -33,13 +38,14 @@ import {
 } from "react-icons/io5";
 import { SiRazorpay } from "react-icons/si";
 import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaIndianRupeeSign, FaMoneyBillTransfer } from "react-icons/fa6";
 import ServerStatus from "@/components/dashboard/main/ServerStatus";
 import MessageRibbon from "@/components/dashboard/main/MessageRibbon";
 import { FC, ReactNode, useEffect, useState } from "react";
 import Wallet from "@/components/dashboard/main/Wallet";
 import { IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
+import { PiGearSix } from "react-icons/pi";
 
 interface LayoutProps {
   children: ReactNode;
@@ -47,6 +53,7 @@ interface LayoutProps {
 
 const Index: FC<LayoutProps> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const [role, setRole] = useState("admin");
 
   return (
     <>
@@ -55,11 +62,12 @@ const Index: FC<LayoutProps> = ({ children }) => {
         bg={useColorModeValue("gray.50", "gray.700")}
         minH="100vh"
       >
-        <SidebarContent display={{ base: "none", md: "unset" }} />
+        <MemberSidebarContent display={{ base: "none", md: "unset" }} />
+
         <Drawer isOpen={isOpen} onClose={onClose} placement="left">
           <DrawerOverlay />
           <DrawerContent>
-            <SidebarContent w="full" borderRight="none" />
+            <MemberSidebarContent w="full" borderRight="none" />
           </DrawerContent>
         </Drawer>
         <Box ml={{ base: 0, md: "20%" }} transition=".3s ease">
@@ -123,12 +131,12 @@ const Index: FC<LayoutProps> = ({ children }) => {
   );
 };
 
-const SidebarContent = ({ ...props }: BoxProps) => {
+const MemberSidebarContent = ({ ...props }: BoxProps) => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
   function handleLogout() {
-    replace("/")
+    replace("/");
   }
 
   return (
@@ -147,7 +155,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
     >
       <Flex
         as={"a"}
-        href="/dashboard"
+        href="/member/dashboard"
         px="4"
         pb={6}
         mb={4}
@@ -174,22 +182,22 @@ const SidebarContent = ({ ...props }: BoxProps) => {
       >
         <NavItem
           icon={AiOutlineHome}
-          isActive={pathname == "/dashboard"}
-          link={"/dashboard"}
+          isActive={pathname == "/member/dashboard"}
+          link={"/member/dashboard"}
         >
           Dashboard
         </NavItem>
         <NavItem
           icon={AiOutlineTeam}
           isActive={pathname?.split("/")?.includes("team")}
-          link={"/dashboard/team"}
+          link={"/member/dashboard/team"}
         >
           Team
         </NavItem>
         <NavItem
           icon={FaUser}
           isActive={pathname?.split("/")?.includes("profile")}
-          link={"/dashboard/profile"}
+          link={"/member/dashboard/profile"}
         >
           Profile
         </NavItem>
@@ -210,7 +218,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("aeps") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/aeps"}
+          link={"/member/dashboard/services/aeps"}
         >
           AePS
         </NavItem>
@@ -220,7 +228,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("bill-pay") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/bill-pay"}
+          link={"/member/dashboard/services/bill-pay"}
         >
           Bill Pay
         </NavItem>
@@ -230,7 +238,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("payout") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/payout"}
+          link={"/member/dashboard/services/payout"}
         >
           Payout
         </NavItem>
@@ -240,7 +248,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("recharge") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/recharge"}
+          link={"/member/dashboard/services/recharge"}
         >
           Recharge
         </NavItem>
@@ -250,7 +258,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("cms-deposit") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/cms-deposit"}
+          link={"/member/dashboard/services/cms-deposit"}
         >
           CMS Deposit
         </NavItem>
@@ -260,7 +268,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("lic") &&
             pathname?.split("/")?.includes("services")
           }
-          link={"/dashboard/services/lic"}
+          link={"/member/dashboard/services/lic"}
         >
           LIC
         </NavItem>
@@ -281,7 +289,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("fund-request") &&
             pathname?.split("/")?.includes("manage")
           }
-          link={"/dashboard/manage/fund-request"}
+          link={"/member/dashboard/manage/fund-request"}
         >
           Fund Request
         </NavItem>
@@ -291,7 +299,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("wallet-transfer") &&
             pathname?.split("/")?.includes("manage")
           }
-          link={"/dashboard/manage/wallet-transfer"}
+          link={"/member/dashboard/manage/wallet-transfer"}
         >
           Wallet Transfer
         </NavItem>
@@ -312,7 +320,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("ledger") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/ledger"}
+          link={"/member/dashboard/reports/ledger"}
         >
           Ledger
         </NavItem>
@@ -322,7 +330,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("daily-sales") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/daily-sales"}
+          link={"/member/dashboard/reports/daily-sales"}
         >
           Daily Sales
         </NavItem>
@@ -332,7 +340,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("fund-flow") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/fund-flow"}
+          link={"/member/dashboard/reports/fund-flow"}
         >
           Fund Flow
         </NavItem>
@@ -342,7 +350,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("aeps") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/aeps"}
+          link={"/member/dashboard/reports/aeps"}
         >
           AePS
         </NavItem>
@@ -352,7 +360,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("bill-pay") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/bill-pay"}
+          link={"/member/dashboard/reports/bill-pay"}
         >
           Bill Pay
         </NavItem>
@@ -362,7 +370,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("payout") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/payout"}
+          link={"/member/dashboard/reports/payout"}
         >
           Payout
         </NavItem>
@@ -372,7 +380,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("recharge") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/recharge"}
+          link={"/member/dashboard/reports/recharge"}
         >
           Recharge
         </NavItem>
@@ -382,7 +390,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("cms-deposit") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/cms-deposit"}
+          link={"/member/dashboard/reports/cms-deposit"}
         >
           CMS Deposit
         </NavItem>
@@ -392,7 +400,7 @@ const SidebarContent = ({ ...props }: BoxProps) => {
             pathname?.split("/")?.includes("lic") &&
             pathname?.split("/")?.includes("reports")
           }
-          link={"/dashboard/reports/lic"}
+          link={"/member/dashboard/reports/lic"}
         >
           LIC
         </NavItem>
