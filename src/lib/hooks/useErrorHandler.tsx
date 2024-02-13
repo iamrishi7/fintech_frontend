@@ -5,7 +5,7 @@ import React, { FC } from "react";
 interface HandleErrorParams {
   title: string;
   description?: string;
-  error?: Error;
+  error?: any;
 }
 
 const useErrorHandler = () => {
