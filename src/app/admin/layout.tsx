@@ -46,6 +46,7 @@ import Wallet from "@/components/dashboard/main/Wallet";
 import { IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { PiGearSix } from "react-icons/pi";
+import { HiPaintBrush } from "react-icons/hi2";
 
 interface LayoutProps {
   children: ReactNode;
@@ -202,6 +203,24 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           Profile
         </NavItem>
         <NavItem
+          icon={FaIndianRupeeSign}
+          isActive={pathname?.split("/")?.includes("commission")}
+          link={"/admin/dashboard/commission"}
+        >
+          Commission
+        </NavItem>
+        <br />
+        <Text
+          fontWeight={"semibold"}
+          fontSize={"sm"}
+          pb={2}
+          mb={4}
+          borderBottom={"0.5px solid"}
+          borderBottomColor={"gray.300"}
+        >
+          PORTAL CONTROLS
+        </Text>
+        <NavItem
           icon={PiGearSix}
           isActive={pathname?.split("/")?.includes("settings")}
           link={"/admin/dashboard/settings"}
@@ -209,11 +228,18 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           Settings
         </NavItem>
         <NavItem
-          icon={FaIndianRupeeSign}
-          isActive={pathname?.split("/")?.includes("commission")}
-          link={"/admin/dashboard/commission"}
+          icon={HiPaintBrush}
+          isActive={pathname?.split("/")?.includes("customise")}
+          link={"/admin/dashboard/customise"}
         >
-          Commission
+          Customise
+        </NavItem>
+        <NavItem
+          icon={FaBell}
+          isActive={pathname?.split("/")?.includes("alerts")}
+          link={"/admin/dashboard/alerts"}
+        >
+          Alerts
         </NavItem>
         <br />
         <Text
