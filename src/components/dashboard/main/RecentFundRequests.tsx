@@ -64,13 +64,13 @@ const RecentFundRequests = () => {
                       icon={<FaCheck />}
                       colorScheme="whatsapp"
                     />
-                    {/* <IconButton
+                    <IconButton
                       aria-label="reject"
                       size={"xs"}
                       rounded={"full"}
                       icon={<FaXmark />}
                       colorScheme="red"
-                    /> */}
+                    />
                   </HStack>
                 </Td>
               </Tr>

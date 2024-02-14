@@ -34,7 +34,6 @@ const CustomTabs: FC<CustomTabsProps> = ({
       <HStack
         p={2}
         bgColor={"#FFF"}
-        mb={4}
         w={"max-content"}
         rounded={8}
         boxShadow={boxShadow ?? "sm"}

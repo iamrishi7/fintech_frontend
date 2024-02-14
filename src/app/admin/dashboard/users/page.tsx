@@ -32,6 +32,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 const page = () => {
   const { handleError } = useErrorHandler();
@@ -58,31 +59,52 @@ const page = () => {
       <Stack
         direction={["column", "row"]}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        justifyContent={"space-between"} mb={8}
       >
-        <Heading as={"h1"} fontSize={"xl"} mb={8}>
+        <Heading as={"h1"} fontSize={"xl"}>
           Users List
         </Heading>
 
-        <CustomTabs tabList={[
-            {
-                id: 'member',
-                label: 'member'
-            },
-            {
-                id: 'distributor',
-                label: 'distributor'
-            },
-            {
-                id: 'super_distributor',
-                label: 'super distributor'
-            },
-            {
-                id: 'admin',
-                label: 'admin'
-            },
-        ]} onChange={console.log} size={'sm'} />
+        <Stack direction={["column", "row"]} alignItems={"center"}>
+          <CustomTabs
+            tabList={[
+              {
+                id: "member",
+                label: "member",
+              },
+              {
+                id: "distributor",
+                label: "distributor",
+              },
+              {
+                id: "super_distributor",
+                label: "super distributor",
+              },
+              {
+                id: "admin",
+                label: "admin",
+              },
+            ]}
+            onChange={console.log}
+            size={"sm"}
+          />
+          <Button
+            bgColor={"brand.primary"}
+            _hover={{
+              bgColor: "brand.hover",
+            }}
+            color={"#FFF"}
+            fontWeight={"medium"}
+            leftIcon={<FaPlus />}
+            rounded={'full'}
+            as={'a'}
+            href="/admin/dashboard/users/create"
+          >
+            Create New
+          </Button>
+        </Stack>
       </Stack>
+      <br />
 
       <Box p={6} bgColor={"#FFF"} rounded={4} boxShadow={"base"} mb={8}>
         <Formik
