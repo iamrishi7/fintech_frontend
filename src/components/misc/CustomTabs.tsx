@@ -32,11 +32,13 @@ const CustomTabs: FC<CustomTabsProps> = ({
   return (
     <>
       <HStack
-        p={2}
-        bgColor={"#FFF"}
-        w={"max-content"}
+        p={size == "xs" ? 1 : 2}
+        bgColor={size == "xs" ? "transparent" : "#FFF"}
+        w={size == "xs" ? "max-content" : "full"}
         rounded={8}
         boxShadow={boxShadow ?? "sm"}
+        overflowX={size == "xs" ? "visible" : "scroll"}
+        justifyContent={"center"}
       >
         {tabList?.map((item, key) => (
           <Button
@@ -50,7 +52,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
             onClick={() => setActiveTab(item?.id)}
             size={size ?? "md"}
             isDisabled={item?.isDisabled}
-            textTransform={'capitalize'}
+            textTransform={"capitalize"}
           >
             {item?.label}
           </Button>

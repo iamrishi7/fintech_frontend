@@ -79,7 +79,7 @@ const tabList = [
 const Dashboard = () => {
   return (
     <>
-      <HStack alignItems={'center'} justifyContent={'space-between'}>
+      <HStack alignItems={'center'} justifyContent={'space-between'} mb={8} >
         <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, SANGAM!</Text>
         <CustomTabs
           tabList={tabList}
