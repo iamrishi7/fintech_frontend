@@ -13,6 +13,7 @@ interface CustomTabsProps {
   onChange: (tabId: string | number) => void;
   size?: ButtonProps["size"];
   boxShadow?: BoxProps["boxShadow"];
+  w?: BoxProps["w"];
 }
 
 const CustomTabs: FC<CustomTabsProps> = ({
@@ -20,6 +21,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
   onChange,
   size,
   boxShadow,
+  w,
 }) => {
   const [activeTab, setActiveTab] = useState(
     tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id
@@ -34,7 +36,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
       <HStack
         p={size == "xs" ? 1 : 2}
         bgColor={size == "xs" ? "transparent" : "#FFF"}
-        w={size == "xs" ? "max-content" : "full"}
+        w={w || "max-content"}
         rounded={8}
         boxShadow={boxShadow ?? "sm"}
         overflowX={size == "xs" ? "visible" : "scroll"}

@@ -56,8 +56,8 @@ const HeroSection = () => {
             fontWeight="bold"
             textAlign="left"
           >
-            Do payments faster <br />
-            <chakra.span color="teal">and securely</chakra.span>
+            Do payments <br />
+            <chakra.span color="teal">more securely</chakra.span>
           </chakra.h1>
           <Text
             fontSize="1.2rem"

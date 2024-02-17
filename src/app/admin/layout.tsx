@@ -43,7 +43,7 @@ import ServerStatus from "@/components/dashboard/main/ServerStatus";
 import MessageRibbon from "@/components/dashboard/main/MessageRibbon";
 import { FC, ReactNode, useEffect, useState } from "react";
 import Wallet from "@/components/dashboard/main/Wallet";
-import { IoMdLogOut } from "react-icons/io";
+import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { PiGearSix } from "react-icons/pi";
 import { HiPaintBrush } from "react-icons/hi2";
@@ -392,6 +392,16 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           link={"/admin/dashboard/reports/lic"}
         >
           LIC
+        </NavItem>
+        <NavItem
+          icon={IoMdLogIn}
+          isActive={
+            pathname?.split("/")?.includes("logins") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/admin/dashboard/reports/lic"}
+        >
+          Login Report
         </NavItem>
 
         <br />

@@ -1,5 +1,5 @@
 "use client";
-import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text, TextProps, VStack } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { BiSolidError } from "react-icons/bi";
 import { BsFillClockFill, BsFillPatchCheckFill } from "react-icons/bs";
@@ -14,7 +14,49 @@ interface ReceiptProps {
   timestamp: string;
   status: string | boolean;
   data?: object;
+  isLayout?: boolean;
 }
+
+interface ReceiptEntryProps {
+  k: string;
+  v: string;
+  fontSize: TextProps["fontSize"];
+}
+
+const ReceiptEntry = ({ k, v, fontSize }: ReceiptEntryProps) => {
+  return (
+    <>
+      <HStack w={"full"} gap={0}>
+        <Box
+          px={2}
+          py={1}
+          flex={1}
+          border={"0.5px solid"}
+          borderColor={"gray.300"}
+        >
+          <Text
+            textTransform={"capitalize"}
+            fontSize={fontSize || "10"}
+            fontWeight={"medium"}
+          >
+            {k}
+          </Text>
+        </Box>
+        <Box
+          px={2}
+          py={1}
+          flex={1}
+          border={"0.5px solid"}
+          borderColor={"gray.300"}
+        >
+          <Text textTransform={"capitalize"} fontSize={fontSize || "10"}>
+            {v}
+          </Text>
+        </Box>
+      </HStack>
+    </>
+  );
+};
 
 const Layout1 = ({
   amount,
@@ -24,36 +66,49 @@ const Layout1 = ({
   timestamp,
   status,
   data,
+  isLayout,
 }: any) => {
   const config = {
-    fontSize: "10",
+    fontSize: isLayout ? "6" : "10",
   };
 
   return (
     <>
       <VStack
-        minH={"lg"}
+        minH={isLayout ? "xs" : "lg"}
         w={"full"}
-        p={6}
+        p={isLayout ? 3 : 6}
         bgColor={"#FFF"}
         gap={4}
         justifyContent={"space-between"}
       >
         {/* Receipt Header */}
         <VStack>
-          <Text fontSize={"3xl"} fontWeight={"medium"} color={"gray.700"}>
+          <Text
+            fontSize={isLayout ? "md" : "3xl"}
+            fontWeight={"medium"}
+            color={"gray.700"}
+          >
             ₹{Number(amount ?? 0)?.toFixed(2)}
           </Text>
           {status == "success" ? (
             <Icon
               as={BsFillPatchCheckFill}
               color={"whatsapp.500"}
-              fontSize={"64"}
+              fontSize={isLayout ? "32" : "64"}
             />
           ) : status == "pending" ? (
-            <Icon as={BsFillClockFill} color={"orange.500"} fontSize={"64"} />
+            <Icon
+              as={BsFillClockFill}
+              color={"orange.500"}
+              fontSize={isLayout ? "32" : "64"}
+            />
           ) : status == "failed" ? (
-            <Icon as={BiSolidError} color={"red.500"} fontSize={"72"} />
+            <Icon
+              as={BiSolidError}
+              color={"red.500"}
+              fontSize={isLayout ? "36" : "72"}
+            />
           ) : null}
 
           <Text
@@ -68,6 +123,7 @@ const Layout1 = ({
                 : "gray.700"
             }
             textTransform={"uppercase"}
+            fontSize={isLayout ? "sm" : "md"}
           >
             {status}
           </Text>
@@ -75,124 +131,41 @@ const Layout1 = ({
 
         {/* Receipt Body */}
         <Box w={"full"}>
-          <HStack w={"full"} gap={0}>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize} fontWeight={"medium"}>
-                Transaction Type
-              </Text>
-            </Box>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize}>Payout</Text>
-            </Box>
-          </HStack>
-          <HStack w={"full"} gap={0}>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize} fontWeight={"medium"}>
-                Transaction ID
-              </Text>
-            </Box>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize}>RZPPYT243</Text>
-            </Box>
-          </HStack>
-          <HStack w={"full"} gap={0}>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize} fontWeight={"medium"}>
-                Timestamp
-              </Text>
-            </Box>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize}>13-02-2024 19:34</Text>
-            </Box>
-          </HStack>
-          <HStack w={"full"} gap={0}>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize} fontWeight={"medium"}>
-                Account No.
-              </Text>
-            </Box>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize}>39488734970</Text>
-            </Box>
-          </HStack>
-          <HStack w={"full"} gap={0}>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize} fontWeight={"medium"}>
-                Beneficiary Name
-              </Text>
-            </Box>
-            <Box
-              px={2}
-              py={1}
-              flex={1}
-              border={"0.5px solid"}
-              borderColor={"gray.300"}
-            >
-              <Text fontSize={config?.fontSize}>Sangam Kumar</Text>
-            </Box>
-          </HStack>
+          <ReceiptEntry
+            k="Transaction Type"
+            v="Payout"
+            fontSize={config?.fontSize}
+          />
+          <ReceiptEntry
+            k="Transaction ID"
+            v="RZPPYT243"
+            fontSize={config?.fontSize}
+          />
+          <ReceiptEntry
+            k="Timestamp"
+            v="13-02-2024 19:34"
+            fontSize={config?.fontSize}
+          />
+          <ReceiptEntry
+            k="Account No."
+            v="39488734970"
+            fontSize={config?.fontSize}
+          />
+          <ReceiptEntry
+            k="Beneficiary Name"
+            v="Sangam Kumar"
+            fontSize={config?.fontSize}
+          />
         </Box>
 
         {/* Receipt Footer */}
         <VStack gap={1}>
           <HStack w={"full"} justifyContent={"center"}>
-            <Text fontWeight={"semibold"}>NXGENIUS</Text>
+            <Text fontSize={isLayout ? "2xs" : "md"} fontWeight={"semibold"}>
+              NXGENIUS
+            </Text>
           </HStack>
-          <Text fontSize={"xs"} textAlign={"center"}>
+          <Text fontSize={isLayout ? 6 : "xs"} textAlign={"center"}>
             This is a computer generated receipt and does not require physical
             signature.
           </Text>
