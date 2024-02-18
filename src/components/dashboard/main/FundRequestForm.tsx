@@ -1,5 +1,8 @@
 "use client";
 import FileDropzone from "@/components/misc/FileDropzone";
+import { API } from "@/lib/api";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { FormAxios } from "@/lib/utils/axios";
 import {
   Box,
   Button,
@@ -19,16 +22,18 @@ interface FormProps {
 }
 
 const FundRequestForm: FC<FormProps> = ({ onClose }) => {
+  const {handleError} = useErrorHandler()
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: object) {
     setIsLoading(true);
     try {
-      // TODO: Send request to server and handle response.
+      await FormAxios.post("/user/fund-requests", values)
       setIsLoading(false);
       onClose();
     } catch (error) {
       setIsLoading(false);
+      handleError({title: "Couldn't post your fund request", error: error})
     }
   }
 
@@ -40,21 +45,21 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
           transaction_id: "",
           transaction_date: "",
           requested_bank: "",
-          member_remarks: "",
+          user_remarks: "",
           receipt: null,
           channel: "",
         }}
-        onSubmit={console.log}
+        onSubmit={values => console.log(values)}
       >
-        {({ values, handleChange, handleSubmit, errors }) => (
+        {({ values, handleChange, handleSubmit, setFieldValue, errors }) => (
           <Form onSubmit={handleSubmit}>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                <Input name="amount" type="number" placeholder="₹" />
+                <Input name="amount" type="number" placeholder="₹" onChange={handleChange} />
                 <FormLabel>Amount</FormLabel>
               </FormControl>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                <Input name="transaction_id" type="text" placeholder=" " />
+                <Input name="transaction_id" type="text" placeholder=" " onChange={handleChange} />
                 <FormLabel>Transaction ID</FormLabel>
               </FormControl>
             </Stack>
@@ -65,19 +70,20 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
                   name="transaction_date"
                   type="date"
                   placeholder="Transaction Date"
+                  onChange={handleChange}
                 />
               </FormControl>
               <FormControl maxW={["full", "xs"]}>
                 <FormLabel fontSize={"xs"}>Requested Bank</FormLabel>
-                <Select name="requested_bank" placeholder="Please select">
-                  <option value="SBI">State Bank of India</option>
+                <Select name="requested_bank" placeholder="Please select" onChange={handleChange}>
+                  <option value="1234567890">State Bank of India</option>
                 </Select>
               </FormControl>
             </Stack>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
               <Box w={["full"]}>
                 <FileDropzone
-                  onUpload={(files) => console.log(files)}
+                  onUpload={(files) => setFieldValue("receipt", files)}
                   accept="image/*,application/pdf"
                   label="Upload payment receipt"
                   height={32}
@@ -85,11 +91,12 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
               </Box>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>
                 <Textarea
-                  name="transaction_date"
+                  name="user_remarks"
                   resize={"none"}
                   w={"full"}
                   h={"32"}
                   placeholder=" "
+                  onChange={handleChange}
                 />
                 <FormLabel>Remarks</FormLabel>
               </FormControl>

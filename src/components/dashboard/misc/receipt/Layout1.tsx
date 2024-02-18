@@ -45,7 +45,7 @@ const ReceiptEntry = ({ k, v, fontSize }: ReceiptEntryProps) => {
         <Box
           px={2}
           py={1}
-          flex={1}
+          flex={2}
           border={"0.5px solid"}
           borderColor={"gray.300"}
         >
@@ -132,12 +132,12 @@ const Layout1 = ({
         {/* Receipt Body */}
         <Box w={"full"}>
           <ReceiptEntry
-            k="Transaction Type"
+            k="Trnxn Type"
             v="Payout"
             fontSize={config?.fontSize}
           />
           <ReceiptEntry
-            k="Transaction ID"
+            k="Trnxn ID"
             v="RZPPYT243"
             fontSize={config?.fontSize}
           />
@@ -152,7 +152,7 @@ const Layout1 = ({
             fontSize={config?.fontSize}
           />
           <ReceiptEntry
-            k="Beneficiary Name"
+            k="Beneficiary"
             v="Sangam Kumar"
             fontSize={config?.fontSize}
           />
@@ -165,7 +165,7 @@ const Layout1 = ({
               NXGENIUS
             </Text>
           </HStack>
-          <Text fontSize={isLayout ? 6 : "xs"} textAlign={"center"}>
+          <Text fontSize={isLayout ? 6 : 10} textAlign={"center"}>
             This is a computer generated receipt and does not require physical
             signature.
           </Text>

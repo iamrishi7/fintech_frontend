@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaReceipt } from "react-icons/fa";
+import ReceiptButton from "../misc/ReceiptButton";
 
 const RecentTransactions = () => {
   const [data, setData] = useState([
@@ -76,14 +77,7 @@ const RecentTransactions = () => {
                 No remarks to show{" "}
               </Text>
               <Box flex={1}>
-                <IconButton
-                  size={"sm"}
-                  rounded={"full"}
-                  bgColor={"brand.primary"}
-                  _hover={{ bgColor: "brand.hover" }}
-                  color={"#FFF"}
-                  icon={<FaReceipt />}
-                />
+                <ReceiptButton />
               </Box>
             </HStack>
           </Box>

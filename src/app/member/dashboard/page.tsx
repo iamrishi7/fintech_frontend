@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   HStack,
   VStack,
@@ -21,6 +21,9 @@ import RecentFundRequests from "@/components/dashboard/main/RecentFundRequests";
 import RecentTransactions from "@/components/dashboard/main/RecentTransactions";
 import CustomTabs from "@/components/misc/CustomTabs";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import useAuth from "@/lib/hooks/useAuth";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API } from "@/lib/api";
 
 interface StatData {
   id: number;
@@ -29,37 +32,6 @@ interface StatData {
   icon: any;
   percentage: string;
 }
-
-const statData: StatData[] = [
-  {
-    id: 1,
-    label: "Fund Requests",
-    score: "₹1730",
-    icon: FaWallet,
-    percentage: "10%",
-  },
-  {
-    id: 2,
-    label: "Payouts",
-    score: "₹3245",
-    icon: MdOutlineAttachMoney,
-    percentage: "30%",
-  },
-  {
-    id: 3,
-    label: "Cashflow",
-    score: "₹100",
-    icon: FaMoneyBillTransfer,
-    percentage: "30%",
-  },
-  {
-    id: 4,
-    label: "Wallet Transfers",
-    score: "₹100",
-    icon: BiTransferAlt,
-    percentage: "30%",
-  },
-];
 
 const tabList = [
   {
@@ -77,13 +49,60 @@ const tabList = [
 ];
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  const { handleError } = useErrorHandler();
+
+  const [statData, setStatData] = useState<StatData[]>([
+    {
+      id: 1,
+      label: "Fund Requests",
+      score: "₹0",
+      icon: FaWallet,
+      percentage: "0%",
+    },
+    {
+      id: 2,
+      label: "Payouts",
+      score: "₹0",
+      icon: MdOutlineAttachMoney,
+      percentage: "0%",
+    },
+    {
+      id: 3,
+      label: "Cashflow",
+      score: "₹0",
+      icon: FaMoneyBillTransfer,
+      percentage: "0%",
+    },
+    {
+      id: 4,
+      label: "Wallet Transfers",
+      score: "₹0",
+      icon: BiTransferAlt,
+      percentage: "0%",
+    },
+  ]);
+
+  async function getData(duration: string) {
+    try {
+      const res = await API.overview(duration)
+      console.log("Overview data")
+      console.log(res)
+    } catch (error) {
+      handleError({ title: "Error while getting overview data", error: error });
+    }
+  }
+
   return (
     <>
-      <HStack alignItems={'center'} justifyContent={'space-between'}>
-        <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, SANGAM!</Text>
+      <HStack alignItems={"center"} justifyContent={"space-between"}>
+        <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
+          Good afternoon,{" "}
+          {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
+        </Text>
         <CustomTabs
           tabList={tabList}
-          onChange={(value) => console.log(value)}
+          onChange={(value) => getData(`${value}`)}
           size={["sm", "sm"]}
         />
       </HStack>

@@ -10,18 +10,44 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { IoWallet } from "react-icons/io5";
 import FundRequestForm from "./FundRequestForm";
 import WalletTransferForm from "./WalletTransferForm";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API } from "@/lib/api";
 
 interface WalletModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 const Wallet = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { handleError } = useErrorHandler();
+  const ref = useRef(true);
+
+  const [balance, setBalance] = useState<string | number>("");
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      getBalance();
+    }
+  }, []);
+  
+  async function getBalance() {
+    try {
+      const res = await API.wallet();
+      setBalance(res?.data?.wallet);
+    } catch (error) {
+      handleError({
+        title: "Error while getting wallet balance",
+        error: Error,
+      });
+    }
+  }
+
+
   return (
     <>
       <Tooltip label="Click for more options" hasArrow rounded={4}>
@@ -52,7 +78,7 @@ const Wallet = () => {
               Wallet
             </Text>
             <Text fontSize={"md"} fontWeight={"semibold"}>
-              ₹{Number(500000)?.toLocaleString("en-IN") ?? 0}
+              ₹{Number(balance || 0)?.toLocaleString("en-IN") ?? 0}
             </Text>
           </Box>
         </HStack>

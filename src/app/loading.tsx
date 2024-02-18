@@ -13,7 +13,7 @@ const loading = () => {
           justifyContent: "center",
         }}
       >
-        <Image src="/assets/images/loading/layout1.gif" w={16} />
+        <Image src="/assets/images/loading/layout1.gif" w={16} h={16} objectFit={'contain'} />
         <br />
         <p style={{ textAlign: "center" }}>Loading, please wait...</p>
       </div>

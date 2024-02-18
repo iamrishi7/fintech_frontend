@@ -15,7 +15,7 @@ const BackendAxios = axios.create({
     },
 })
 
-BackendAxios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get("token")}`
+// BackendAxios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get("token")}`
 
 export const DefaultAxios = axios.create({
     headers: {
@@ -33,7 +33,7 @@ export const FormAxios = axios.create({
     },
 })
 
-FormAxios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get("token")}`
+// FormAxios.defaults.headers.common['Authorization'] = `Bearer ${Cookies.get("token")}`
 
 export const ClientAxios = axios.create({
     clientURL,

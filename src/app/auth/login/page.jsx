@@ -28,8 +28,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   async function login() {
+    setIsLoading(true)
     try {
       if (!email || !password) {
         Toast({
@@ -40,7 +42,16 @@ const Login = () => {
       }
       const res = await API.login({ email: email, password: password });
 
-      console.log(res);
+      if (res?.original?.access_token?.user) {
+        const role = res?.original?.access_token?.user?.roles[0]?.name
+        const user = JSON.stringify({
+          ...res?.original?.access_token?.user,
+          roles: role,
+        });
+        localStorage.setItem("user", user);
+        window.location.href = `/${role == "admin" ? "admin" : "member"}/dashboard`;
+        setIsLoading(false)
+      }
     } catch (error) {
       Toast({
         status: "error",

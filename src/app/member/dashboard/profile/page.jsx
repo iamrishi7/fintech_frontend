@@ -2,6 +2,8 @@
 import PasswordUpdateForm from "@/components/dashboard/profile/PasswordUpdateForm";
 import PinUpdateForm from "@/components/dashboard/profile/PinUpdateForm";
 import FileDropzone from "@/components/misc/FileDropzone";
+import { API } from "@/lib/api";
+import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Box,
@@ -27,7 +29,7 @@ const FormSubheading = ({ title }) => {
       fontWeight={"medium"}
       color={"gray.700"}
       mt={16}
-      mb={4}
+      mb={8}
       textTransform={"capitalize"}
     >
       {title}
@@ -38,7 +40,7 @@ const FormSubheading = ({ title }) => {
 const page = () => {
   const { handleError } = useErrorHandler();
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [avatar, setAvatar] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
 
@@ -67,6 +69,7 @@ const page = () => {
   async function handleFormSubmit(values) {
     setIsLoading(true);
     try {
+      await API.updateMe(values)
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -84,7 +87,7 @@ const page = () => {
           type="file"
           ref={avatarInputRef}
           onChange={handleFileChange}
-          accept="image/"
+          accept="image/*"
           style={{ display: "none" }}
         />
         <VStack w={"full"} justifyContent={"center"} mb={4}>
@@ -146,9 +149,9 @@ const page = () => {
             middle_name: user?.middle_name,
             last_name: user?.last_name,
           }}
-          onSubmit={(values) => handleFormSubmit(values)}
+          onSubmit={(values) => console.log(values)}
         >
-          {({ values, handleChange, handleSubmit, errors }) => (
+          {({ values, handleChange, handleSubmit, setFieldValue, errors }) => (
             <Form onSubmit={handleSubmit}>
               <FormSubheading title={"Basic Details"} />
               <Stack
@@ -159,15 +162,33 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="first_name" type="text" placeholder=" " />
+                  <Input
+                    name="first_name"
+                    type="text"
+                    placeholder=" "
+                    value={values?.first_name}
+                    onChange={handleChange}
+                  />
                   <FormLabel>First Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="middle_name" type="text" placeholder=" " />
+                  <Input
+                    name="middle_name"
+                    type="text"
+                    placeholder=" "
+                    value={values?.middle_name}
+                    onChange={handleChange}
+                  />
                   <FormLabel>Middle Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="last_name" type="text" placeholder=" " />
+                  <Input
+                    name="last_name"
+                    type="text"
+                    placeholder=" "
+                    value={values?.last_name}
+                    onChange={handleChange}
+                  />
                   <FormLabel>Last Name</FormLabel>
                 </FormControl>
               </Stack>
@@ -180,7 +201,13 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="email" type="email" placeholder=" " />
+                  <Input
+                    name="email"
+                    type="email"
+                    placeholder=" "
+                    isDisabled
+                    value={user?.email}
+                  />
                   <FormLabel>Email</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
@@ -203,16 +230,16 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="aadhaar_number" type="text" placeholder=" " />
+                  <Input name="aadhaar_number" type="text" placeholder=" " isDisabled />
                   <FormLabel>Aadhaar No.</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="pan" type="text" placeholder=" " />
+                  <Input name="pan" type="text" placeholder=" " isDisabled />
                   <FormLabel>PAN</FormLabel>
                 </FormControl>
               </Stack>
 
-              <FormSubheading title={"Upload Documents"} />
+              {/* <FormSubheading title={"Upload Documents"} />
               <Stack
                 w={"full"}
                 direction={["column", "row"]}
@@ -244,7 +271,7 @@ const page = () => {
                     height={32}
                   />
                 </Box>
-              </Stack>
+              </Stack> */}
 
               <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
                 <Button
@@ -254,7 +281,7 @@ const page = () => {
                   }}
                   color={"#FFF"}
                   isLoading={isLoading}
-                  onClick={() => handleSubmit(values)}
+                  onClick={() => handleFormSubmit(values)}
                 >
                   Save
                 </Button>

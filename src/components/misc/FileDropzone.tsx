@@ -13,7 +13,7 @@ import {
 import { BsPlusCircle, BsXCircleFill } from "react-icons/bs";
 
 interface FileDropzoneProps {
-  onUpload: (file: File[]) => void;
+  onUpload: (file: File[] | File) => void;
   accept?: string | undefined;
   width?: string | number;
   height?: string | number;
@@ -58,11 +58,11 @@ const FileDropzone: FC<FileDropzoneProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    multiple: true,
+    multiple: multiple,
   });
 
   useEffect(() => {
-    onUpload(files);
+    onUpload(multiple ? files : files[0]);
   }, [files]);
 
   return (

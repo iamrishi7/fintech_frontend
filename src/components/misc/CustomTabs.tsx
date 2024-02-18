@@ -23,13 +23,16 @@ const CustomTabs: FC<CustomTabsProps> = ({
   boxShadow,
   w,
 }) => {
-  const [activeTab, setActiveTab] = useState(
-    tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id
-  );
+  const [activeTab, setActiveTab] = useState<string | number>("");
 
   useEffect(() => {
-    onChange(activeTab);
-  }, [activeTab]);
+    if(activeTab){
+      onChange(activeTab)
+    }
+    else{
+      setActiveTab(tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id)
+    }
+  }, [activeTab])
 
   return (
     <>

@@ -3,7 +3,7 @@ export const TOKEN_MAX_AGE = 60 * 60 * 24 * 30; // 30 Days
 export const CLIENT_BASE_URL =
   process.env.NODE_ENV == "development" ? "http://localhost:3000" : "https://proto.nxgenius.com";
 export const API_BASE_URL =
-  process.env.NODE_ENV == "development" ? "http://192.168.1.36:8000/api" : "https://alpha.nxgenius.com/api";
+  process.env.NODE_ENV == "development" ? "http://localhost:8000/api" : "https://alpha.nxgenius.com/api";
 
 export const COUNTRIES = [
   { label: "Afghanistan", value: "Afghanistan" },

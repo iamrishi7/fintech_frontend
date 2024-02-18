@@ -29,7 +29,7 @@ interface ReceiptModalProps {
 const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
   return (
     <>
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size={'sm'}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size={'xs'}>
         <ModalOverlay />
         <ModalContent bg={"transparent"} boxShadow={'none'}>
           <ModalBody p={0} boxShadow={'md'}>

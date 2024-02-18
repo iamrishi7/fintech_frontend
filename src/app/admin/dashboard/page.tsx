@@ -21,6 +21,7 @@ import RecentFundRequests from "@/components/dashboard/main/RecentFundRequests";
 import RecentTransactions from "@/components/dashboard/main/RecentTransactions";
 import CustomTabs from "@/components/misc/CustomTabs";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface StatData {
   id: number;
@@ -77,10 +78,11 @@ const tabList = [
 ];
 
 const Dashboard = () => {
+  const {user} = useAuth()
   return (
     <>
       <HStack alignItems={'center'} justifyContent={'space-between'} mb={8} >
-        <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, SANGAM!</Text>
+        <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!</Text>
         <CustomTabs
           tabList={tabList}
           onChange={(value) => console.log(value)}

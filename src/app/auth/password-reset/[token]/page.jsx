@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/main/Navbar";
 import {
   Button,
@@ -13,13 +13,22 @@ import {
 } from "@chakra-ui/react";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API } from "@/lib/api";
+import { useSearchParams } from "next/navigation";
 
-const page = () => {
+const page = ({ params }) => {
+  const { token } = params;
   const { handleError } = useErrorHandler();
   const Toast = useToast();
+  const query = useSearchParams();
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setEmail(query.get("email"));
+  }, []);
 
   async function handleSubmit() {
     if (!email) {
@@ -28,17 +37,29 @@ const page = () => {
       });
       return;
     }
+    if (password != passwordConfirmation) {
+      Toast({
+        description: "Passwords must match",
+      });
+      return;
+    }
     try {
       setIsLoading(true);
-      await API.forgotPassword({ email });
+      await API.resetPassword({
+        email: email,
+        token: token,
+        password: password,
+        password_confirmation: passwordConfirmation,
+      });
       Toast({
         status: "success",
-        description: "Password reset link sent!",
+        description: "Password reset successfully!",
       });
       setIsLoading(false);
+      window.location.replace("/auth/login");
     } catch (error) {
       setIsLoading(false);
-      handleError({ title: "Couldn't send reset link", error: error });
+      handleError({ title: "Couldn't reset password", error: error });
     }
   }
 
@@ -49,10 +70,10 @@ const page = () => {
       <Container maxW={["full", "5xl"]} p={[4, 8, 16]}>
         <VStack alignItems={"center"} justifyContent={"center"}>
           <Text fontSize={["xl", "3xl"]} fontWeight={"semibold"}>
-            Forgot Password?
+            Reset Password
           </Text>
           <Text fontSize={["sm", "md"]} textAlign={"center"}>
-            Enter your email ID and we will send you a password reset link.
+            Enter your new password for logging in
           </Text>
 
           <br />
@@ -63,9 +84,29 @@ const page = () => {
               type="email"
               name="email"
               placeholder=" "
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <FormLabel>Registered Email</FormLabel>
+          </FormControl>
+          <br />
+          <FormControl maxW={["full", "xs"]} variant={"floating"}>
+            <Input
+              type="password"
+              name="password"
+              placeholder=" "
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <FormLabel>New Password</FormLabel>
+          </FormControl>
+          <br />
+          <FormControl maxW={["full", "xs"]} variant={"floating"}>
+            <Input
+              name="password_confirmation"
+              placeholder=" "
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+            />
+            <FormLabel>Confirm Password</FormLabel>
           </FormControl>
           <br />
           <Button
@@ -78,7 +119,7 @@ const page = () => {
             isLoading={isLoading}
             onClick={handleSubmit}
           >
-            Send Link
+            Submit
           </Button>
         </VStack>
       </Container>
