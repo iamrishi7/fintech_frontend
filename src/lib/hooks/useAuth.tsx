@@ -1,6 +1,7 @@
 "use client";
 import { useToast } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
+import { API } from "../api";
 
 interface HandleErrorParams {
   title: string;
@@ -18,8 +19,16 @@ const useAuth = () => {
     }
   }, []);
 
+  const handleLogout = async () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    await API.logout()
+    window.location.replace("/auth/login")
+  }
+
   return {
     user,
+    handleLogout
   };
 };
 

@@ -94,6 +94,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  logout: async (data) => {
+    let res = await API.execute(`/logout`, "POST", data);
+    return API.processResponse(res);
+  },
+
   forgotPassword: async (data) => {
     let res = await API.execute(`/forgot-password`, "POST", data);
     return API.processResponse(res);
@@ -138,6 +143,7 @@ export const API = {
   },
 
   // Admin APIs
+  
   adminPendingFundRequests: async () => {
     let res = await API.execute(`/admin/fund-requests?status=${"pending"}`, "GET" );
     return API.processResponse(res);

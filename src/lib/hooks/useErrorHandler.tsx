@@ -1,6 +1,6 @@
 "use client";
 import { useToast } from "@chakra-ui/react";
-import React, { FC } from "react";
+import useAuth from "./useAuth";
 
 interface HandleErrorParams {
   title: string;
@@ -10,8 +10,13 @@ interface HandleErrorParams {
 
 const useErrorHandler = () => {
   const Toast = useToast();
+  const { handleLogout } = useAuth();
 
   const handleError = ({ title, description, error }: HandleErrorParams) => {
+    if (error?.status == 401) {
+      handleLogout();
+    }
+    console.log("Error Status ", error?.status)
     Toast({
       title: title,
       description:
