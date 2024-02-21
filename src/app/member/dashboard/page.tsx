@@ -106,6 +106,7 @@ const Dashboard = () => {
           size={["sm", "sm"]}
         />
       </HStack>
+      <br />
       <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={5} mb={4}>
         {statData.map((data, index) => (
           <Card key={index} data={data} />

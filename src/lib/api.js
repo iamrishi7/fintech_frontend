@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { API_BASE_URL } from "./constants";
 import Cookies from "js-cookie";
 
@@ -51,7 +51,7 @@ export const API = {
 
     let headers = {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     };
 
     let res = await fetch(`${REACT_API_BASE_URL}${url}`, {
@@ -61,8 +61,8 @@ export const API = {
       body: data ? JSON.stringify(data) : null,
     });
 
-    if(res.status == 401){
-      window.location.replace("/auth/login")
+    if (res.status == 401) {
+      window.location.replace("/auth/login");
     }
 
     return Promise.all([res.status, res.json(), res.ok]);
@@ -122,7 +122,7 @@ export const API = {
   },
 
   wallet: async () => {
-    console.log("token", Cookies.get("token"))
+    console.log("token", Cookies.get("token"));
     let res = await API.execute(`/user/wallet`, "GET");
     return API.processResponse(res);
   },
@@ -133,7 +133,7 @@ export const API = {
   },
 
   fundRequests: async () => {
-    let res = await API.execute(`/user/fund-requests`, "GET" );
+    let res = await API.execute(`/user/fund-requests`, "GET");
     return API.processResponse(res);
   },
 
@@ -143,9 +143,35 @@ export const API = {
   },
 
   // Admin APIs
-  
+
   adminPendingFundRequests: async () => {
-    let res = await API.execute(`/admin/fund-requests?status=${"pending"}`, "GET" );
+    let res = await API.execute(
+      `/admin/fund-requests?status=${"pending"}`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminApproveFundRequest: async (id) => {
+    let res = await API.execute(
+      `/admin/fund-requests/${id}`,
+      "PUT",
+      {
+        status: "approved"
+      }
+    );
+    return API.processResponse(res);
+  },
+
+  adminRejectFundRequest: async (id, adminRemarks) => {
+    let res = await API.execute(
+      `/admin/fund-requests/${id}`,
+      "PUT",
+      {
+        status: "rejected",
+        admin_remarks: adminRemarks
+      }
+    );
     return API.processResponse(res);
   },
 

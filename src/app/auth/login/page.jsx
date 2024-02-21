@@ -53,6 +53,7 @@ const Login = () => {
         setIsLoading(false)
       }
     } catch (error) {
+      setIsLoading(false)
       Toast({
         status: "error",
         title: "Error while logging in",
@@ -147,6 +148,7 @@ const Login = () => {
                   rounded="md"
                   w="100%"
                   onClick={login}
+                  isLoading={isLoading}
                 >
                   Sign in
                 </Button>

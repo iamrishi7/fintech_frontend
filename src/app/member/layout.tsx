@@ -46,6 +46,7 @@ import Wallet from "@/components/dashboard/main/Wallet";
 import { IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { PiGearSix } from "react-icons/pi";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface LayoutProps {
   children: ReactNode;
@@ -133,11 +134,7 @@ const Index: FC<LayoutProps> = ({ children }) => {
 
 const MemberSidebarContent = ({ ...props }: BoxProps) => {
   const pathname = usePathname();
-  const { replace } = useRouter();
-
-  function handleLogout() {
-    replace("/");
-  }
+  const { handleLogout } = useAuth();
 
   return (
     <Box

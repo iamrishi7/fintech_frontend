@@ -18,21 +18,7 @@ import {
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 
-interface PayoutDataParams {
-  account_number?: string | number;
-  confirm_account_number?: string | number;
-  ifsc?: string;
-  beneficiary_name?: string;
-  amount?: number;
-}
-
-const page = ({
-  account_number,
-  confirm_account_number,
-  ifsc,
-  amount,
-  beneficiary_name,
-}: PayoutDataParams) => {
+const page = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -49,8 +35,8 @@ const page = ({
 
   return (
     <>
-      <Stack direction={["column", "row"]} justifyContent={"space-between"}>
-        <Heading as={"h1"} fontSize={"xl"} mb={8}>
+      <Stack direction={["column", "row"]} justifyContent={"space-between"} mb={8}>
+        <Heading as={"h1"} fontSize={"xl"}>
           Payout
         </Heading>
 
@@ -65,11 +51,11 @@ const page = ({
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
-            beneficiary_name: beneficiary_name,
-            account_number: account_number,
-            confirm_account_number: confirm_account_number,
-            ifsc: ifsc,
-            amount: amount,
+            beneficiary_name: "",
+            account_number: "",
+            confirm_account_number: "",
+            ifsc: "",
+            amount: "",
           }}
           onSubmit={(values) => {
             setFormData(values);

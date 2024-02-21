@@ -16,19 +16,25 @@ const useAuth = () => {
     const me = JSON.parse(localStorage.getItem("user"));
     if (me) {
       setUser(me);
+    } else {
+      handleLogout();
     }
   }, []);
 
   const handleLogout = async () => {
-    localStorage.removeItem("user");
-    setUser(null);
-    await API.logout()
-    window.location.replace("/auth/login")
-  }
+    try {
+      localStorage.removeItem("user");
+      setUser(null);
+      await API.logout();
+      window.location.replace("/auth/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
     user,
-    handleLogout
+    handleLogout,
   };
 };
 

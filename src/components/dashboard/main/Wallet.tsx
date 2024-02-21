@@ -16,12 +16,14 @@ import FundRequestForm from "./FundRequestForm";
 import WalletTransferForm from "./WalletTransferForm";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API } from "@/lib/api";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface WalletModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 const Wallet = () => {
+  const {user} = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleError } = useErrorHandler();
   const ref = useRef(true);
@@ -34,7 +36,7 @@ const Wallet = () => {
       getBalance();
     }
   }, []);
-  
+
   async function getBalance() {
     try {
       const res = await API.wallet();
@@ -58,7 +60,13 @@ const Wallet = () => {
           overflow={"hidden"}
           gap={0}
           cursor={"pointer"}
-          onClick={onOpen}
+          onClick={() => {
+            if(user?.roles == "admin"){
+              console.log("Admin Wallet")
+            } else {
+              onOpen()
+            }
+          }}
         >
           <Box
             boxSize={12}

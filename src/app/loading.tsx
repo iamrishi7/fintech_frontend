@@ -11,6 +11,7 @@ const loading = () => {
           height: "100vh",
           display: "flex",
           justifyContent: "center",
+          alignItems: "center"
         }}
       >
         <Image src="/assets/images/loading/layout1.gif" w={16} h={16} objectFit={'contain'} />
