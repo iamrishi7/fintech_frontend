@@ -1,4 +1,6 @@
 "use client";
+import { API } from "@/lib/api";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Box,
   BoxProps,
@@ -14,7 +16,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface FormSubheadingProps {
   title: string;
@@ -38,29 +40,49 @@ const FormSubheading = ({ title, mt, mb }: FormSubheadingProps) => {
 };
 
 const page = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const ref = useRef(true);
+  const { handleError } = useErrorHandler();
 
-  async function handleEkoUpdate(values: object) {
-    setIsLoading(true);
+  const [data, setData] = useState<any>(null);
+  const [rawData, setRawData] = useState<any>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      getSettings();
+    }
+  }, []);
+
+  async function handleStatusUpdate(id: string | number, data: object) {
     try {
+      await API.adminUpdateService(id, data);
+      getSettings();
     } catch (error) {
-      setIsLoading(false);
+      handleError({
+        title: "Error while upating status",
+        error: error,
+      });
     }
   }
 
-  async function handlePaysprintUpdate(values: object) {
-    setIsLoading(true);
+  async function getSettings() {
     try {
-    } catch (error) {
-      setIsLoading(false);
-    }
-  }
+      let services: { [key: string]: boolean } = {};
+      const res = await API.getServices();
+      setRawData(res.data);
 
-  async function handleOtherServicesUpdate(values: object) {
-    setIsLoading(true);
-    try {
+      if (res.data?.length) {
+        res.data?.forEach((item: any) => {
+          services[item?.name] = Boolean(item?.active);
+        });
+      }
+
+      setData(services);
     } catch (error) {
-      setIsLoading(false);
+      handleError({
+        title: "Error while getting settings",
+        error: error,
+      });
     }
   }
 
@@ -74,43 +96,74 @@ const page = () => {
         <VStack w={"full"} gap={6} alignItems={"flex-start"}>
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Signup</Text>
-            <Switch />
+            <Switch
+              isChecked={data?.allow_signup}
+              name="allow_signup"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
           </HStack>
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Fund Requests</Text>
-            <Switch />
+            <Switch
+              isChecked={data?.allow_fund_request}
+              name="allow_fund_request"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
           </HStack>
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Wallet Transfers</Text>
-            <Switch />
+            <Switch
+              isChecked={data?.allow_wallet_transfer}
+              name="allow_wallet_transfer"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
           </HStack>
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Fund Transfers</Text>
-            <Switch />
+            <Switch
+              isChecked={data?.allow_fund_transfer}
+              name="allow_fund_transfer"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
           </HStack>
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Chat Support</Text>
-            <Switch />
+            <Switch
+              isChecked={data?.allow_chat_support}
+              name="allow_chat_support"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
           </HStack>
         </VStack>
-
-        <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={4}>
-          <Button
-            bgColor={"brand.primary"}
-            _hover={{
-              bgColor: "brand.hover",
-            }}
-            color={"#FFF"}
-            isLoading={isLoading}
-            onClick={() => console.log("clicked")}
-          >
-            Save
-          </Button>
-        </HStack>
       </Box>
 
       <br />
@@ -119,68 +172,64 @@ const page = () => {
         Eko Services Settings
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-        <Formik
-          initialValues={{
-            eko_initiator_id: "",
-          }}
-          onSubmit={(values) => handleEkoUpdate(values)}
-        >
-          {({ values, handleChange, handleSubmit, errors }) => (
-            <Form onSubmit={handleSubmit}>
-              <FormSubheading title="API Configuration" mt={0} />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                flexWrap={"wrap"}
-              >
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="eko_initiator_id" type="text" placeholder=" " />
-                  <FormLabel>Eko Initiator ID</FormLabel>
-                </FormControl>
-              </Stack>
 
-              <FormSubheading title="Services Status" />
-              <VStack w={"full"} gap={6} alignItems={"flex-start"}>
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Eko API Status</Text>
-                  <Switch />
-                </HStack>
+        <VStack w={"full"} gap={6} alignItems={"flex-start"}>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Eko API Status</Text>
+            <Switch
+              isChecked={data?.eko_api}
+              name="eko_api"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>AePS Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>AePS Services</Text>
+            <Switch
+              isChecked={data?.eko_aeps}
+              name="eko_aeps"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Bill Pay Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Bill Pay Services</Text>
+            <Switch
+              isChecked={data?.eko_bbps}
+              name="eko_bbps"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>DMT Services</Text>
-                  <Switch />
-                </HStack>
-
-              </VStack>
-
-              <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={4}>
-                <Button
-                  bgColor={"brand.primary"}
-                  _hover={{
-                    bgColor: "brand.hover",
-                  }}
-                  color={"#FFF"}
-                  isLoading={isLoading}
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </HStack>
-            </Form>
-          )}
-        </Formik>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>DMT Services</Text>
+            <Switch
+              isChecked={data?.eko_dmt}
+              name="eko_dmt"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+        </VStack>
       </Box>
 
       <br />
@@ -189,93 +238,134 @@ const page = () => {
         Paysprint Services Settings
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-        <Formik
-          initialValues={{
-            paysprint_partner_id: "",
-          }}
-          onSubmit={(values) => handlePaysprintUpdate(values)}
-        >
-          {({ values, handleChange, handleSubmit, errors }) => (
-            <Form onSubmit={handleSubmit}>
-              <FormSubheading title="API Configuration" mt={0} />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                flexWrap={"wrap"}
-              >
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="paysprint_partner_id" type="text" placeholder=" " />
-                  <FormLabel>Paysprint Partner ID</FormLabel>
-                </FormControl>
-              </Stack>
 
-              <FormSubheading title="Services Status" />
-              <VStack w={"full"} gap={6} alignItems={"flex-start"}>
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Paysprint API Status</Text>
-                  <Switch />
-                </HStack>
+        <VStack w={"full"} gap={6} alignItems={"flex-start"}>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Paysprint API Status</Text>
+            <Switch
+              isChecked={data?.paysprint_api}
+              name="paysprint_api"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>AePS Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>AePS Services</Text>
+            <Switch
+              isChecked={data?.paysprint_aeps}
+              name="paysprint_aeps"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Bill Pay Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Bill Pay Services</Text>
+            <Switch
+              isChecked={data?.paysprint_bbps}
+              name="paysprint_bbps"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>CMS Deposit Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>CMS Deposit Services</Text>
+            <Switch
+              isChecked={data?.paysprint_cms}
+              name="paysprint_cms"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>DMT Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>DMT Services</Text>
+            <Switch
+              isChecked={data?.paysprint_dmt}
+              name="paysprint_dmt"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Recharge Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Recharge Services</Text>
+            <Switch
+              isChecked={data?.paysprint_recharge}
+              name="paysprint_recharge"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>LIC Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>LIC Services</Text>
+            <Switch
+              isChecked={data?.paysprint_lic}
+              name="paysprint_lic"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Fastag Services</Text>
-                  <Switch />
-                </HStack>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Fastag Services</Text>
+            <Switch
+              isChecked={data?.paysprint_fastag}
+              name="paysprint_fastag"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>PAN Card Services</Text>
-                  <Switch />
-                </HStack>
-
-              </VStack>
-
-              <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={4}>
-                <Button
-                  bgColor={"brand.primary"}
-                  _hover={{
-                    bgColor: "brand.hover",
-                  }}
-                  color={"#FFF"}
-                  isLoading={isLoading}
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </HStack>
-            </Form>
-          )}
-        </Formik>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>PAN Card Services</Text>
+            <Switch
+              isChecked={data?.paysprint_pan}
+              name="paysprint_pan"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+        </VStack>
       </Box>
 
       <br />
@@ -284,47 +374,36 @@ const page = () => {
         Other Services Settings
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-        <Formik
-          initialValues={{
-            razorpay_payout_status: "",
-            paydeer_payout_status: "",
-          }}
-          onSubmit={(values) => handleOtherServicesUpdate(values)}
-        >
-          {({ values, handleChange, handleSubmit, errors }) => (
-            <Form onSubmit={handleSubmit}>
-              <VStack w={"full"} gap={6} alignItems={"flex-start"}>
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Razorpay Payouts Status</Text>
-                  <Switch />
-                </HStack>
+        <VStack w={"full"} gap={6} alignItems={"flex-start"}>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Razorpay Payout Status</Text>
+            <Switch
+              isChecked={data?.razorpay_payout}
+              name="razorpay_payout"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
 
-                <HStack w={["full", "sm"]} justifyContent={"space-between"}>
-                  <Text>Paydeer Payouts Status</Text>
-                  <Switch />
-                </HStack>
-
-              </VStack>
-
-              <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={4}>
-                <Button
-                  bgColor={"brand.primary"}
-                  _hover={{
-                    bgColor: "brand.hover",
-                  }}
-                  color={"#FFF"}
-                  isLoading={isLoading}
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </HStack>
-            </Form>
-          )}
-        </Formik>
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Paydeer Payout Status</Text>
+            <Switch
+              isChecked={data?.paydeer_payout}
+              name="paydeer_payout"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+        </VStack>
       </Box>
-
-
     </>
   );
 };

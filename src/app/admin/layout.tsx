@@ -47,6 +47,7 @@ import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { PiGearSix } from "react-icons/pi";
 import { HiPaintBrush } from "react-icons/hi2";
+import useAuth from "@/lib/hooks/useAuth";
 
 interface LayoutProps {
   children: ReactNode;
@@ -134,11 +135,7 @@ const Index: FC<LayoutProps> = ({ children }) => {
 
 const AdminSidebarContent = ({ ...props }: BoxProps) => {
   const pathname = usePathname();
-  const { replace } = useRouter();
-
-  function handleLogout() {
-    replace("/");
-  }
+  const {handleLogout} = useAuth()
 
   return (
     <Box

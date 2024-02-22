@@ -16,13 +16,17 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const ref = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [provider, setProvider] = useState("razorpay");
+  const [provider, setProvider] = useState<string | number | boolean>(
+    "razorpay"
+  );
+  const [availableProviders, setAvailableProviders] = useState<any>(null);
   const [formData, setFormData] = useState<null | object>(null);
 
   async function handleFormSubmit() {
@@ -33,17 +37,42 @@ const page = () => {
     setIsLoading(false);
   }
 
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      const data = JSON.parse(localStorage.getItem("services"));
+      if (data) {
+        setAvailableProviders(data);
+      }
+    }
+  }, []);
+
   return (
     <>
-      <Stack direction={["column", "row"]} justifyContent={"space-between"} mb={8}>
+      <Stack
+        direction={["column", "row"]}
+        justifyContent={"space-between"}
+        mb={8}
+      >
         <Heading as={"h1"} fontSize={"xl"}>
           Payout
         </Heading>
 
         <CustomTabs
+          defaultValue={
+            availableProviders?.razorpay_payout ? "razorpay" : "paydeer"
+          }
           tabList={[
-            { id: "razorpay", label: "razorpay", isDisabled: true },
-            { id: "paydeer", label: "paydeer" },
+            {
+              id: "razorpay",
+              label: "razorpay",
+              isDisabled: !availableProviders?.razorpay_payout,
+            },
+            {
+              id: "paydeer",
+              label: "paydeer",
+              isDisabled: !availableProviders?.paydeer_payout,
+            },
           ]}
           onChange={(value) => setProvider(value)}
         />
@@ -56,6 +85,7 @@ const page = () => {
             confirm_account_number: "",
             ifsc: "",
             amount: "",
+            provider: provider
           }}
           onSubmit={(values) => {
             setFormData(values);

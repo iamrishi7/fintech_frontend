@@ -41,20 +41,50 @@ import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
 import { FaIndianRupeeSign, FaMoneyBillTransfer } from "react-icons/fa6";
 import ServerStatus from "@/components/dashboard/main/ServerStatus";
 import MessageRibbon from "@/components/dashboard/main/MessageRibbon";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import Wallet from "@/components/dashboard/main/Wallet";
 import { IoMdLogOut } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { PiGearSix } from "react-icons/pi";
 import useAuth from "@/lib/hooks/useAuth";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API } from "@/lib/api";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Index: FC<LayoutProps> = ({ children }) => {
+  const ref = useRef(true);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [role, setRole] = useState("admin");
+  const { handleError } = useErrorHandler();
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      getSettings();
+    }
+  }, []);
+
+  async function getSettings() {
+    try {
+      let services: { [key: string]: boolean } = {};
+      const res = await API.getServices();
+
+      if (res.data?.length) {
+        res.data?.forEach((item: any) => {
+          services[item?.name] = Boolean(item?.active);
+        });
+      }
+
+      localStorage.setItem("services", JSON.stringify(services));
+    } catch (error) {
+      handleError({
+        title: "Error while getting settings",
+        error: error,
+      });
+    }
+  }
 
   return (
     <>

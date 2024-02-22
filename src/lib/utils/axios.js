@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { API_BASE_URL, CLIENT_BASE_URL } from '../constants'
+import { API_BASE_URL, CLIENT_BASE_URL } from './constants'
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL ?? API_BASE_URL
 const clientURL = process.env.NEXT_PUBLIC_FRONTEND_URL ?? CLIENT_BASE_URL

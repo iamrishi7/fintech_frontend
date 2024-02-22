@@ -22,6 +22,7 @@ import RecentTransactions from "@/components/dashboard/main/RecentTransactions";
 import CustomTabs from "@/components/misc/CustomTabs";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import useAuth from "@/lib/hooks/useAuth";
+import PendingFundRequests from "@/components/dashboard/main/admin/PendingFundRequests";
 
 interface StatData {
   id: number;
@@ -81,7 +82,7 @@ const Dashboard = () => {
   const {user} = useAuth()
   return (
     <>
-      <HStack alignItems={'center'} justifyContent={'space-between'} mb={8} >
+      <HStack alignItems={'center'} justifyContent={'space-between'} mb={8} flexWrap={'wrap'}>
         <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!</Text>
         <CustomTabs
           tabList={tabList}
@@ -103,7 +104,7 @@ const Dashboard = () => {
             3 Pending
           </Text>
           <br />
-          <RecentFundRequests />
+          <PendingFundRequests />
         </Box>
         <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>

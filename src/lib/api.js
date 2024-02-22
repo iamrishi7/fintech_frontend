@@ -1,5 +1,5 @@
 "use client";
-import { API_BASE_URL } from "./constants";
+import { API_BASE_URL } from "./utils/constants";
 import Cookies from "js-cookie";
 
 const getToken = () => {
@@ -114,6 +114,14 @@ export const API = {
     return API.processResponse(res);
   },
 
+  getServices: async () => {
+    let res = await API.execute(
+      `/services`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
   // Member APIs
 
   overview: async (duration) => {
@@ -171,6 +179,15 @@ export const API = {
         status: "rejected",
         admin_remarks: adminRemarks
       }
+    );
+    return API.processResponse(res);
+  },
+
+  adminUpdateService: async (id, data) => {
+    let res = await API.execute(
+      `/admin/controls/services/${id}`,
+      "PUT",
+      data
     );
     return API.processResponse(res);
   },

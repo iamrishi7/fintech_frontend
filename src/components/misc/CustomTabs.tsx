@@ -10,7 +10,8 @@ interface TabItem {
 
 interface CustomTabsProps {
   tabList: TabItem[];
-  onChange: (tabId: string | number) => void;
+  defaultValue?: string | number | boolean;
+  onChange: (tabId: string | number | boolean) => void;
   size?: ButtonProps["size"];
   boxShadow?: BoxProps["boxShadow"];
   w?: BoxProps["w"];
@@ -22,15 +23,16 @@ const CustomTabs: FC<CustomTabsProps> = ({
   size,
   boxShadow,
   w,
+  defaultValue
 }) => {
-  const [activeTab, setActiveTab] = useState<string | number>("");
+  const [activeTab, setActiveTab] = useState<string | number | boolean>("");
 
   useEffect(() => {
     if(activeTab){
       onChange(activeTab)
     }
     else{
-      setActiveTab(tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id)
+      setActiveTab(defaultValue ? defaultValue : tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id)
     }
   }, [activeTab])
 
