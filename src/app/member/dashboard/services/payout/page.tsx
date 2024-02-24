@@ -40,7 +40,9 @@ const page = () => {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(localStorage.getItem("services"));
+      const data = JSON.parse(
+        localStorage.getItem("services")
+      );
       if (data) {
         setAvailableProviders(data);
       }
@@ -85,7 +87,7 @@ const page = () => {
             confirm_account_number: "",
             ifsc: "",
             amount: "",
-            provider: provider
+            provider: provider,
           }}
           onSubmit={(values) => {
             setFormData(values);

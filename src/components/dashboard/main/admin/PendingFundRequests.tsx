@@ -1,10 +1,12 @@
 "use client";
 import CustomModal from "@/components/misc/CustomModal";
+import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Avatar,
+  BoxProps,
   HStack,
   IconButton,
   Input,
@@ -22,11 +24,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaCheck, FaClock } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 
-const PendingFundRequests = () => {
+interface PendingFundRequestProps {
+  maxH?: BoxProps["maxH"];
+  parentData?: Array<any>;
+  query?: object | null | undefined;
+  showPagination?: boolean;
+}
+
+const PendingFundRequests = ({
+  maxH,
+  parentData,
+  query,
+  showPagination = true,
+}: PendingFundRequestProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
+  const [pages, setPages] = useState<any>([]);
   const [adminRemarks, setAdminRemarks] = useState("");
   const [targetRequestId, setTargetRequestId] = useState<
     string | number | null
@@ -34,15 +49,19 @@ const PendingFundRequests = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && !parentData) {
       ref.current = false;
       getPendingRequests();
     }
+    if (parentData) {
+      setData(parentData?.data);
+      setPages(parentData?.links);
+    }
   }, []);
 
-  async function getPendingRequests() {
+  async function getPendingRequests(url?: string) {
     try {
-      const res = await API.adminPendingFundRequests();
+      const res = await API.adminPendingFundRequests(query, url);
       setData(res?.data);
     } catch (error) {
       handleError({ title: "Couldn't fetch fund requests", error: error });
@@ -76,7 +95,22 @@ const PendingFundRequests = () => {
 
   return (
     <>
-      <TableContainer maxH={"sm"} overflowY={"scroll"}>
+      {showPagination ? (
+        <HStack
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          mb={8}
+          overflowX={"scroll"}
+          className="hide-scrollbar"
+        >
+          <Pagination
+            pages={pages}
+            onClick={(value: string) => getPendingRequests(value)}
+          />
+        </HStack>
+      ) : null}
+      <TableContainer maxH={maxH || "sm"} overflowY={"scroll"}>
         <Table size={"md"} variant={"striped"}>
           <Thead>
             <Tr>
@@ -88,7 +122,7 @@ const PendingFundRequests = () => {
             </Tr>
           </Thead>
           <Tbody fontSize={"xs"}>
-            {data?.map((item: any, key) => (
+            {data?.map((item: any, key: number) => (
               <Tr key={key}>
                 <Td borderBottom={0}>{item?.id}</Td>
                 <Td borderBottom={0}>
@@ -98,7 +132,7 @@ const PendingFundRequests = () => {
                   <HStack alignItems={"flex-start"}>
                     <Avatar size={"xs"} name={item?.user?.name} />
                     <Text>
-                      {item?.user?.name}({item?.user?.wallet_id})
+                      {item?.user?.name} ({item?.user?.wallet_id})
                     </Text>
                   </HStack>
                 </Td>
@@ -132,12 +166,28 @@ const PendingFundRequests = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      {showPagination ? (
+        <HStack
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          mt={8}
+          overflowX={"scroll"}
+          className="hide-scrollbar"
+        >
+          <Pagination
+            pages={pages}
+            onClick={(value: string) => getPendingRequests(value)}
+          />
+        </HStack>
+      ) : null}
 
       <CustomModal
         title={"Enter Remarks"}
         isOpen={Boolean(targetRequestId)}
         onClose={() => setTargetRequestId(null)}
         onSubmit={() => rejectRequest()}
+        isLoading={isLoading}
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
       </CustomModal>

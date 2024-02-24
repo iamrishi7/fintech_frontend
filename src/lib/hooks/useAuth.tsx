@@ -1,7 +1,8 @@
 "use client";
-import { useToast } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
 import { API } from "../api";
+import Cookies from "js-cookie";
+import { useToast } from "@chakra-ui/react";
 
 interface HandleErrorParams {
   title: string;
@@ -11,30 +12,60 @@ interface HandleErrorParams {
 
 const useAuth = () => {
   const [user, setUser] = useState<any>(null);
+  const Toast = useToast();
 
   useEffect(() => {
     const me = JSON.parse(localStorage.getItem("user"));
     if (me) {
       setUser(me);
-    } else {
-      handleLogout();
     }
   }, []);
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem("user");
-      setUser(null);
       await API.logout();
-      window.location.replace("/auth/login");
     } catch (error) {
       console.log(error);
+    } finally {
+      localStorage.clear();
+      setUser(null);
+      Cookies.remove("token");
+      window.location.replace("/auth/login");
+    }
+  };
+
+  const authUser = async () => {
+    try {
+      const res = await API.me();
+      if (res?.user) {
+        const existingRole = localStorage.getItem("role");
+        const role = res?.user?.roles[0]?.name;
+        const userData = JSON.stringify({
+          ...res?.user,
+          roles: role,
+        });
+        localStorage.setItem("user", userData);
+        setUser(JSON.parse(userData));
+
+        if (existingRole != role) {
+          localStorage.setItem("role", role);
+        }
+        window.location.href = `/${
+          role == "admin" ? "admin" : "member"
+        }/dashboard`;
+      }
+    } catch (error: any) {
+      console.log(error);
+      if (error?.status == 401) {
+        handleLogout();
+      }
     }
   };
 
   return {
     user,
     handleLogout,
+    authUser,
   };
 };
 

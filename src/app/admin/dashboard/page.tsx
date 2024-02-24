@@ -82,14 +82,14 @@ const Dashboard = () => {
   const {user} = useAuth()
   return (
     <>
-      <HStack alignItems={'center'} justifyContent={'space-between'} mb={8} flexWrap={'wrap'}>
+      <Stack direction={['column', 'row']} alignItems={'center'} justifyContent={'space-between'} mb={8}>
         <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!</Text>
         <CustomTabs
           tabList={tabList}
           onChange={(value) => console.log(value)}
           size={["sm", "sm"]}
         />
-      </HStack>
+      </Stack>
       <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={5} mb={4}>
         {statData.map((data, index) => (
           <Card key={index} data={data} />
@@ -104,7 +104,7 @@ const Dashboard = () => {
             3 Pending
           </Text>
           <br />
-          <PendingFundRequests />
+          <PendingFundRequests showPagination={false} />
         </Box>
         <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>

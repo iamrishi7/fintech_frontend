@@ -1,4 +1,5 @@
 "use client";
+import PortalBanks from "@/components/dashboard/main/admin/PortalBanks";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
@@ -78,6 +79,7 @@ const page = () => {
       }
 
       setData(services);
+      localStorage.setItem("services", JSON.stringify(services));
     } catch (error) {
       handleError({
         title: "Error while getting settings",
@@ -101,7 +103,7 @@ const page = () => {
               name="allow_signup"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -115,7 +117,7 @@ const page = () => {
               name="allow_fund_request"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -129,7 +131,7 @@ const page = () => {
               name="allow_wallet_transfer"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -143,7 +145,7 @@ const page = () => {
               name="allow_fund_transfer"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -157,7 +159,7 @@ const page = () => {
               name="allow_chat_support"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -169,10 +171,17 @@ const page = () => {
       <br />
 
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
+        Fund Request Banks
+      </Heading>
+
+      <PortalBanks />
+
+      <br />
+
+      <Heading as={"h1"} fontSize={"xl"} mb={8}>
         Eko Services Settings
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-
         <VStack w={"full"} gap={6} alignItems={"flex-start"}>
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Eko API Status</Text>
@@ -181,7 +190,7 @@ const page = () => {
               name="eko_api"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -195,7 +204,7 @@ const page = () => {
               name="eko_aeps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -209,7 +218,7 @@ const page = () => {
               name="eko_bbps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -223,7 +232,7 @@ const page = () => {
               name="eko_dmt"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -238,7 +247,6 @@ const page = () => {
         Paysprint Services Settings
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-
         <VStack w={"full"} gap={6} alignItems={"flex-start"}>
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Paysprint API Status</Text>
@@ -247,7 +255,7 @@ const page = () => {
               name="paysprint_api"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -261,7 +269,7 @@ const page = () => {
               name="paysprint_aeps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -275,7 +283,7 @@ const page = () => {
               name="paysprint_bbps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -289,7 +297,7 @@ const page = () => {
               name="paysprint_cms"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -303,7 +311,7 @@ const page = () => {
               name="paysprint_dmt"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -317,7 +325,7 @@ const page = () => {
               name="paysprint_recharge"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -331,7 +339,7 @@ const page = () => {
               name="paysprint_lic"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -345,7 +353,7 @@ const page = () => {
               name="paysprint_fastag"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -359,7 +367,7 @@ const page = () => {
               name="paysprint_pan"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -382,7 +390,7 @@ const page = () => {
               name="razorpay_payout"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }
@@ -396,7 +404,7 @@ const page = () => {
               name="paydeer_payout"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item:any) => item?.name == e.target.name)?.id,
+                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
                   { active: e.target.checked }
                 )
               }

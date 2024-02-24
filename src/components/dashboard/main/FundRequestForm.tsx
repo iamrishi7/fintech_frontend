@@ -16,24 +16,25 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { FC, useState } from "react";
+import SelectPortalBank from "../misc/SelectPortalBank";
 
 interface FormProps {
   onClose: () => void;
 }
 
 const FundRequestForm: FC<FormProps> = ({ onClose }) => {
-  const {handleError} = useErrorHandler()
+  const { handleError } = useErrorHandler();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: object) {
     setIsLoading(true);
     try {
-      await FormAxios.post("/user/fund-requests", values)
+      await FormAxios.post("/user/fund-requests", values);
       setIsLoading(false);
       onClose();
     } catch (error) {
       setIsLoading(false);
-      handleError({title: "Couldn't post your fund request", error: error})
+      handleError({ title: "Couldn't post your fund request", error: error });
     }
   }
 
@@ -49,17 +50,27 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
           receipt: null,
           channel: "",
         }}
-        onSubmit={values => console.log(values)}
+        onSubmit={(values) => console.log(values)}
       >
         {({ values, handleChange, handleSubmit, setFieldValue, errors }) => (
           <Form onSubmit={handleSubmit}>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                <Input name="amount" type="number" placeholder="₹" onChange={handleChange} />
+                <Input
+                  name="amount"
+                  type="number"
+                  placeholder="₹"
+                  onChange={handleChange}
+                />
                 <FormLabel>Amount</FormLabel>
               </FormControl>
               <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                <Input name="transaction_id" type="text" placeholder=" " onChange={handleChange} />
+                <Input
+                  name="transaction_id"
+                  type="text"
+                  placeholder=" "
+                  onChange={handleChange}
+                />
                 <FormLabel>Transaction ID</FormLabel>
               </FormControl>
             </Stack>
@@ -73,12 +84,7 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
                   onChange={handleChange}
                 />
               </FormControl>
-              <FormControl maxW={["full", "xs"]}>
-                <FormLabel fontSize={"xs"}>Requested Bank</FormLabel>
-                <Select name="requested_bank" placeholder="Please select" onChange={handleChange}>
-                  <option value="1234567890">State Bank of India</option>
-                </Select>
-              </FormControl>
+              <SelectPortalBank name="requested_bank" onChange={handleChange} />
             </Stack>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
               <Box w={["full"]}>

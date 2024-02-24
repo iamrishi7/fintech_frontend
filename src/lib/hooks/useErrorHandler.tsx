@@ -10,12 +10,16 @@ interface HandleErrorParams {
 
 const useErrorHandler = () => {
   const Toast = useToast();
-  const { handleLogout } = useAuth();
+  const { handleLogout, authUser } = useAuth();
 
   const handleError = ({ title, description, error }: HandleErrorParams) => {
     if (error?.status == 401) {
       handleLogout();
     }
+    if (error?.status == 403) {
+      authUser();
+    }
+    console.log(error)
     console.log("Error Status ", error?.status)
     Toast({
       title: title,

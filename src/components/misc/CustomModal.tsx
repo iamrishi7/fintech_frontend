@@ -22,6 +22,7 @@ interface CustomModalProps {
   children: ReactNode;
   showFooter?: boolean;
   closeOnBlur?: boolean;
+  isLoading?: boolean;
 }
 
 const CustomModal: FC<CustomModalProps> = ({
@@ -33,6 +34,7 @@ const CustomModal: FC<CustomModalProps> = ({
   children,
   showFooter = true,
   closeOnBlur = false,
+  isLoading = false,
 }) => {
   return (
     <>
@@ -47,11 +49,13 @@ const CustomModal: FC<CustomModalProps> = ({
         <ModalContent>
           <ModalHeader fontWeight={"medium"}>{title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{children}</ModalBody>
+          <ModalBody pb={showFooter ? 4 : 6}>{children}</ModalBody>
           {showFooter ? (
             <ModalFooter>
               <HStack w={"full"} justifyContent={"flex-end"} gap={4}>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={onClose} isLoading={isLoading}>
+                  Cancel
+                </Button>
                 <Button
                   onClick={onSubmit}
                   bgColor={"brand.primary"}
@@ -59,6 +63,7 @@ const CustomModal: FC<CustomModalProps> = ({
                     backgroundColor: "brand.hover",
                   }}
                   color={"#FFF"}
+                  isLoading={isLoading}
                 >
                   Submit
                 </Button>

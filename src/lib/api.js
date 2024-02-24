@@ -77,7 +77,11 @@ export const API = {
     if (!res[2]) {
       console.error({ error: res });
       // throw new Error(res[1]?.error);
-      throw new Error(`Err while processing request`);
+      const error = new Error(
+        res[1]?.message || `Err while processing request`
+      );
+      error.status = res[0];
+      throw error;
     }
     return res[1];
   },
@@ -110,15 +114,17 @@ export const API = {
   },
 
   me: async () => {
-    let res = await API.execute(`/auth/user`, "GET");
+    let res = await API.execute(`/auth-user`, "GET");
     return API.processResponse(res);
   },
 
   getServices: async () => {
-    let res = await API.execute(
-      `/services`,
-      "GET"
-    );
+    let res = await API.execute(`/services`, "GET");
+    return API.processResponse(res);
+  },
+
+  getPortalBanks: async () => {
+    let res = await API.execute(`/banks`, "GET");
     return API.processResponse(res);
   },
 
@@ -152,44 +158,61 @@ export const API = {
 
   // Admin APIs
 
-  adminPendingFundRequests: async () => {
+  adminPendingFundRequests: async (query, url) => {
     let res = await API.execute(
-      `/admin/fund-requests?status=${"pending"}`,
+      url || `/admin/fund-requests?status=${"pending"}${
+        query
+          ? `&` +
+            Object.keys(query)
+              .map(
+                (key) =>
+                  encodeURIComponent(key) + "=" + encodeURIComponent(query[key])
+              )
+              .join("&")
+          : ""
+      }`,
       "GET"
     );
     return API.processResponse(res);
   },
 
   adminApproveFundRequest: async (id) => {
-    let res = await API.execute(
-      `/admin/fund-requests/${id}`,
-      "PUT",
-      {
-        status: "approved"
-      }
-    );
+    let res = await API.execute(`/admin/fund-requests/${id}`, "PUT", {
+      status: "approved",
+    });
     return API.processResponse(res);
   },
 
   adminRejectFundRequest: async (id, adminRemarks) => {
-    let res = await API.execute(
-      `/admin/fund-requests/${id}`,
-      "PUT",
-      {
-        status: "rejected",
-        admin_remarks: adminRemarks
-      }
-    );
+    let res = await API.execute(`/admin/fund-requests/${id}`, "PUT", {
+      status: "rejected",
+      admin_remarks: adminRemarks,
+    });
     return API.processResponse(res);
   },
 
   adminUpdateService: async (id, data) => {
-    let res = await API.execute(
-      `/admin/controls/services/${id}`,
-      "PUT",
-      data
-    );
+    let res = await API.execute(`/admin/controls/services/${id}`, "PUT", data);
     return API.processResponse(res);
   },
 
+  adminGetPortalBanks: async () => {
+    let res = await API.execute(`/admin/controls/bank`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminAddPortalBank: async (data) => {
+    let res = await API.execute(`/admin/controls/bank`, "POST", data);
+    return API.processResponse(res);
+  },
+
+  adminUpdatePortalBank: async (id, data) => {
+    let res = await API.execute(`/admin/controls/bank/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
+  adminDeletePortalBank: async (id) => {
+    let res = await API.execute(`/admin/controls/bank/${id}`, "DELETE");
+    return API.processResponse(res);
+  },
 };

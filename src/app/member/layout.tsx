@@ -55,36 +55,7 @@ interface LayoutProps {
 }
 
 const Index: FC<LayoutProps> = ({ children }) => {
-  const ref = useRef(true);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { handleError } = useErrorHandler();
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current = false;
-      getSettings();
-    }
-  }, []);
-
-  async function getSettings() {
-    try {
-      let services: { [key: string]: boolean } = {};
-      const res = await API.getServices();
-
-      if (res.data?.length) {
-        res.data?.forEach((item: any) => {
-          services[item?.name] = Boolean(item?.active);
-        });
-      }
-
-      localStorage.setItem("services", JSON.stringify(services));
-    } catch (error) {
-      handleError({
-        title: "Error while getting settings",
-        error: error,
-      });
-    }
-  }
 
   return (
     <>

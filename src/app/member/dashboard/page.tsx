@@ -95,7 +95,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <HStack alignItems={"center"} justifyContent={"space-between"}>
+      <Stack direction={['column', 'row']} alignItems={"center"} justifyContent={"space-between"}>
         <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
           Good afternoon,{" "}
           {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
@@ -105,7 +105,7 @@ const Dashboard = () => {
           onChange={(value) => getData(`${value}`)}
           size={["sm", "sm"]}
         />
-      </HStack>
+      </Stack>
       <br />
       <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={5} mb={4}>
         {statData.map((data, index) => (

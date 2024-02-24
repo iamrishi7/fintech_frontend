@@ -113,7 +113,7 @@ const Index: FC<LayoutProps> = ({ children }) => {
                 <Icon color="gray.500" as={FaBell} fontSize={20} />
               </Box>
 
-              <Wallet />
+              {/* <Wallet /> */}
             </Flex>
           </Flex>
 
