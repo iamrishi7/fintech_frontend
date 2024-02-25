@@ -12,6 +12,7 @@ import {
 import React, { useState } from "react";
 import { FaReceipt } from "react-icons/fa";
 import ReceiptButton from "../misc/ReceiptButton";
+import TransactionBadge from "../misc/TransactionBadge";
 
 const RecentTransactions = () => {
   const [data, setData] = useState([
@@ -43,15 +44,10 @@ const RecentTransactions = () => {
                 pos={"absolute"}
                 top={4}
                 right={0}
-                px={3}
-                py={1}
                 roundedStart={"full"}
-                bgColor={"twitter.500"}
-                color={"#FFF"}
+                overflow={'hidden'}
               >
-                <Text fontSize={"xs"} fontWeight={"semibold"}>
-                  PAYOUT
-                </Text>
+                <TransactionBadge>payout</TransactionBadge>
               </HStack>
             </HStack>
             <HStack alignItems={"center"} m={2}>

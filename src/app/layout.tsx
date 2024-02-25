@@ -13,13 +13,6 @@ export default function RootLayout({
   const ref = useRef(true)
   const { handleError } = useErrorHandler();
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current = false;
-      // getSettings();
-    }
-  }, []);
-
   const activeLabelStyles = {
     transform: "scale(0.85) translateY(-24px)",
   };
@@ -65,25 +58,32 @@ export default function RootLayout({
     colors,
   });
 
-  // async function getSettings() {
-  //   try {
-  //     let services: { [key: string]: boolean } = {};
-  //     const res = await API.getServices();
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      getSettings();
+    }
+  }, []);
+  
+  async function getSettings() {
+    try {
+      let services: { [key: string]: boolean } = {};
+      const res = await API.getServices();
 
-  //     if (res.data?.length) {
-  //       res.data?.forEach((item: any) => {
-  //         services[item?.name] = Boolean(item?.active);
-  //       });
-  //     }
+      if (res.data?.length) {
+        res.data?.forEach((item: any) => {
+          services[item?.name] = Boolean(item?.active);
+        });
+      }
 
-  //     localStorage.setItem("services", JSON.stringify(services));
-  //   } catch (error) {
-  //     handleError({
-  //       title: "Error while getting settings",
-  //       error: error,
-  //     });
-  //   }
-  // }
+      localStorage.setItem("services", JSON.stringify(services));
+    } catch (error) {
+      handleError({
+        title: "Error while getting settings",
+        error: error,
+      });
+    }
+  }
 
   return (
     <html lang="en">

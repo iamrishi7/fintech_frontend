@@ -1,22 +1,35 @@
 "use client";
 import BackendAxios from "@/lib/utils/axios";
-import { Button, HStack, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  IconButton,
+  Tooltip,
+  useToast,
+} from "@chakra-ui/react";
 import fileDownload from "js-file-download";
 import React, { useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
-import { PiMicrosoftExcelLogo } from "react-icons/pi";
+import { SiMicrosoftexcel } from "react-icons/si";
 
-const ExportButtons = ({ keyword, queryParams, bodyParams, fileName }: any) => {
+const ExportButtons = ({ keyword, query, body, fileName }: any) => {
   const Toast = useToast({ position: "top-right" });
   const [isLoading, setIsLoading] = useState(false);
 
   function handleExport(extension: string) {
     setIsLoading(true);
     BackendAxios.post(
-      `/api/admin/print-reports/${keyword}${
-        queryParams ? `?${queryParams}` : ""
+      `/api/${localStorage.getItem("role")}/print-report/${keyword}${
+        query
+          ? `?${Object.keys(query)
+              .map(
+                (key) =>
+                  encodeURIComponent(key) + "=" + encodeURIComponent(query[key])
+              )
+              .join("&")}`
+          : ""
       }`,
-      { ...bodyParams, extension: extension },
+      { ...body, extension: extension },
       { responseType: "blob" }
     )
       .then((res) => {
@@ -36,25 +49,34 @@ const ExportButtons = ({ keyword, queryParams, bodyParams, fileName }: any) => {
 
   return (
     <>
-      <HStack justifyContent={"flex-start"}>
-        <Button
-          size={"sm"}
-          colorScheme="red"
-          onClick={() => handleExport("pdf")}
-          isLoading={isLoading}
-          leftIcon={<FaFilePdf />}
-        >
-          PDF
-        </Button>
-        <Button
-          size={"sm"}
-          colorScheme="whatsapp"
-          onClick={() => handleExport("xlsx")}
-          isLoading={isLoading}
-          leftIcon={<PiMicrosoftExcelLogo />}
-        >
-          Excel
-        </Button>
+      <HStack justifyContent={"flex-start"} gap={4}>
+        <Tooltip label={"Excel Export"} placement="top">
+          <IconButton
+            size={"sm"}
+            variant={"ghost"}
+            colorScheme="whatsapp"
+            aria-label="Excel"
+            icon={<SiMicrosoftexcel />}
+            bgColor={"gray.50"}
+            rounded={"full"}
+            onClick={() => handleExport("xlsx")}
+            isLoading={isLoading}
+          />
+        </Tooltip>
+
+        <Tooltip label={"PDF Export"} placement="top">
+          <IconButton
+            size={"sm"}
+            variant={"ghost"}
+            colorScheme="red"
+            aria-label="Excel"
+            icon={<FaFilePdf />}
+            bgColor={"gray.50"}
+            rounded={"full"}
+            onClick={() => handleExport("pdf")}
+            isLoading={isLoading}
+          />
+        </Tooltip>
       </HStack>
     </>
   );

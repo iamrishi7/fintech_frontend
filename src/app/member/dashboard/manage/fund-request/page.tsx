@@ -1,6 +1,7 @@
 "use client";
-import RecentFundRequests from "@/components/dashboard/manage/RecentFundRequests";
+import RecentFundRequests from "@/components/dashboard/main/RecentFundRequests";
 import FileDropzone from "@/components/misc/FileDropzone";
+import { FormAxios } from "@/lib/utils/axios";
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ const page = () => {
   async function onSubmit(values: object) {
     setIsLoading(true);
     try {
+      await FormAxios.post("/user/fund-requests", values);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
