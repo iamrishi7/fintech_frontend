@@ -146,13 +146,53 @@ export const API = {
     return API.processResponse(res);
   },
 
-  fundRequests: async () => {
-    let res = await API.execute(`/user/fund-requests`, "GET");
+  fundRequests: async (url) => {
+    let res = await API.execute(url || `/user/fund-requests`, "GET");
     return API.processResponse(res);
   },
 
   newFundRequest: async (data) => {
     let res = await API.execute(`/user/fund-requests`, "POST", data);
+    return API.processResponse(res);
+  },
+
+  ledger: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/report/ledger?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  reportPayouts: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/report/payout?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
     return API.processResponse(res);
   },
 

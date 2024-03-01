@@ -26,7 +26,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
-import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
 
 const page = () => {
   const ref = useRef(true);
@@ -50,7 +49,7 @@ const page = () => {
   async function getData(url?: string, query?: object) {
     setIsLoading(true);
     try {
-      const res = await API.reportPayouts(url, {
+      const res = await API.ledger(url, {
         ...query,
         from: selectedDates[0],
         to: selectedDates[1],
@@ -70,15 +69,13 @@ const page = () => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Payout Report
+        Transaction Ledger
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
             transaction_id: "",
-            account_number: "",
-            bank_ref_id: "",
           }}
           onSubmit={console.log}
         >
@@ -89,7 +86,6 @@ const page = () => {
                 alignItems={"flex-end"}
                 gap={8}
                 mb={8}
-                flexWrap={'wrap'}
               >
                 <FormControl maxW={["full", "xs"]}>
                   <FormLabel>Dates</FormLabel>
@@ -106,24 +102,6 @@ const page = () => {
                     onChange={handleChange}
                   />
                   <FormLabel>Transaction ID</FormLabel>
-                </FormControl>
-                <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <Input
-                    name="bank_ref_id"
-                    type="text"
-                    placeholder=" "
-                    onChange={handleChange}
-                  />
-                  <FormLabel>Bank Ref. ID</FormLabel>
-                </FormControl>
-                <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <Input
-                    name="account_number"
-                    type="text"
-                    placeholder=" "
-                    onChange={handleChange}
-                  />
-                  <FormLabel>Beneficiary Acc.</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
@@ -162,12 +140,11 @@ const page = () => {
               <Tr>
                 <Th color={"gray.600"}>Trnxn ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Service</Th>
                 <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Bank Ref. ID</Th>
-                <Th color={"gray.600"}>Beneficiary</Th>
+                <Th color={"gray.600"}>Description</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
-                <Th color={"gray.600"}>Receipt</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
@@ -178,22 +155,24 @@ const page = () => {
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
                   <Td>
+                    <HStack justifyContent={"center"}>
+                      <TransactionBadge>payout</TransactionBadge>
+                    </HStack>
+                  </Td>
+                  <Td>
                     <Badge>pending</Badge>
                   </Td>
-                  <Td></Td>
                   <Td>
-                    <Text>Sangam Kumar</Text>
-                    <Text>1234567890</Text>
-                    <Text>SBIN0032284</Text>
+                    <Text fontSize={"sm"}>
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Cupiditate, ut.
+                    </Text>
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.updated_at)?.toLocaleString("en-GB")}
-                  </Td>
-                  <Td>
-                    <ReceiptButton />
                   </Td>
                 </Tr>
               ))}
