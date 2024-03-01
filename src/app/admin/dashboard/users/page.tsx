@@ -1,8 +1,10 @@
 "use client";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
+import CustomButton from "@/components/misc/CustomButton";
 import CustomTabs from "@/components/misc/CustomTabs";
 import Pagination from "@/components/misc/Pagination";
+import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
@@ -19,6 +21,7 @@ import {
   MenuItem,
   MenuList,
   Select,
+  Spacer,
   Stack,
   Switch,
   Table,
@@ -31,22 +34,30 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
 const page = () => {
   const { handleError } = useErrorHandler();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-  ]);
+  const ref = useRef(true);
 
-  async function fetchTransaction(values: any) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState("retailer");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      fetchData({});
+    }
+  }, []);
+
+  async function fetchData(values: any) {
     setIsLoading(true);
     try {
+      const res = await API.adminGetUsers({ role: role, ...values });
+      setData(res.data);
       setIsLoading(false);
     } catch (error) {
       handleError({ title: "Error while fetching transactions", error: error });
@@ -54,55 +65,52 @@ const page = () => {
     }
   }
 
+  async function sendPassword(id:string){
+    try {
+
+    } catch (error) {
+      handleError({ title: "Error while sending password", error: error });
+    }
+  }
+
+  async function sendPin(id:string){
+    try {
+
+    } catch (error) {
+      handleError({ title: "Error while sending PIN", error: error });
+    }
+  }
+
   return (
     <>
-      <Stack
-        direction={["column", "row"]}
-        alignItems={"center"}
-        justifyContent={"space-between"} mb={8}
-      >
-        <Heading as={"h1"} fontSize={"xl"}>
-          Users List
-        </Heading>
-
-        <Stack direction={["column", "row"]} alignItems={"center"}>
-          <CustomTabs
-            tabList={[
-              {
-                id: "member",
-                label: "member",
-              },
-              {
-                id: "distributor",
-                label: "distributor",
-              },
-              {
-                id: "super_distributor",
-                label: "super distributor",
-              },
-              {
-                id: "admin",
-                label: "admin",
-              },
-            ]}
-            onChange={console.log}
-            size={"sm"}
-          />
-          <Button
-            bgColor={"brand.primary"}
-            _hover={{
-              bgColor: "brand.hover",
-            }}
-            color={"#FFF"}
-            fontWeight={"medium"}
-            leftIcon={<FaPlus />}
-            rounded={'full'}
-            as={'a'}
-            href="/admin/dashboard/users/create"
-          >
-            Create New
-          </Button>
-        </Stack>
+      <Stack direction={["column", "row"]} alignItems={"center"} mb={8}>
+        <HStack gap={4}>
+          <Heading as={"h1"} fontSize={"xl"}>
+            Users List
+          </Heading>
+          <Link href="/admin/dashboard/users/create">
+            <CustomButton size={'sm'} rounded={'full'} leftIcon={<FaPlus/>}>Create New</CustomButton>
+          </Link>
+        </HStack>
+        <Spacer />
+        <CustomTabs
+          tabList={[
+            {
+              id: "retailer",
+              label: "retailer",
+            },
+            {
+              id: "distributor",
+              label: "distributor",
+            },
+            {
+              id: "admin",
+              label: "admin",
+            },
+          ]}
+          onChange={(value) => setRole(value)}
+          size={"sm"}
+        />
       </Stack>
       <br />
 
@@ -117,9 +125,7 @@ const page = () => {
             user_id: "",
             commission_package: "",
           }}
-          onSubmit={(values) => {
-            fetchTransaction(values);
-          }}
+          onSubmit={console.log}
         >
           {({ values, handleChange, handleSubmit, handleReset, errors }) => (
             <Form onSubmit={handleSubmit}>
@@ -179,6 +185,7 @@ const page = () => {
                   color={"#FFF"}
                   isLoading={isLoading}
                   type="submit"
+                  onClick={() => fetchData(values)}
                 >
                   Search
                 </Button>
@@ -196,14 +203,14 @@ const page = () => {
           justifyContent={["center", "space-between"]}
         >
           <ExportButtons />
-          <Pagination />
+          {/* <Pagination /> */}
         </Stack>
         <br />
         <TableContainer maxH={"lg"} overflowY={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
-                <Th color={"gray.600"}>ID</Th>
+                <Th color={"gray.600"}>Wallet No.</Th>
                 <Th color={"gray.600"}>Basic Details</Th>
                 <Th color={"gray.600"}>Aadhaar</Th>
                 <Th color={"gray.600"}>PAN</Th>
@@ -214,13 +221,13 @@ const page = () => {
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
-              {data?.map((item, key) => (
+              {data?.map((item:any, key) => (
                 <Tr key={key}>
-                  <Td borderBottom={0}>MEMUSR543</Td>
+                  <Td borderBottom={0}>{item?.wallet_id}</Td>
                   <Td>
-                    <Text>Sangam Kumar</Text>
-                    <Text>sangam4742@gmail.com</Text>
-                    <Text>+91 78380 74742</Text>
+                    <Text>{item?.name}</Text>
+                    <Text>{item?.email}</Text>
+                    <Text>{item?.phone_number}</Text>
                   </Td>
                   <Td>
                     <Text>1234 5678 9101 1121</Text>
@@ -249,18 +256,18 @@ const page = () => {
                   </Td>
                   <Td borderBottom={0}>
                     <Text>
-                      <strong>Package Name: </strong>Basic
+                      <strong>Package Name: </strong>{item?.plan?.name}
                     </Text>
                     <Text>
                       <strong>Wallet Balance: </strong>₹
-                      {Number(50000)?.toLocaleString("en-IN") ?? 0}
+                      {Number(item?.wallet)?.toLocaleString("en-IN") ?? 0}
                     </Text>
                     <Text>
                       <strong>Min. Balance: </strong>₹
                       {Number(2000)?.toLocaleString("en-IN") ?? 0}
                     </Text>
                   </Td>
-                  <Td borderBottom={0}>13-02-2024 19:54</Td>
+                  <Td borderBottom={0}>{item?.created_at}</Td>
                   <Td borderBottom={0}>-</Td>
                   <Td borderBottom={0}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
@@ -300,7 +307,7 @@ const page = () => {
           </Table>
         </TableContainer>
         <br />
-        <Pagination />
+        {/* <Pagination /> */}
       </Box>
     </>
   );

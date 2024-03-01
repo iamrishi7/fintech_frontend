@@ -158,19 +158,42 @@ export const API = {
 
   // Admin APIs
 
+  adminGetUsers: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/manage-user/users?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
   adminPendingFundRequests: async (query, url) => {
     let res = await API.execute(
-      url || `/admin/fund-requests?status=${"pending"}${
-        query
-          ? `&` +
-            Object.keys(query)
-              .map(
-                (key) =>
-                  encodeURIComponent(key) + "=" + encodeURIComponent(query[key])
-              )
-              .join("&")
-          : ""
-      }`,
+      url ||
+        `/admin/fund-requests?status=${"pending"}${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
       "GET"
     );
     return API.processResponse(res);
