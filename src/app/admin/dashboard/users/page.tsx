@@ -44,7 +44,10 @@ const page = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("retailer");
+
   const [data, setData] = useState([]);
+  const [url, setUrl] = useState("");
+  const [pages, setPages] = useState([]);
 
   useEffect(() => {
     if (ref.current) {
@@ -53,11 +56,18 @@ const page = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (url) {
+      fetchData({});
+    }
+  }, [url]);
+
   async function fetchData(values: any) {
     setIsLoading(true);
     try {
-      const res = await API.adminGetUsers({ role: role, ...values });
+      const res = await API.adminGetUsers({ role: role, ...values }, url);
       setData(res.data);
+      setPages(res.links);
       setIsLoading(false);
     } catch (error) {
       handleError({ title: "Error while fetching transactions", error: error });
@@ -65,17 +75,23 @@ const page = () => {
     }
   }
 
-  async function sendPassword(id:string){
+  async function sendPassword(id: string) {
     try {
-
+      await API.adminSendCredentials(id, {
+        credential_type: "password",
+        channel: "email",
+      });
     } catch (error) {
       handleError({ title: "Error while sending password", error: error });
     }
   }
 
-  async function sendPin(id:string){
+  async function sendPin(id: string) {
     try {
-
+      await API.adminSendCredentials(id, {
+        credential_type: "pin",
+        channel: "email",
+      });
     } catch (error) {
       handleError({ title: "Error while sending PIN", error: error });
     }
@@ -89,7 +105,9 @@ const page = () => {
             Users List
           </Heading>
           <Link href="/admin/dashboard/users/create">
-            <CustomButton size={'sm'} rounded={'full'} leftIcon={<FaPlus/>}>Create New</CustomButton>
+            <CustomButton size={"sm"} rounded={"full"} leftIcon={<FaPlus />}>
+              Create New
+            </CustomButton>
           </Link>
         </HStack>
         <Spacer />
@@ -203,7 +221,7 @@ const page = () => {
           justifyContent={["center", "space-between"]}
         >
           <ExportButtons />
-          {/* <Pagination /> */}
+          <Pagination pages={pages} onClick={(url) => setUrl(url)} />
         </Stack>
         <br />
         <TableContainer maxH={"lg"} overflowY={"scroll"}>
@@ -221,7 +239,7 @@ const page = () => {
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
-              {data?.map((item:any, key) => (
+              {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.wallet_id}</Td>
                   <Td>
@@ -230,7 +248,7 @@ const page = () => {
                     <Text>{item?.phone_number}</Text>
                   </Td>
                   <Td>
-                    <Text>1234 5678 9101 1121</Text>
+                    <Text>{item?.aadhaar_number}</Text>
                     <HStack w={"full"}>
                       <Button
                         size={"xs"}
@@ -249,14 +267,15 @@ const page = () => {
                     </HStack>
                   </Td>
                   <Td>
-                    <Text>JNPPK1235G</Text>
+                    <Text>{item?.pan_number}</Text>
                     <Button size={"xs"} rounded={"full"} colorScheme="twitter">
                       PAN Card
                     </Button>
                   </Td>
                   <Td borderBottom={0}>
                     <Text>
-                      <strong>Package Name: </strong>{item?.plan?.name}
+                      <strong>Package Name: </strong>
+                      {item?.plan?.name}
                     </Text>
                     <Text>
                       <strong>Wallet Balance: </strong>₹
@@ -267,7 +286,9 @@ const page = () => {
                       {Number(2000)?.toLocaleString("en-IN") ?? 0}
                     </Text>
                   </Td>
-                  <Td borderBottom={0}>{item?.created_at}</Td>
+                  <Td borderBottom={0}>
+                    {new Date(item?.created_at).toLocaleString("en-GB")}
+                  </Td>
                   <Td borderBottom={0}>-</Td>
                   <Td borderBottom={0}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
@@ -294,8 +315,13 @@ const page = () => {
                           </MenuItem>
                           <MenuItem>Edit Details</MenuItem>
                           <MenuItem>Change Package</MenuItem>
-                          <MenuItem>Send Password</MenuItem>
-                          <MenuItem>Send PIN</MenuItem>
+                          <MenuItem onClick={() => sendPassword(item?.id)}>
+                            Send Password
+                          </MenuItem>
+                          <MenuItem onClick={() => sendPin(item?.id)}>
+                            Send PIN
+                          </MenuItem>
+                          <MenuItem>Add Remarks</MenuItem>
                           <MenuItem>View Ledger</MenuItem>
                         </MenuList>
                       </Menu>

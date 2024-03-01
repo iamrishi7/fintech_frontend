@@ -254,6 +254,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminSendCredentials: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/send-credentials/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
   adminUpdateService: async (id, data) => {
     let res = await API.execute(`/admin/controls/services/${id}`, "PUT", data);
     return API.processResponse(res);
