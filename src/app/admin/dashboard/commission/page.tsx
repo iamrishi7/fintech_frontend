@@ -1,6 +1,7 @@
 "use client";
 import CommissionSetup from "@/components/dashboard/commission/CommissionSetup";
 import Packages from "@/components/dashboard/commission/Packages";
+import CustomButton from "@/components/misc/CustomButton";
 import { Box, Button, HStack, Heading, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
@@ -16,24 +17,9 @@ const page = () => {
 
   return (
     <>
-      <HStack mb={8} justifyContent={"space-between"}>
-        <Heading as={"h1"} fontSize={"xl"}>
-          Packages
-        </Heading>
-        <Button
-          bgColor={"brand.primary"}
-          _hover={{
-            bgColor: "brand.hover",
-          }}
-          color={"#FFF"}
-          fontWeight={"medium"}
-          leftIcon={<FaPlus />}
-          rounded={"full"}
-          size={["sm", "md"]}
-        >
-          Create Package
-        </Button>
-      </HStack>
+      <Heading as={"h1"} fontSize={"xl"} mb={8}>
+        Packages
+      </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Packages onEditButtonClick={(id) => setTargetPackage(id)} />

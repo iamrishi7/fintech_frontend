@@ -51,7 +51,6 @@ const Login = () => {
         localStorage.setItem("user", user);
         localStorage.setItem("role", role);
         window.location.href = `/${role == "admin" ? "admin" : "member"}/dashboard`;
-        setIsLoading(false)
       }
     } catch (error) {
       setIsLoading(false)

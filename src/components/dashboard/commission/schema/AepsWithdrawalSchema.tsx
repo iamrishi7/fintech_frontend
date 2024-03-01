@@ -1,6 +1,7 @@
 "use client";
 import CustomEditableInput from "@/components/misc/CustomEditableInput";
 import CustomTabs from "@/components/misc/CustomTabs";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Button,
   HStack,
@@ -16,10 +17,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 
-const AepsWithdrawalSchema = () => {
+const AepsWithdrawalSchema = ({ packageId }) => {
+  const ref = useRef(true);
+  const { handleError } = useErrorHandler();
+
   const [data, setData] = useState([
     {
       from: "",
@@ -34,6 +38,7 @@ const AepsWithdrawalSchema = () => {
       is_service_charge_flat: false,
     },
   ]);
+
   return (
     <>
       <TableContainer maxH={"sm"} overflowY={"scroll"}>
@@ -68,7 +73,7 @@ const AepsWithdrawalSchema = () => {
                       ]}
                       onChange={console.log}
                       size={"xs"}
-                      boxShadow={'none'}
+                      boxShadow={"none"}
                     />
                   </HStack>
                 </Td>
@@ -82,7 +87,7 @@ const AepsWithdrawalSchema = () => {
                       ]}
                       onChange={console.log}
                       size={"xs"}
-                      boxShadow={'none'}
+                      boxShadow={"none"}
                     />
                   </HStack>
                 </Td>
@@ -96,7 +101,7 @@ const AepsWithdrawalSchema = () => {
                       ]}
                       onChange={console.log}
                       size={"xs"}
-                      boxShadow={'none'}
+                      boxShadow={"none"}
                     />
                   </HStack>
                 </Td>
@@ -110,7 +115,7 @@ const AepsWithdrawalSchema = () => {
                       ]}
                       onChange={console.log}
                       size={"xs"}
-                      boxShadow={'none'}
+                      boxShadow={"none"}
                     />
                   </HStack>
                 </Td>

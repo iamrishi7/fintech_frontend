@@ -1,7 +1,9 @@
 "use client";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
+import SelectPlan from "@/components/dashboard/misc/SelectPlan";
 import CustomButton from "@/components/misc/CustomButton";
+import CustomModal from "@/components/misc/CustomModal";
 import CustomTabs from "@/components/misc/CustomTabs";
 import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
@@ -32,6 +34,8 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import Link from "next/link";
@@ -40,7 +44,9 @@ import { FaPlus } from "react-icons/fa";
 
 const page = () => {
   const { handleError } = useErrorHandler();
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const ref = useRef(true);
+  const Toast = useToast();
 
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("retailer");
@@ -48,6 +54,8 @@ const page = () => {
   const [data, setData] = useState([]);
   const [url, setUrl] = useState("");
   const [pages, setPages] = useState([]);
+
+  const [remarks, setRemarks] = useState("");
 
   useEffect(() => {
     if (ref.current) {
@@ -77,9 +85,16 @@ const page = () => {
 
   async function sendPassword(id: string) {
     try {
+      Toast({
+        description: "Please wait, sending new Password to user.",
+      });
       await API.adminSendCredentials(id, {
         credential_type: "password",
         channel: "email",
+      });
+      Toast({
+        status: "success",
+        description: "Password was successfully sent to the user!",
       });
     } catch (error) {
       handleError({ title: "Error while sending password", error: error });
@@ -88,12 +103,58 @@ const page = () => {
 
   async function sendPin(id: string) {
     try {
+      Toast({
+        description: "Please wait, sending new PIN to user.",
+      });
       await API.adminSendCredentials(id, {
         credential_type: "pin",
         channel: "email",
       });
+      Toast({
+        status: "success",
+        description: "PIN was successfully sent to the user!",
+      });
     } catch (error) {
       handleError({ title: "Error while sending PIN", error: error });
+    }
+  }
+
+  async function blockUser(id: string) {
+    try {
+      await API.adminBlockUser(id);
+      await fetchData({});
+      Toast({
+        status: "success",
+        description: "User was blocked successfully!",
+      });
+    } catch (error) {
+      handleError({ title: "Error while blocking user", error: error });
+    }
+  }
+
+  async function unblockUser(id: string) {
+    try {
+      await API.adminUnblockUser(id);
+      await fetchData({});
+      Toast({
+        status: "success",
+        description: "User was un-blocked successfully!",
+      });
+    } catch (error) {
+      handleError({ title: "Error while un-blocking user", error: error });
+    }
+  }
+
+  async function addRemarks(id: string, data: object) {
+    try {
+      await API.adminUpdateUser(id, data);
+      onClose();
+      Toast({
+        status: "success",
+        description: "Remarks were added successfully",
+      });
+    } catch (error) {
+      handleError({ title: "Error while updating user", error: error });
     }
   }
 
@@ -181,17 +242,11 @@ const page = () => {
                     placeholder=" "
                   />
                 </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>Package</FormLabel>
-                  <Select
-                    name="commission_package"
-                    onChange={handleChange}
-                    value={values?.commission_package}
-                    placeholder="Select Package"
-                  >
-                    <option value="1">Basic</option>
-                  </Select>
-                </FormControl>
+                <SelectPlan
+                  variant="none"
+                  onChange={handleChange}
+                  name="commission_package"
+                />
               </Stack>
 
               <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
@@ -243,7 +298,10 @@ const page = () => {
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.wallet_id}</Td>
                   <Td>
-                    <Text>{item?.name}</Text>
+                    <Text>
+                      {item?.name ||
+                        item?.first_name + item?.middle_name + item?.last_name}
+                    </Text>
                     <Text>{item?.email}</Text>
                     <Text>{item?.phone_number}</Text>
                   </Td>
@@ -309,12 +367,29 @@ const page = () => {
                         <MenuList>
                           <MenuItem>
                             <HStack w={"full"} justifyContent={"space-between"}>
-                              <Text>Block User</Text>
-                              <Switch />
+                              <Text>
+                                {Boolean(item?.deleted_at)
+                                  ? "Un-block User"
+                                  : "Block User"}
+                              </Text>
+                              <Switch
+                                isChecked={!Boolean(item?.deleted_at)}
+                                onChange={async (e) => {
+                                  if (e.target.checked) {
+                                    await unblockUser(item?.id);
+                                  } else {
+                                    await blockUser(item?.id);
+                                  }
+                                }}
+                              />
                             </HStack>
                           </MenuItem>
-                          <MenuItem>Edit Details</MenuItem>
-                          <MenuItem>Change Package</MenuItem>
+                          <MenuItem
+                            as={"a"}
+                            href={`/admin/dashboard/users/edit/${item?.id}`}
+                          >
+                            Edit Details
+                          </MenuItem>
                           <MenuItem onClick={() => sendPassword(item?.id)}>
                             Send Password
                           </MenuItem>
@@ -333,8 +408,13 @@ const page = () => {
           </Table>
         </TableContainer>
         <br />
-        {/* <Pagination /> */}
+        <Pagination pages={pages} onClick={(url) => setUrl(url)} />
       </Box>
+
+      {/* Add Admin Remarks To User */}
+      <CustomModal title={"Add Remarks"} isOpen={isOpen} onClose={onClose}>
+        <Input value={remarks} onChange={(e) => setRemarks(e.target.value)} />
+      </CustomModal>
     </>
   );
 };

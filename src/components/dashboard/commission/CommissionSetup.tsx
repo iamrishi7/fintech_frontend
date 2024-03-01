@@ -58,9 +58,6 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
     },
   ]);
 
-  const [activeService, setActiveService] = useState<
-    string | undefined | number
-  >("");
 
   return (
     <>

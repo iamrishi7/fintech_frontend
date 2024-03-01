@@ -32,19 +32,6 @@ export const API = {
       for (const key in data) {
         // console.log({ key: key, value: data[key], type: typeof (data[key]) });
         value = data[key];
-        // if (typeof value == "") {
-        //   var fileURI = value.path;
-        //   let filename = fileURI?.split("/").pop();
-        //   body.append(key, {
-        //     uri: fileURI,
-        //     name: filename,
-        //     type: value.mime,
-        //     mime: value.mime,
-        //   });
-        //   // console.log(fileURI);
-        // } else {
-        //   body.append(key, data[key]);
-        // }
         body.append(key, data[key]);
       }
     }
@@ -65,7 +52,7 @@ export const API = {
       window.location.replace("/auth/login");
     }
 
-    return Promise.all([res.status, res.json(), res.ok]);
+    return Promise.all([res.status, res.status != 204 ? res.json() : {}, res.ok]);
   },
 
   /**
@@ -74,14 +61,15 @@ export const API = {
    * @returns
    */
   processResponse: (res) => {
-    if (!res[2]) {
+    if (!res[2] && res[0] !== 204) {
       console.error({ error: res });
-      // throw new Error(res[1]?.error);
       const error = new Error(
         res[1]?.message || `Err while processing request`
       );
       error.status = res[0];
       throw error;
+    } else if (res[0] === 204) {
+      return { status: res[0] };
     }
     return res[1];
   },
@@ -218,6 +206,30 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminBlockUser: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/users/${id}`, "DELETE");
+    return API.processResponse(res);
+  },
+
+  adminUnblockUser: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/restore/${id}`, "PUT");
+    return API.processResponse(res);
+  },
+
+  adminUpdateUser: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/users/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
+  adminSendCredentials: async (id, data) => {
+    let res = await API.execute(
+      `/admin/manage-user/send-credentials/${id}`,
+      "PUT",
+      data
+    );
+    return API.processResponse(res);
+  },
+
   adminPendingFundRequests: async (query, url) => {
     let res = await API.execute(
       url ||
@@ -254,11 +266,6 @@ export const API = {
     return API.processResponse(res);
   },
 
-  adminSendCredentials: async (id, data) => {
-    let res = await API.execute(`/admin/manage-user/send-credentials/${id}`, "PUT", data);
-    return API.processResponse(res);
-  },
-
   adminUpdateService: async (id, data) => {
     let res = await API.execute(`/admin/controls/services/${id}`, "PUT", data);
     return API.processResponse(res);
@@ -283,4 +290,15 @@ export const API = {
     let res = await API.execute(`/admin/controls/bank/${id}`, "DELETE");
     return API.processResponse(res);
   },
+
+  adminGetPlans: async () => {
+    let res = await API.execute(`/admin/plans`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminUpdatePlan: async (id, data) => {
+    let res = await API.execute(`/admin/plans/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
 };
