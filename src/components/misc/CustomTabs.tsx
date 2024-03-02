@@ -44,9 +44,10 @@ const CustomTabs: FC<CustomTabsProps> = ({
         w={w || "max-content"}
         rounded={8}
         boxShadow={boxShadow ?? "sm"}
-        overflowX={size == "xs" ? "visible" : "scroll"}
+        overflowX={"scroll"}
         justifyContent={"center"}
         className="hide-scrollbar"
+        maxW={['full', 'auto']}
       >
         {tabList?.map((item, key) => (
           <Button

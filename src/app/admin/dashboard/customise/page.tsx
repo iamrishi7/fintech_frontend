@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import Layout1 from "@/components/dashboard/misc/receipt/Layout1";
 import FileDropzone from "@/components/misc/FileDropzone";
 import {
@@ -16,7 +17,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+
 
 interface FormSubheadingProps {
   title: string;
@@ -74,6 +75,16 @@ const page = () => {
                 mb={8}
                 flexWrap={"wrap"}
               >
+
+                <Box w={["full", "xs"]}>
+                  <FileDropzone
+                    onUpload={(files) => console.log(files)}
+                    accept="image/*,application/pdf"
+                    label="Company Logo"
+                    height={32}
+                  />
+                </Box>
+                
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input name="portal_name" type="text" placeholder=" " />
                   <FormLabel>Portal Name</FormLabel>
@@ -89,14 +100,6 @@ const page = () => {
                   <FormLabel>Company Tagline</FormLabel>
                 </FormControl>
 
-                <Box w={["full", "xs"]}>
-                  <FileDropzone
-                    onUpload={(files) => console.log(files)}
-                    accept="image/*,application/pdf"
-                    label="Company Logo"
-                    height={32}
-                  />
-                </Box>
                 <Box w={["full", "xs"]}>
                   <FileDropzone
                     onUpload={(files) => console.log(files)}
@@ -167,34 +170,6 @@ const page = () => {
                   <Box w={48} boxShadow={"base"}>
                     <Layout1 isLayout={true} status="success" />
                   </Box>
-                  <Text
-                    px={"8px"}
-                    py={"2px"}
-                    mt={2}
-                    w={"max-content"}
-                    bgColor={"twitter.500"}
-                    color={"#FFF"}
-                    fontSize={"10"}
-                    rounded={"full"}
-                    fontWeight={"semibold"}
-                    textAlign={"center"}
-                    mx={"auto"}
-                  >
-                    Using
-                  </Text>
-                </Box>
-              </Stack>
-
-              <FormSubheading title="Loading Icon" />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                flexWrap={"wrap"}
-              >
-                <Box>
-                  <Image src="/assets/images/loading/layout1.gif" w={16} />
                   <Text
                     px={"8px"}
                     py={"2px"}

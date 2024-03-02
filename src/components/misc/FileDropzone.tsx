@@ -46,7 +46,7 @@ const FileDropzone: FC<FileDropzoneProps> = ({
 
     Promise.all(newImages)
       .then((imagePreviews) =>
-        setSelectedImages((prevImages) => [...prevImages, ...imagePreviews])
+        setSelectedImages((prevImages) => [...imagePreviews])
       )
       .catch((error) => console.error("Error reading file:", error));
   }, []);

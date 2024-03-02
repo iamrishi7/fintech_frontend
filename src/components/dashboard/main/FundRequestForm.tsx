@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { FC, useState } from "react";
-import SelectPortalBank from "../misc/SelectPortalBank";
+import SelectPortalBank from "../misc/select/SelectPortalBank";
 
 interface FormProps {
   onClose: () => void;

@@ -1,6 +1,10 @@
 "use client";
-import { Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import React from "react";
+import Lottie from "lottie-react";
+import animation1 from "../../public/assets/lottie/loading/animation1.json";
+import animation2 from "../../public/assets/lottie/loading/animation2.json";
+import animation3 from "../../public/assets/lottie/loading/animation3.json";
 
 const loading = () => {
   return (
@@ -12,11 +16,12 @@ const loading = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
-        <Image src="/assets/images/loading/layout1.gif" w={16} h={16} objectFit={'contain'} />
-        <br />
+        <Box boxSize={36} mb={4}>
+          <Lottie animationData={animation2} loop={true} />
+        </Box>
         <p style={{ textAlign: "center" }}>Loading please wait...</p>
       </div>
     </>

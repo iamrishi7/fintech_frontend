@@ -1,6 +1,6 @@
 "use client";
 import PendingFundRequests from "@/components/dashboard/main/admin/PendingFundRequests";
-import SelectPortalBank from "@/components/dashboard/misc/SelectPortalBank";
+import SelectPortalBank from "@/components/dashboard/misc/select/SelectPortalBank";
 import CustomButton from "@/components/misc/CustomButton";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";

@@ -1,7 +1,7 @@
 "use client";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
-import SelectPlan from "@/components/dashboard/misc/SelectPlan";
+import SelectPlan from "@/components/dashboard/misc/select/SelectPlan";
 import CustomButton from "@/components/misc/CustomButton";
 import CustomModal from "@/components/misc/CustomModal";
 import CustomTabs from "@/components/misc/CustomTabs";
@@ -10,6 +10,7 @@ import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
+  Avatar,
   Badge,
   Box,
   Button,
@@ -55,6 +56,7 @@ const page = () => {
   const [url, setUrl] = useState("");
   const [pages, setPages] = useState([]);
 
+  const [updateUserId, setUpdateUserId] = useState("");
   const [remarks, setRemarks] = useState("");
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const page = () => {
       ref.current = false;
       fetchData({});
     }
-  }, []);
+  }, [role]);
 
   useEffect(() => {
     if (url) {
@@ -145,10 +147,11 @@ const page = () => {
     }
   }
 
-  async function addRemarks(id: string, data: object) {
+  async function addRemarks() {
     try {
-      await API.adminUpdateUser(id, data);
+      await API.adminUpdateUser(updateUserId, { admin_remarks: remarks });
       onClose();
+      fetchData({});
       Toast({
         status: "success",
         description: "Remarks were added successfully",
@@ -187,7 +190,10 @@ const page = () => {
               label: "admin",
             },
           ]}
-          onChange={(value) => setRole(value)}
+          onChange={(value) => {
+            ref.current = true;
+            setRole(value);
+          }}
           size={"sm"}
         />
       </Stack>
@@ -196,12 +202,7 @@ const page = () => {
       <Box p={6} bgColor={"#FFF"} rounded={4} boxShadow={"base"} mb={8}>
         <Formik
           initialValues={{
-            created_at: "",
-            to: "",
-            transaction_id: "",
-            account_number: "",
-            name: "",
-            user_id: "",
+            search: "",
             commission_package: "",
           }}
           onSubmit={console.log}
@@ -215,30 +216,11 @@ const page = () => {
                 my={4}
               >
                 <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>User ID</FormLabel>
+                  <FormLabel>Wallet ID / Name / Email / Phone</FormLabel>
                   <Input
-                    name="user_id"
+                    name="search"
                     onChange={handleChange}
-                    value={values?.user_id}
-                    placeholder=" "
-                  />
-                </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>Name</FormLabel>
-                  <Input
-                    name="name"
-                    onChange={handleChange}
-                    value={values?.name}
-                    placeholder=" "
-                  />
-                </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>Registered On</FormLabel>
-                  <Input
-                    name="created_at"
-                    onChange={handleChange}
-                    type="date"
-                    value={values?.created_at}
+                    value={values?.search}
                     placeholder=" "
                   />
                 </FormControl>
@@ -283,6 +265,7 @@ const page = () => {
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
+                <Th color={"gray.600"}>Profile</Th>
                 <Th color={"gray.600"}>Wallet No.</Th>
                 <Th color={"gray.600"}>Basic Details</Th>
                 <Th color={"gray.600"}>Aadhaar</Th>
@@ -296,6 +279,9 @@ const page = () => {
             <Tbody fontSize={"xs"}>
               {data?.map((item: any, key) => (
                 <Tr key={key}>
+                  <Td>
+                    <Avatar name={item?.name} />
+                  </Td>
                   <Td borderBottom={0}>{item?.wallet_id}</Td>
                   <Td>
                     <Text>
@@ -308,13 +294,35 @@ const page = () => {
                   <Td>
                     <Text>{item?.aadhaar_number}</Text>
                     <HStack w={"full"}>
-                      <Button
-                        size={"xs"}
-                        rounded={"full"}
-                        colorScheme="twitter"
-                      >
-                        Front
-                      </Button>
+                      {item?.documents?.find(
+                        (doc: any) => doc?.document_type == "aadhaar_front"
+                      ) ? (
+                        <Button
+                          size={"xs"}
+                          rounded={"full"}
+                          colorScheme="twitter"
+                        >
+                          Front
+                        </Button>
+                      ) : null}
+                      {item?.documents?.find(
+                        (doc: any) => doc?.document_type == "aadhaar_back"
+                      ) ? (
+                        <Button
+                          size={"xs"}
+                          rounded={"full"}
+                          colorScheme="twitter"
+                        >
+                          Back
+                        </Button>
+                      ) : null}
+                    </HStack>
+                  </Td>
+                  <Td>
+                    <Text>{item?.pan_number}</Text>
+                    {item?.documents?.find(
+                      (doc: any) => doc?.document_type == "pan"
+                    ) ? (
                       <Button
                         size={"xs"}
                         rounded={"full"}
@@ -322,13 +330,7 @@ const page = () => {
                       >
                         Back
                       </Button>
-                    </HStack>
-                  </Td>
-                  <Td>
-                    <Text>{item?.pan_number}</Text>
-                    <Button size={"xs"} rounded={"full"} colorScheme="twitter">
-                      PAN Card
-                    </Button>
+                    ) : null}
                   </Td>
                   <Td borderBottom={0}>
                     <Text>
@@ -341,13 +343,14 @@ const page = () => {
                     </Text>
                     <Text>
                       <strong>Min. Balance: </strong>₹
-                      {Number(2000)?.toLocaleString("en-IN") ?? 0}
+                      {Number(item?.capped_balance)?.toLocaleString("en-IN") ??
+                        0}
                     </Text>
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at).toLocaleString("en-GB")}
                   </Td>
-                  <Td borderBottom={0}>-</Td>
+                  <Td borderBottom={0}>{item?.admin_remarks || "-"}</Td>
                   <Td borderBottom={0}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
                       <Menu closeOnSelect={false}>
@@ -387,6 +390,7 @@ const page = () => {
                           <MenuItem
                             as={"a"}
                             href={`/admin/dashboard/users/edit/${item?.id}`}
+                            target="_blank"
                           >
                             Edit Details
                           </MenuItem>
@@ -396,7 +400,15 @@ const page = () => {
                           <MenuItem onClick={() => sendPin(item?.id)}>
                             Send PIN
                           </MenuItem>
-                          <MenuItem>Add Remarks</MenuItem>
+                          <MenuItem
+                            onClick={() => {
+                              setUpdateUserId(item?.id);
+                              setRemarks(item?.admin_remarks);
+                              onOpen();
+                            }}
+                          >
+                            Add Remarks
+                          </MenuItem>
                           <MenuItem>View Ledger</MenuItem>
                         </MenuList>
                       </Menu>
@@ -412,7 +424,12 @@ const page = () => {
       </Box>
 
       {/* Add Admin Remarks To User */}
-      <CustomModal title={"Add Remarks"} isOpen={isOpen} onClose={onClose}>
+      <CustomModal
+        title={"Add Remarks"}
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={() => addRemarks()}
+      >
         <Input value={remarks} onChange={(e) => setRemarks(e.target.value)} />
       </CustomModal>
     </>

@@ -44,7 +44,7 @@ const SelectPlan = ({
   return (
     <>
       <FormControl maxW={["full", "xs"]} variant={variant || "floating"}>
-        {variant == "none" ? <FormLabel>Select Plan</FormLabel> : null}
+        {variant == "none" ? <FormLabel>Commission Plan</FormLabel> : null}
         <Select
           name={name}
           placeholder={placeholder || "Please select"}
@@ -56,7 +56,7 @@ const SelectPlan = ({
             </option>
           ))}
         </Select>
-        {variant == "floating" ? <FormLabel>Select Plan</FormLabel> : null}
+        {variant == "floating" ? <FormLabel>Commission Plan</FormLabel> : null}
       </FormControl>
     </>
   );

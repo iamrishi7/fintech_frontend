@@ -52,7 +52,11 @@ export const API = {
       window.location.replace("/auth/login");
     }
 
-    return Promise.all([res.status, res.status != 204 ? res.json() : {}, res.ok]);
+    return Promise.all([
+      res.status,
+      res.status != 204 ? res.json() : {},
+      res.ok,
+    ]);
   },
 
   /**
@@ -206,12 +210,22 @@ export const API = {
     return API.processResponse(res);
   },
 
-  adminBlockUser: async (id, data) => {
+  adminGetUserInfo: async (id) => {
+    let res = await API.execute(`/admin/manage-user/users/${id}`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminUpdateUserInfo: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/user/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
+  adminBlockUser: async (id) => {
     let res = await API.execute(`/admin/manage-user/users/${id}`, "DELETE");
     return API.processResponse(res);
   },
 
-  adminUnblockUser: async (id, data) => {
+  adminUnblockUser: async (id) => {
     let res = await API.execute(`/admin/manage-user/restore/${id}`, "PUT");
     return API.processResponse(res);
   },
@@ -300,5 +314,4 @@ export const API = {
     let res = await API.execute(`/admin/plans/${id}`, "PUT", data);
     return API.processResponse(res);
   },
-
 };
