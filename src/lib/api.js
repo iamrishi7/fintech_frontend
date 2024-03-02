@@ -314,4 +314,14 @@ export const API = {
     let res = await API.execute(`/admin/plans/${id}`, "PUT", data);
     return API.processResponse(res);
   },
+
+  adminGetAllRoles: async () => {
+    let res = await API.execute(`/admin/manage-access/roles`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminGetAllPermissions: async () => {
+    let res = await API.execute(`/admin/manage-access/permissions`, "GET");
+    return API.processResponse(res);
+  },
 };

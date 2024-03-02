@@ -8,6 +8,7 @@ import CustomTabs from "@/components/misc/CustomTabs";
 import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API_BASE_URL } from "@/lib/utils/constants";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -280,7 +281,37 @@ const page = () => {
               {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td>
-                    <Avatar name={item?.name} />
+                    <Avatar
+                      name={item?.name}
+                      src={
+                        item?.documents?.find(
+                          (doc: any) => doc?.document_type == "avatar"
+                        )
+                          ? API_BASE_URL?.replace("/api", "/") +
+                            item?.documents?.find(
+                              (doc: any) => doc?.document_type == "avatar"
+                            )?.address
+                          : null
+                      }
+                      as={"a"}
+                      href={
+                        item?.documents?.find(
+                          (doc: any) => doc?.document_type == "avatar"
+                        )
+                          ? API_BASE_URL?.replace("/api", "/") +
+                            item?.documents?.find(
+                              (doc: any) => doc?.document_type == "avatar"
+                            )?.address
+                          : "#"
+                      }
+                      target={
+                        item?.documents?.find(
+                          (doc: any) => doc?.document_type == "avatar"
+                        )
+                          ? "_blank"
+                          : "_self"
+                      }
+                    />
                   </Td>
                   <Td borderBottom={0}>{item?.wallet_id}</Td>
                   <Td>

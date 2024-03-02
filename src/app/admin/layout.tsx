@@ -260,16 +260,6 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           Fund Request
         </NavItem>
         <NavItem
-          icon={IoWallet}
-          isActive={
-            pathname?.split("/")?.includes("wallet-transfer") &&
-            pathname?.split("/")?.includes("manage")
-          }
-          link={"/admin/dashboard/manage/wallet-transfer"}
-        >
-          Wallet Transfer
-        </NavItem>
-        <NavItem
           icon={FaMoneyBillTransfer}
           isActive={
             pathname?.split("/")?.includes("fund-flow") &&
@@ -319,6 +309,16 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           link={"/admin/dashboard/reports/daily-sales"}
         >
           Daily Sales
+        </NavItem>
+        <NavItem
+          icon={IoWallet}
+          isActive={
+            pathname?.split("/")?.includes("wallet-transfer") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/admin/dashboard/reports/wallet-transfer"}
+        >
+          Wallet Transfer
         </NavItem>
         <NavItem
           icon={FaMoneyBillTransfer}

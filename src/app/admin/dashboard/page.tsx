@@ -79,11 +79,19 @@ const tabList = [
 ];
 
 const Dashboard = () => {
-  const {user} = useAuth()
+  const { user } = useAuth();
   return (
     <>
-      <Stack direction={['column', 'row']} alignItems={'center'} justifyContent={'space-between'} mb={8}>
-        <Text fontSize={['sm', 'md']} fontWeight={'medium'} color={'gray.700'}>Good afternoon, {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!</Text>
+      <Stack
+        direction={["column", "row"]}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        mb={8}
+      >
+        <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
+          Good afternoon,{" "}
+          {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
+        </Text>
         <CustomTabs
           tabList={tabList}
           onChange={(value) => console.log(value)}
@@ -100,20 +108,30 @@ const Dashboard = () => {
           <Text color={"gray.700"} fontWeight={"semibold"}>
             Pending Fund Requests
           </Text>
-          <Text color={"gray.500"} fontSize={"sm"}>
-            3 Pending
+          <Text
+            color={"gray.500"}
+            fontSize={"xs"}
+            as={"a"}
+            href={"/admin/dashboard/manage/fund-request"}
+            pb={4}
+          >
+            View All
           </Text>
-          <br />
           <PendingFundRequests showPagination={false} />
         </Box>
         <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>
             Recent Transactions
           </Text>
-          <Text color={"gray.500"} fontSize={"sm"}>
-            Latest 10 Transactions
+          <Text
+            color={"gray.500"}
+            fontSize={"xs"}
+            as={"a"}
+            href={"/admin/dashboard/reports/ledger"}
+            pb={4}
+          >
+            View All
           </Text>
-          <br />
           <RecentTransactions />
         </Box>
       </Stack>

@@ -4,7 +4,7 @@ import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { FormControl, FormLabel, Select, SelectProps } from "@chakra-ui/react";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 
-interface SelectPlanProps {
+interface SelectRoleProps {
   placeholder?: string;
   onChange: SelectProps["onChange"];
   name?: SelectProps["name"];
@@ -12,13 +12,13 @@ interface SelectPlanProps {
   value?: string | number
 }
 
-const SelectPlan = ({
+const SelectRole = ({
   placeholder,
   onChange,
   name,
   variant,
   value
-}: SelectPlanProps) => {
+}: SelectRoleProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
@@ -33,7 +33,7 @@ const SelectPlan = ({
 
   async function fetchData() {
     try {
-      const res = await API.adminGetPlans();
+      const res = await API.adminGetAllRoles();
       setData(res.data);
     } catch (error) {
       handleError({
@@ -46,7 +46,7 @@ const SelectPlan = ({
   return (
     <>
       <FormControl maxW={["full", "xs"]} variant={variant || "floating"}>
-        {variant == "none" ? <FormLabel>Commission Plan</FormLabel> : null}
+        {variant == "none" ? <FormLabel>Select Role</FormLabel> : null}
         <Select
           name={name}
           placeholder={placeholder || "Please select"}
@@ -59,10 +59,10 @@ const SelectPlan = ({
             </option>
           ))}
         </Select>
-        {variant == "floating" ? <FormLabel>Commission Plan</FormLabel> : null}
+        {variant == "floating" ? <FormLabel>Select Role</FormLabel> : null}
       </FormControl>
     </>
   );
 };
 
-export default SelectPlan;
+export default SelectRole;

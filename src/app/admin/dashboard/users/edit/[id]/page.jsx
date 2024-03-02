@@ -9,6 +9,7 @@ import {
   FormLabel,
   HStack,
   Heading,
+  Icon,
   Image,
   Input,
   NumberInput,
@@ -23,9 +24,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { BsCamera } from "react-icons/bs";
 import SelectPlan from "@/components/dashboard/misc/select/SelectPlan";
 import { API } from "@/lib/api";
-import { FormAxios } from "@/lib/utils/axios";
+import BackendAxios, { FormAxios } from "@/lib/utils/axios";
 import Loader from "@/components/global/Loader";
 import useApiHandler from "@/lib/hooks/useApiHandler";
+import { API_BASE_URL } from "@/lib/utils/constants";
+import { FaCheck } from "react-icons/fa";
+import SelectRole from "@/components/dashboard/misc/select/SelectRole";
+import SelectDistributor from "@/components/dashboard/misc/select/SelectDistributor";
+import SelectSuperDistributor from "@/components/dashboard/misc/select/SelectSuperDistributor";
+import ManageAdminPermissions from "@/components/dashboard/admin/ManageAdminPermissions";
+import ManageMemberPermissions from "@/components/dashboard/admin/ManageMemberPermissions";
 
 const FormSubheading = ({ title }) => {
   return (
@@ -104,35 +112,41 @@ const page = ({ params }) => {
       await adminUploadMedia({
         file: aadhaarFront,
         type: "aadhaar_front",
-        userId: id
+        userId: id,
       });
     }
     if (aadhaarBack) {
       await adminUploadMedia({
         file: aadhaarBack,
         type: "aadhaar_back",
-        userId: id
+        userId: id,
       });
     }
     if (panCard) {
       await adminUploadMedia({
         file: panCard,
         type: "pan",
-        userId: id
+        userId: id,
       });
     }
-    FormAxios.put(`/admin/manage-user/users/${id}`, { ...data, avatar: avatar })
-      .then((res) => {
-        setIsLoading(false);
-        Toast({
-          status: "success",
-          description: "Details were updated successfully!",
-        });
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        handleError({ title: "Couldn't submit your details", error: error });
+    if (avatar) {
+      await adminUploadMedia({
+        file: avatar,
+        type: "avatar",
+        userId: id,
       });
+    }
+    try {
+      await API.adminUpdateUser(id, data);
+      setIsLoading(false);
+      Toast({
+        status: "success",
+        description: "Details were updated successfully!",
+      });
+    } catch (error) {
+      setIsLoading(false);
+      handleError({ title: "Couldn't submit your details", error: error });
+    }
   }
 
   return (
@@ -150,285 +164,343 @@ const page = ({ params }) => {
         </Heading>
       </Stack>
       {user?.id ? (
-        <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-          <input
-            type="file"
-            ref={avatarInputRef}
-            onChange={handleFileChange}
-            accept="image/"
-            style={{ display: "none" }}
-          />
-          <VStack w={"full"} justifyContent={"center"} mb={4}>
-            <Box
-              pos={"relative"}
-              rounded={"full"}
-              boxSize={["24", "36"]}
-              overflow={"hidden"}
-              border={"1px solid"}
-              borderColor={"gray.50"}
-            >
-              <Image
-                src={avatarPreview ?? user?.avatar ?? "/avatar.webp"}
-                boxSize={"inherit"}
-                objectFit={"cover"}
-              />
-              <VStack
-                pos={"absolute"}
-                top={0}
-                left={0}
-                w={"full"}
-                h={"full"}
-                bgColor={"transparent"}
-                color={"transparent"}
-                transition={"all .3s ease"}
-                _hover={{ bgColor: "rgba(0,0,0,0.75)", color: "#FFF" }}
-                justifyContent={"center"}
-                cursor={"pointer"}
-                onClick={handleClick}
-              >
-                <BsCamera />
-                <Text fontSize={"xs"}>
-                  Click to {user?.avatar ? "Change" : "Upload"}
-                </Text>
-              </VStack>
-            </Box>
-            {avatarPreview ? (
-              <Button
-                variant={"ghost"}
-                colorScheme="red"
-                size={"sm"}
+        <>
+          <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
+            <input
+              type="file"
+              ref={avatarInputRef}
+              onChange={handleFileChange}
+              accept="image/"
+              style={{ display: "none" }}
+            />
+            <VStack w={"full"} justifyContent={"center"} mb={4}>
+              <Box
+                pos={"relative"}
                 rounded={"full"}
-                onClick={() => {
-                  setAvatarPreview(null);
-                  setAvatar(null);
-                }}
+                boxSize={["24", "36"]}
+                overflow={"hidden"}
+                border={"1px solid"}
+                borderColor={"gray.50"}
               >
-                Remove
-              </Button>
-            ) : (
-              <Text fontSize={"xs"} textAlign={"center"} fontWeight={"medium"}>
-                Please Upload Profile Photo
-              </Text>
-            )}
-          </VStack>
-          <Formik
-            initialValues={{
-              first_name: user?.first_name,
-              middle_name: user?.middle_name,
-              last_name: user?.last_name,
-              email: user?.email,
-              phone_number: user?.phone_number,
-              capped_balance: user?.capped_balance,
-              aadhaar_front: null,
-              aadhaar_back: null,
-              pan: null,
-            }}
-            onSubmit={(values) => handleFormSubmit(values)}
-          >
-            {({
-              values,
-              handleChange,
-              handleSubmit,
-              errors,
-              setFieldValue,
-            }) => (
-              <Form onSubmit={handleSubmit}>
-                <FormSubheading title={"Role Details"} />
-                <Stack
+                <Image
+                  src={
+                    avatarPreview
+                      ? avatarPreview
+                      : user?.documents?.find(
+                          (doc) => doc?.document_type == "avatar"
+                        )
+                      ? API_BASE_URL.replace("/api", "/") +
+                        user?.documents?.find(
+                          (doc) => doc?.document_type == "avatar"
+                        )?.address
+                      : "/avatar.webp"
+                  }
+                  boxSize={"inherit"}
+                  objectFit={"cover"}
+                />
+                <VStack
+                  pos={"absolute"}
+                  top={0}
+                  left={0}
                   w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
-                ></Stack>
-
-                <FormSubheading title={"Basic Details"} />
-                <Stack
-                  w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
+                  h={"full"}
+                  bgColor={"transparent"}
+                  color={"transparent"}
+                  transition={"all .3s ease"}
+                  _hover={{ bgColor: "rgba(0,0,0,0.75)", color: "#FFF" }}
+                  justifyContent={"center"}
+                  cursor={"pointer"}
+                  onClick={handleClick}
                 >
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="first_name"
-                      type="text"
-                      placeholder=" "
-                      value={values?.first_name}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>First Name</FormLabel>
-                  </FormControl>
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="middle_name"
-                      type="text"
-                      placeholder=" "
-                      value={values?.middle_name}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>Middle Name</FormLabel>
-                  </FormControl>
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="last_name"
-                      type="text"
-                      placeholder=" "
-                      value={values?.last_name}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>Last Name</FormLabel>
-                  </FormControl>
-                </Stack>
-
-                <Stack
-                  w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
+                  <BsCamera />
+                  <Text fontSize={"xs"}>
+                    Click to {user?.avatar ? "Change" : "Upload"}
+                  </Text>
+                </VStack>
+              </Box>
+              {avatarPreview ? (
+                <Button
+                  variant={"ghost"}
+                  colorScheme="red"
+                  size={"sm"}
+                  rounded={"full"}
+                  onClick={() => {
+                    setAvatarPreview(null);
+                    setAvatar(null);
+                  }}
                 >
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="email"
-                      type="email"
-                      placeholder=" "
-                      value={values?.email}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>Email</FormLabel>
-                  </FormControl>
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="phone_number"
-                      type="tel"
-                      maxLength={10}
-                      placeholder=" "
-                      value={values?.phone_number}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>Phone</FormLabel>
-                  </FormControl>
-                </Stack>
-
-                <FormSubheading title={"Other Details"} />
-                <Stack
-                  w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
+                  Remove
+                </Button>
+              ) : user?.documents?.find(
+                  (doc) => doc?.document_type == "avatar"
+                ) ? (
+                <Text
+                  fontSize={"xs"}
+                  textAlign={"center"}
+                  fontWeight={"medium"}
                 >
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <NumberInput
-                      name="capped_balance"
-                      value={values?.capped_balance}
-                    >
-                      <NumberInputField
-                        min={0}
-                        placeholder="₹"
-                        name="capped_balance"
+                  Click on photo to change it
+                </Text>
+              ) : (
+                <Text
+                  fontSize={"xs"}
+                  textAlign={"center"}
+                  fontWeight={"medium"}
+                >
+                  Please Upload Profile Photo
+                </Text>
+              )}
+            </VStack>
+            <Formik
+              initialValues={{
+                first_name: user?.first_name,
+                middle_name: user?.middle_name,
+                last_name: user?.last_name,
+                email: user?.email,
+                phone_number: user?.phone_number,
+                capped_balance: user?.capped_balance,
+                plan_id: user?.plan_id,
+                aadhaar_front: null,
+                aadhaar_back: null,
+                pan: null,
+                role: user?.roles[0]?.id,
+              }}
+              onSubmit={(values) => handleFormSubmit(values)}
+            >
+              {({ values, handleChange, handleSubmit, errors }) => (
+                <Form onSubmit={handleSubmit}>
+                  <FormSubheading title={"Role & Senior"} />
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
+                  >
+                    <SelectRole
+                      variant="floating"
+                      name="role"
+                      onChange={handleChange}
+                      value={values?.role}
+                    />
+
+                    {values?.role == 1 ? (
+                      <SelectDistributor variant="floating" />
+                    ) : values?.role == 2 ? (
+                      <SelectSuperDistributor variant="floating" />
+                    ) : null}
+                  </Stack>
+
+                  <FormSubheading title={"Basic Details"} />
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
+                  >
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="first_name"
+                        type="text"
+                        placeholder=" "
+                        value={values?.first_name}
                         onChange={handleChange}
                       />
-                      <FormLabel>Min. Balance</FormLabel>
-                    </NumberInput>
-                  </FormControl>
+                      <FormLabel>First Name</FormLabel>
+                    </FormControl>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="middle_name"
+                        type="text"
+                        placeholder=" "
+                        value={values?.middle_name}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Middle Name</FormLabel>
+                    </FormControl>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="last_name"
+                        type="text"
+                        placeholder=" "
+                        value={values?.last_name}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Last Name</FormLabel>
+                    </FormControl>
+                  </Stack>
 
-                  <SelectPlan
-                    name="plan"
-                    onChange={handleChange}
-                    variant="floating"
-                  />
-                </Stack>
-
-                <FormSubheading title={"Upload Documents"} />
-                <Stack
-                  w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
-                >
-                  <Box w={["full", "xs"]}>
-                    {user?.documents?.find(
-                      (doc) => doc?.document_type == "aadhaar_front"
-                    ) ? (
-                      <Image
-                        src={
-                          user?.documents?.find(
-                            (doc) => doc?.document_type == "aadhaar_front"
-                          )?.address
-                        }
-                      />
-                    ) : (
-                      <FileDropzone
-                        onUpload={(files) => setAadhaarFront(files)}
-                        accept="image/*,application/pdf"
-                        label="Aadhaar Front"
-                        height={32}
-                      />
-                    )}
-                  </Box>
-                  <Box w={["full", "xs"]}>
-                    {user?.documents?.find(
-                      (doc) => doc?.document_type == "aadhaar_back"
-                    ) ? (
-                      <Image
-                        src={
-                          user?.documents?.find(
-                            (doc) => doc?.document_type == "aadhaar_back"
-                          )?.address
-                        }
-                      />
-                    ) : (
-                      <FileDropzone
-                        onUpload={(files) => setAadhaarBack(files)}
-                        accept="image/*,application/pdf"
-                        label="Aadhaar Back"
-                        height={32}
-                      />
-                    )}
-                  </Box>
-                  <Box w={["full", "xs"]}>
-                    {user?.documents?.find(
-                      (doc) => doc?.document_type == "pan"
-                    ) ? (
-                      <Image
-                        src={
-                          user?.documents?.find(
-                            (doc) => doc?.document_type == "pan"
-                          )?.address
-                        }
-                      />
-                    ) : (
-                      <FileDropzone
-                        onUpload={(files) => setPanCard(files)}
-                        accept="image/*,application/pdf"
-                        label="PAN Card"
-                        height={32}
-                      />
-                    )}
-                  </Box>
-                </Stack>
-
-                <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
-                  <Button
-                    bgColor={"brand.primary"}
-                    _hover={{
-                      bgColor: "brand.hover",
-                    }}
-                    color={"#FFF"}
-                    isLoading={isLoading}
-                    onClick={() => handleSubmit(values)}
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
                   >
-                    Save
-                  </Button>
-                </HStack>
-              </Form>
-            )}
-          </Formik>
-        </Box>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="email"
+                        type="email"
+                        placeholder=" "
+                        value={values?.email}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Email</FormLabel>
+                    </FormControl>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="phone_number"
+                        type="tel"
+                        maxLength={10}
+                        placeholder=" "
+                        value={values?.phone_number}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Phone</FormLabel>
+                    </FormControl>
+                  </Stack>
+
+                  <FormSubheading title={"Other Details"} />
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
+                  >
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <NumberInput
+                        name="capped_balance"
+                        value={values?.capped_balance}
+                      >
+                        <NumberInputField
+                          min={0}
+                          placeholder="₹"
+                          name="capped_balance"
+                          onChange={handleChange}
+                        />
+                        <FormLabel>Min. Balance</FormLabel>
+                      </NumberInput>
+                    </FormControl>
+
+                    <SelectPlan
+                      name="plan_id"
+                      onChange={handleChange}
+                      variant="floating"
+                      value={values?.plan_id}
+                    />
+                  </Stack>
+
+                  <FormSubheading title={"Upload Documents"} />
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
+                  >
+                    <Box w={["full", "xs"]}>
+                      {user?.documents?.find(
+                        (doc) => doc?.document_type == "aadhaar_front"
+                      ) ? (
+                        <VStack>
+                          <Icon
+                            as={FaCheck}
+                            color={"whatsapp.500"}
+                            fontSize={"3xl"}
+                          />
+                          <Text fontSize={"sm"}>Aadhaar Front Uploaded</Text>
+                        </VStack>
+                      ) : (
+                        <FileDropzone
+                          onUpload={(files) => setAadhaarFront(files)}
+                          accept="image/*,application/pdf"
+                          label="Aadhaar Front"
+                          height={32}
+                        />
+                      )}
+                    </Box>
+                    <Box w={["full", "xs"]}>
+                      {user?.documents?.find(
+                        (doc) => doc?.document_type == "aadhaar_back"
+                      ) ? (
+                        <VStack>
+                          <Icon
+                            as={FaCheck}
+                            color={"whatsapp.500"}
+                            fontSize={"3xl"}
+                          />
+                          <Text fontSize={"sm"}>Aadhaar Back Uploaded</Text>
+                        </VStack>
+                      ) : (
+                        <FileDropzone
+                          onUpload={(files) => setAadhaarBack(files)}
+                          accept="image/*,application/pdf"
+                          label="Aadhaar Back"
+                          height={32}
+                        />
+                      )}
+                    </Box>
+                    <Box w={["full", "xs"]}>
+                      {user?.documents?.find(
+                        (doc) => doc?.document_type == "pan"
+                      ) ? (
+                        <VStack>
+                          <Icon
+                            as={FaCheck}
+                            color={"whatsapp.500"}
+                            fontSize={"3xl"}
+                          />
+                          <Text fontSize={"sm"}>PAN Card Uploaded</Text>
+                        </VStack>
+                      ) : (
+                        <FileDropzone
+                          onUpload={(files) => setPanCard(files)}
+                          accept="image/*,application/pdf"
+                          label="PAN Card"
+                          height={32}
+                        />
+                      )}
+                    </Box>
+                  </Stack>
+
+                  <HStack
+                    w={"full"}
+                    justifyContent={"flex-end"}
+                    gap={6}
+                    mt={16}
+                  >
+                    <Button
+                      bgColor={"brand.primary"}
+                      _hover={{
+                        bgColor: "brand.hover",
+                      }}
+                      color={"#FFF"}
+                      isLoading={isLoading}
+                      onClick={() => handleSubmit(values)}
+                    >
+                      Save
+                    </Button>
+                  </HStack>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+          <br />
+          <br />
+          <Text mb={8} fontWeight={"semibold"} fontSize={"lg"}>
+            Permissions
+          </Text>
+          {user?.roles[0]?.name == "admin" ? (
+            <ManageAdminPermissions userId={id} />
+          ) : (
+            <ManageMemberPermissions
+              userId={id}
+              isRetailer={user?.roles[0]?.name === "retailer"}
+            />
+          )}
+        </>
       ) : null}
     </>
   );

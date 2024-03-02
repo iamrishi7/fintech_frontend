@@ -4,21 +4,21 @@ import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { FormControl, FormLabel, Select, SelectProps } from "@chakra-ui/react";
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 
-interface SelectPlanProps {
+interface SelectDistributorProps {
   placeholder?: string;
   onChange: SelectProps["onChange"];
   name?: SelectProps["name"];
   variant?: "floating" | "none";
-  value?: string | number
+  value?: string | number;
 }
 
-const SelectPlan = ({
+const SelectDistributor = ({
   placeholder,
   onChange,
   name,
   variant,
-  value
-}: SelectPlanProps) => {
+  value,
+}: SelectDistributorProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
@@ -33,7 +33,7 @@ const SelectPlan = ({
 
   async function fetchData() {
     try {
-      const res = await API.adminGetPlans();
+      const res = await API.adminGetUsers({role:"distributor"});
       setData(res.data);
     } catch (error) {
       handleError({
@@ -46,7 +46,7 @@ const SelectPlan = ({
   return (
     <>
       <FormControl maxW={["full", "xs"]} variant={variant || "floating"}>
-        {variant == "none" ? <FormLabel>Commission Plan</FormLabel> : null}
+        {variant == "none" ? <FormLabel>Select Distributor</FormLabel> : null}
         <Select
           name={name}
           placeholder={placeholder || "Please select"}
@@ -59,10 +59,10 @@ const SelectPlan = ({
             </option>
           ))}
         </Select>
-        {variant == "floating" ? <FormLabel>Commission Plan</FormLabel> : null}
+        {variant == "floating" ? <FormLabel>Select Distributor</FormLabel> : null}
       </FormControl>
     </>
   );
 };
 
-export default SelectPlan;
+export default SelectDistributor;
