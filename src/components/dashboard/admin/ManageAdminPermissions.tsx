@@ -14,15 +14,19 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 
 interface ManageAdminPermissionsProps {
-  userId: string;
+  userId?: string;
+  roleId?: string | number;
 }
 
-const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
+const ManageAdminPermissions = ({
+  userId,
+  roleId,
+}: ManageAdminPermissionsProps) => {
   const { handleError } = useErrorHandler();
   const ref = useRef(true);
 
   const [allPermissions, setAllPermissions] = useState([]);
-  const [userPermissions, setUserPermissions] = useState([]);
+  const [allowedPermissions, setAllowedPermissions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -31,6 +35,28 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
       fetchData();
     }
   }, []);
+
+  useEffect(() => {
+    if (roleId) {
+      fetchRolePermissions();
+    } else if (userId) {
+      fetchUserPermissions();
+    }
+  }, [userId, roleId]);
+
+  async function fetchData() {
+    try {
+      const res = await API.adminGetAllPermissions();
+      setAllPermissions(
+        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+      );
+    } catch (error) {
+      handleError({
+        title: "Error while getting permissions",
+        error: error,
+      });
+    }
+  }
 
   async function updatePermissions(data: any) {
     try {
@@ -42,10 +68,24 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
     }
   }
 
-  async function fetchData() {
+  async function fetchUserPermissions() {
     try {
-      const res = await API.adminGetAllPermissions();
-      setAllPermissions(
+      const res = await API.adminGetUserPermissions(userId);
+      setAllowedPermissions(
+        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+      );
+    } catch (error) {
+      handleError({
+        title: "Error while getting permissions",
+        error: error,
+      });
+    }
+  }
+
+  async function fetchRolePermissions() {
+    try {
+      const res = await API.adminGetRolePermissions(roleId);
+      setAllowedPermissions(
         res.data?.filter((item: any) => item?.name?.includes("admin_"))
       );
     } catch (error) {
@@ -82,7 +122,7 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                   direction={["row"]}
                   alignItems={"flex-start"}
                   justifyContent={"flex-start"}
-                  flexWrap={'wrap'}
+                  flexWrap={"wrap"}
                 >
                   {allPermissions
                     ?.filter(
@@ -93,6 +133,7 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                     ?.map((item: any, key) => (
                       <Checkbox
                         key={key}
+                        minW={["full", "sm"]}
                         textTransform={"capitalize"}
                         value={item?.name}
                       >
@@ -111,13 +152,14 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                   direction={["row"]}
                   alignItems={"flex-start"}
                   justifyContent={"flex-start"}
-                  flexWrap={'wrap'}
+                  flexWrap={"wrap"}
                 >
                   {allPermissions
                     ?.filter((item: any) => item?.name?.includes("portal"))
                     ?.map((item: any, key) => (
                       <Checkbox
                         key={key}
+                        minW={["full", "sm"]}
                         textTransform={"capitalize"}
                         value={item?.name}
                       >
@@ -136,7 +178,7 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                   direction={["row"]}
                   alignItems={"flex-start"}
                   justifyContent={"flex-start"}
-                  flexWrap={'wrap'}
+                  flexWrap={"wrap"}
                 >
                   {allPermissions
                     ?.filter(
@@ -147,6 +189,7 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                     ?.map((item: any, key) => (
                       <Checkbox
                         key={key}
+                        minW={["full", "sm"]}
                         textTransform={"capitalize"}
                         value={item?.name}
                       >
@@ -165,13 +208,14 @@ const ManageAdminPermissions = ({ userId }: ManageAdminPermissionsProps) => {
                   direction={["row"]}
                   alignItems={"flex-start"}
                   justifyContent={"flex-start"}
-                  flexWrap={'wrap'}
+                  flexWrap={"wrap"}
                 >
                   {allPermissions
                     ?.filter((item: any) => item?.name?.includes("report"))
                     ?.map((item: any, key) => (
                       <Checkbox
                         key={key}
+                        minW={["full", "sm"]}
                         textTransform={"capitalize"}
                         value={item?.name}
                       >

@@ -1,5 +1,8 @@
 "use client";
+import ManageAdminPermissions from "@/components/dashboard/admin/ManageAdminPermissions";
+import ManageMemberPermissions from "@/components/dashboard/admin/ManageMemberPermissions";
 import PortalBanks from "@/components/dashboard/main/admin/PortalBanks";
+import CustomTabs from "@/components/misc/CustomTabs";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
@@ -47,10 +50,14 @@ const page = () => {
   const [data, setData] = useState<any>(null);
   const [rawData, setRawData] = useState<any>(null);
 
+  const [roles, setRoles] = useState([]);
+  const [selectedRole, setSelectedRole] = useState("");
+
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
       getSettings();
+      getRoles();
     }
   }, []);
 
@@ -83,6 +90,18 @@ const page = () => {
     } catch (error) {
       handleError({
         title: "Error while getting settings",
+        error: error,
+      });
+    }
+  }
+
+  async function getRoles() {
+    try {
+      const res = await API.adminGetAllRoles();
+      setRoles(res.data);
+    } catch (error) {
+      handleError({
+        title: "Error while getting roles",
         error: error,
       });
     }
@@ -412,6 +431,47 @@ const page = () => {
           </HStack>
         </VStack>
       </Box>
+
+      <br />
+
+      <Heading as={"h1"} fontSize={"xl"} mb={8}>
+        Default Admin Permissions
+      </Heading>
+      <ManageAdminPermissions
+        roleId={roles?.find((role: any) => role?.name == "admin")?.id}
+      />
+
+      <br />
+
+      <Stack
+        direction={["column", "row"]}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        mb={8}
+      >
+        <Heading as={"h1"} fontSize={"xl"}>
+          Default User Permissions
+        </Heading>
+        {roles?.length ? (
+          <CustomTabs
+            tabList={roles
+              ?.filter((role: any) => role?.name != "admin")
+              ?.map((role: any) => ({
+                id: role?.id,
+                label: role?.name?.replace(/_/g, " "),
+              }))}
+            defaultValue={selectedRole}
+            onChange={(value) => setSelectedRole(value)}
+          />
+        ) : null}
+      </Stack>
+      <ManageMemberPermissions
+        roleId={selectedRole}
+        isRetailer={
+          roles?.find((role: any) => role?.id == selectedRole)?.name ===
+          "retailer"
+        }
+      />
     </>
   );
 };

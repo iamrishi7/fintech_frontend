@@ -244,6 +244,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminGetUserPermissions: async (id) => {
+    let res = await API.execute(`/admin/manage-user/permissions/${id}`, "GET");
+    return API.processResponse(res);
+  },
+
   adminPendingFundRequests: async (query, url) => {
     let res = await API.execute(
       url ||
@@ -322,6 +327,14 @@ export const API = {
 
   adminGetAllPermissions: async () => {
     let res = await API.execute(`/admin/manage-access/permissions`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminGetRolePermissions: async (id) => {
+    let res = await API.execute(
+      `/admin/manage-access/role-permissions/${id}`,
+      "GET"
+    );
     return API.processResponse(res);
   },
 };

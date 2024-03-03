@@ -14,19 +14,21 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 
 interface ManageMemberPermissionsProps {
-  userId: string;
+  userId?: string;
   isRetailer?: boolean;
+  roleId?: string | number;
 }
 
 const ManageMemberPermissions = ({
   userId,
   isRetailer,
+  roleId
 }: ManageMemberPermissionsProps) => {
   const { handleError } = useErrorHandler();
   const ref = useRef(true);
 
   const [allPermissions, setAllPermissions] = useState([]);
-  const [userPermissions, setUserPermissions] = useState([]);
+  const [allowedPermissions, setAllowedPermissions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -35,6 +37,14 @@ const ManageMemberPermissions = ({
       fetchData();
     }
   }, []);
+
+  useEffect(() => {
+    if (roleId) {
+      fetchRolePermissions();
+    } else if (userId) {
+      fetchUserPermissions();
+    }
+  }, [userId, roleId]);
 
   async function updatePermissions(data: any) {
     try {
@@ -51,6 +61,34 @@ const ManageMemberPermissions = ({
       const res = await API.adminGetAllPermissions();
       setAllPermissions(
         res.data?.filter((item: any) => item?.name?.includes("user_"))
+      );
+    } catch (error) {
+      handleError({
+        title: "Error while getting permissions",
+        error: error,
+      });
+    }
+  }
+  
+  async function fetchUserPermissions() {
+    try {
+      const res = await API.adminGetUserPermissions(userId);
+      setAllowedPermissions(
+        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+      );
+    } catch (error) {
+      handleError({
+        title: "Error while getting permissions",
+        error: error,
+      });
+    }
+  }
+
+  async function fetchRolePermissions() {
+    try {
+      const res = await API.adminGetRolePermissions(roleId);
+      setAllowedPermissions(
+        res.data?.filter((item: any) => item?.name?.includes("admin_"))
       );
     } catch (error) {
       handleError({
@@ -107,31 +145,6 @@ const ManageMemberPermissions = ({
                     </Stack>
                   </>
                 )}
-                <br />
-                <Text fontSize={"xs"} color={"gray.600"} mb={6}>
-                  Funds Related Permissions
-                </Text>
-                <Stack
-                  gap={8}
-                  mb={8}
-                  direction={["row"]}
-                  alignItems={"flex-start"}
-                  justifyContent={"flex-start"}
-                  flexWrap={"wrap"}
-                >
-                  {allPermissions
-                    ?.filter((item: any) => item?.name?.includes("fund"))
-                    ?.map((item: any, key) => (
-                      <Checkbox
-                        key={key}
-                        minW={["full", "sm"]}
-                        textTransform={"capitalize"}
-                        value={item?.name}
-                      >
-                        {item?.name?.replace("user_", "")?.replace(/_/g, " ")}
-                      </Checkbox>
-                    ))}
-                </Stack>
 
                 <br />
                 <Text fontSize={"xs"} color={"gray.600"} mb={6}>
@@ -148,7 +161,8 @@ const ManageMemberPermissions = ({
                   {allPermissions
                     ?.filter(
                       (item: any) =>
-                        item?.name?.includes("transaction") ||
+                        (item?.name?.includes("transaction") &&
+                          !item?.name?.includes("report")) ||
                         item?.name?.includes("service")
                     )
                     ?.map((item: any, key) => (
