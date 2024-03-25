@@ -9,6 +9,7 @@ import {
   HStack,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
@@ -22,10 +23,11 @@ interface ManageMemberPermissionsProps {
 const ManageMemberPermissions = ({
   userId,
   isRetailer,
-  roleId
+  roleId,
 }: ManageMemberPermissionsProps) => {
   const { handleError } = useErrorHandler();
   const ref = useRef(true);
+  const Toast = useToast();
 
   const [allPermissions, setAllPermissions] = useState([]);
   const [allowedPermissions, setAllowedPermissions] = useState([]);
@@ -47,8 +49,21 @@ const ManageMemberPermissions = ({
   }, [userId, roleId]);
 
   async function updatePermissions(data: any) {
+    setIsLoading(true);
     try {
+      if (userId) {
+        await API.adminUpdateUserPermissions(userId, allowedPermissions);
+      }
+      if (roleId) {
+        await API.adminUpdateRolePermissions(roleId, allowedPermissions);
+      }
+      Toast({
+        status: "success",
+        description: "Permissions updated successfully!",
+      });
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       handleError({
         title: "Error while updating permissions",
         error: error,
@@ -69,12 +84,12 @@ const ManageMemberPermissions = ({
       });
     }
   }
-  
+
   async function fetchUserPermissions() {
     try {
       const res = await API.adminGetUserPermissions(userId);
       setAllowedPermissions(
-        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+        res.data?.filter((item: any) => item?.name?.includes("user_"))
       );
     } catch (error) {
       handleError({
@@ -88,7 +103,9 @@ const ManageMemberPermissions = ({
     try {
       const res = await API.adminGetRolePermissions(roleId);
       setAllowedPermissions(
-        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+        res.data
+          ?.filter((item: any) => item?.name?.includes("user_"))
+          ?.map((item: any) => item?.name)
       );
     } catch (error) {
       handleError({
@@ -110,7 +127,10 @@ const ManageMemberPermissions = ({
         >
           {({ values, handleChange, handleSubmit, errors }) => (
             <Form onSubmit={handleSubmit}>
-              <CheckboxGroup>
+              <CheckboxGroup
+                value={allowedPermissions}
+                onChange={(values) => setAllowedPermissions(values)}
+              >
                 <Text fontSize={"sm"} fontWeight={"medium"} mb={4}>
                   MEMBER PANEL PERMISSIONS
                 </Text>

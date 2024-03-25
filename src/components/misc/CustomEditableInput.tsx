@@ -4,20 +4,20 @@ import React, { FC } from "react";
 
 interface CustomEditableInputProps {
   defaultValue?: string;
-  onBlur?: (value: any) => void;
+  onSubmit?: (value: any) => void;
   onChange?: (value: string) => void;
   width?: InputProps['width']
 }
 
 const CustomEditableInput: FC<CustomEditableInputProps> = ({
   defaultValue,
-  onBlur,
+  onSubmit,
   onChange,
   width
 }) => {
   return (
     <>
-      <Editable defaultValue={defaultValue} w={width || 'auto'}>
+      <Editable defaultValue={defaultValue} w={width || 'auto'} onSubmit={onSubmit}>
         <EditablePreview w={'full'} />
         <EditableInput />
       </Editable>

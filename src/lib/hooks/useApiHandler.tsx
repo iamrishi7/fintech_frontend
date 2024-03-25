@@ -33,8 +33,30 @@ const useApiHandler = () => {
       });
   };
 
+  const userUploadMedia = async ({ file, type }: UploadMediaProps) => {
+    await FormAxios.post(
+      `/user/upload-document`,
+      {
+        file: file,
+        document_type: type,
+      }
+    )
+      .then((res) => {
+        return true;
+      })
+      .catch((err) => {
+        Toast({
+          status: "error",
+          title: `Could not upload ${type}`,
+          description:
+            err?.response?.data?.message || err?.response?.data || err?.message,
+        });
+      });
+  };
+
   return {
     adminUploadMedia,
+    userUploadMedia
   };
 };
 

@@ -9,6 +9,7 @@ import {
   HStack,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
@@ -24,6 +25,7 @@ const ManageAdminPermissions = ({
 }: ManageAdminPermissionsProps) => {
   const { handleError } = useErrorHandler();
   const ref = useRef(true);
+  const Toast = useToast();
 
   const [allPermissions, setAllPermissions] = useState([]);
   const [allowedPermissions, setAllowedPermissions] = useState([]);
@@ -59,8 +61,21 @@ const ManageAdminPermissions = ({
   }
 
   async function updatePermissions(data: any) {
+    setIsLoading(true);
     try {
+      if (userId) {
+        await API.adminUpdateUserPermissions(userId, allowedPermissions);
+      }
+      if (roleId) {
+        await API.adminUpdateRolePermissions(roleId, allowedPermissions);
+      }
+      Toast({
+        status: "success",
+        description: "Permissions updated successfully!",
+      });
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       handleError({
         title: "Error while updating permissions",
         error: error,
@@ -72,7 +87,9 @@ const ManageAdminPermissions = ({
     try {
       const res = await API.adminGetUserPermissions(userId);
       setAllowedPermissions(
-        res.data?.filter((item: any) => item?.name?.includes("admin_"))
+        res.data
+          ?.filter((item: any) => item?.name?.includes("admin_"))
+          ?.map((item: any) => item?.name)
       );
     } catch (error) {
       handleError({
@@ -108,7 +125,10 @@ const ManageAdminPermissions = ({
         >
           {({ values, handleChange, handleSubmit, errors }) => (
             <Form onSubmit={handleSubmit}>
-              <CheckboxGroup>
+              <CheckboxGroup
+                value={allowedPermissions}
+                onChange={(values) => setAllowedPermissions(values)}
+              >
                 <Text fontSize={"sm"} fontWeight={"medium"} mb={4}>
                   ADMIN PANEL PERMISSIONS
                 </Text>

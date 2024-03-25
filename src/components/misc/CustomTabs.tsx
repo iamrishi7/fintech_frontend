@@ -1,6 +1,6 @@
 "use client";
 import { Button, HStack, ButtonProps, BoxProps } from "@chakra-ui/react";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 interface TabItem {
   label: string;
@@ -10,7 +10,7 @@ interface TabItem {
 
 interface CustomTabsProps {
   tabList: TabItem[];
-  defaultValue?: string | number | boolean;
+  defaultValue?: TabItem["id"];
   onChange: (tabId: string | number | boolean) => void;
   size?: ButtonProps["size"];
   boxShadow?: BoxProps["boxShadow"];
@@ -23,18 +23,19 @@ const CustomTabs: FC<CustomTabsProps> = ({
   size,
   boxShadow,
   w,
-  defaultValue
+  defaultValue,
 }) => {
-  const [activeTab, setActiveTab] = useState<string | number | boolean>("");
+  const [activeTab, setActiveTab] = useState<string | number | boolean>(
+    defaultValue
+  );
 
   useEffect(() => {
-    if(activeTab){
-      onChange(activeTab)
+    if (!defaultValue && tabList.length > 0) {
+      setActiveTab(tabList[0]?.id);
+    } else {
+      setActiveTab(defaultValue);
     }
-    else{
-      setActiveTab(defaultValue ? defaultValue : tabList[0]?.isDisabled ? tabList[1]?.id : tabList[0]?.id)
-    }
-  }, [activeTab])
+  }, [defaultValue]);
 
   return (
     <>
@@ -47,7 +48,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
         overflowX={"scroll"}
         justifyContent={"center"}
         className="hide-scrollbar"
-        maxW={['full', 'auto']}
+        maxW={["full", "auto"]}
       >
         {tabList?.map((item, key) => (
           <Button
@@ -58,7 +59,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
             _hover={{
               bgColor: activeTab == item?.id ? "brand.hover" : "gray.100",
             }}
-            onClick={() => setActiveTab(item?.id)}
+            onClick={() => onChange(item?.id)}
             size={size ?? "md"}
             isDisabled={item?.isDisabled}
             textTransform={"capitalize"}

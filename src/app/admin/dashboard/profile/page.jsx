@@ -2,7 +2,10 @@
 import PasswordUpdateForm from "@/components/dashboard/profile/PasswordUpdateForm";
 import PinUpdateForm from "@/components/dashboard/profile/PinUpdateForm";
 import FileDropzone from "@/components/misc/FileDropzone";
+import { API } from "@/lib/api";
+import useApiHandler from "@/lib/hooks/useApiHandler";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API_BASE_URL } from "@/lib/utils/constants";
 import {
   Box,
   Button,
@@ -15,9 +18,10 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsCamera } from "react-icons/bs";
 
 const FormSubheading = ({ title }) => {
@@ -36,7 +40,11 @@ const FormSubheading = ({ title }) => {
 };
 
 const page = () => {
+  const ref = useRef(true)
+  const Toast = useToast();
   const { handleError } = useErrorHandler();
+  const { adminUploadMedia } = useApiHandler();
+
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -64,10 +72,41 @@ const page = () => {
     }
   };
 
-  async function handleFormSubmit(values) {
-    setIsLoading(true);
+  useEffect(() => {
+    if(ref.current){
+      ref.current = false
+      fetchInfo();
+    }
+  }, []);
+
+  async function fetchInfo() {
     try {
+      const res = await API.me();
+      setUser(res?.user);
+    } catch (error) {
+      handleError({
+        error: error,
+        title: "Error while fetching your info",
+      });
+    }
+  }
+
+  async function handleFormSubmit(data) {
+    setIsLoading(true);
+    if (avatar) {
+      await adminUploadMedia({
+        file: avatar,
+        type: "avatar",
+        userId: user?.id,
+      });
+    }
+    try {
+      await API.updateMe(data);
       setIsLoading(false);
+      Toast({
+        status: "success",
+        description: "Details were updated successfully!",
+      });
     } catch (error) {
       setIsLoading(false);
       handleError({ title: "Couldn't submit your details", error: error });
@@ -97,7 +136,18 @@ const page = () => {
             borderColor={"gray.50"}
           >
             <Image
-              src={avatarPreview ?? user?.avatar ?? "/avatar.webp"}
+              src={
+                avatarPreview
+                  ? avatarPreview
+                  : user?.documents?.find(
+                      (doc) => doc?.document_type == "avatar"
+                    )
+                  ? API_BASE_URL.replace("/api", "/") +
+                    user?.documents?.find(
+                      (doc) => doc?.document_type == "avatar"
+                    )?.address
+                  : "/avatar.webp"
+              }
               boxSize={"inherit"}
               objectFit={"cover"}
             />
@@ -140,128 +190,106 @@ const page = () => {
             </Text>
           )}
         </VStack>
-        <Formik
-          initialValues={{
-            first_name: user?.first_name,
-            middle_name: user?.middle_name,
-            last_name: user?.last_name,
-          }}
-          onSubmit={(values) => handleFormSubmit(values)}
-        >
-          {({ values, handleChange, handleSubmit, errors }) => (
-            <Form onSubmit={handleSubmit}>
-              <FormSubheading title={"Basic Details"} />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                mt={4}
-              >
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="first_name" type="text" placeholder=" " />
-                  <FormLabel>First Name</FormLabel>
-                </FormControl>
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="middle_name" type="text" placeholder=" " />
-                  <FormLabel>Middle Name</FormLabel>
-                </FormControl>
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="last_name" type="text" placeholder=" " />
-                  <FormLabel>Last Name</FormLabel>
-                </FormControl>
-              </Stack>
 
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                mt={4}
-              >
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="email" type="email" placeholder=" " />
-                  <FormLabel>Email</FormLabel>
-                </FormControl>
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input
-                    name="phone"
-                    type="tel"
-                    maxLength={10}
-                    placeholder=" "
-                  />
-                  <FormLabel>Phone</FormLabel>
-                </FormControl>
-              </Stack>
-
-              <FormSubheading title={"KYC Details"} />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                mt={4}
-              >
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="aadhaar_number" type="text" placeholder=" " />
-                  <FormLabel>Aadhaar No.</FormLabel>
-                </FormControl>
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="pan" type="text" placeholder=" " />
-                  <FormLabel>PAN</FormLabel>
-                </FormControl>
-              </Stack>
-
-              <FormSubheading title={"Upload Documents"} />
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                gap={8}
-                mb={8}
-                mt={4}
-              >
-                <Box w={["full", "xs"]}>
-                  <FileDropzone
-                    onUpload={(files) => console.log(files)}
-                    accept="image/*,application/pdf"
-                    label="Aadhaar Front"
-                    height={32}
-                  />
-                </Box>
-                <Box w={["full", "xs"]}>
-                  <FileDropzone
-                    onUpload={(files) => console.log(files)}
-                    accept="image/*,application/pdf"
-                    label="Aadhaar Back"
-                    height={32}
-                  />
-                </Box>
-                <Box w={["full", "xs"]}>
-                  <FileDropzone
-                    onUpload={(files) => console.log(files)}
-                    accept="image/*,application/pdf"
-                    label="PAN Card"
-                    height={32}
-                  />
-                </Box>
-              </Stack>
-
-              <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
-                <Button
-                  bgColor={"brand.primary"}
-                  _hover={{
-                    bgColor: "brand.hover",
-                  }}
-                  color={"#FFF"}
-                  isLoading={isLoading}
-                  onClick={() => handleSubmit(values)}
+        {user ? (
+          <Formik
+            initialValues={{
+              first_name: user?.first_name,
+              middle_name: user?.middle_name,
+              last_name: user?.last_name,
+              phone_number: user?.phone_number,
+            }}
+            onSubmit={(values) => handleFormSubmit(values)}
+          >
+            {({ values, handleChange, handleSubmit, errors }) => (
+              <Form onSubmit={handleSubmit}>
+                <FormSubheading title={"Basic Details"} />
+                <Stack
+                  w={"full"}
+                  direction={["column", "row"]}
+                  gap={8}
+                  mb={8}
+                  mt={4}
                 >
-                  Save
-                </Button>
-              </HStack>
-            </Form>
-          )}
-        </Formik>
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="first_name"
+                      type="text"
+                      placeholder=" "
+                      value={values.first_name}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>First Name</FormLabel>
+                  </FormControl>
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="middle_name"
+                      type="text"
+                      placeholder=" "
+                      value={values.middle_name}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>Middle Name</FormLabel>
+                  </FormControl>
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="last_name"
+                      type="text"
+                      placeholder=" "
+                      value={values.last_name}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>Last Name</FormLabel>
+                  </FormControl>
+                </Stack>
+
+                <Stack
+                  w={"full"}
+                  direction={["column", "row"]}
+                  gap={8}
+                  mb={8}
+                  mt={4}
+                >
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="email"
+                      type="email"
+                      placeholder=" "
+                      value={user?.email}
+                      isDisabled={true}
+                    />
+                    <FormLabel>Email</FormLabel>
+                  </FormControl>
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="phone_number"
+                      type="tel"
+                      maxLength={10}
+                      placeholder=" "
+                      value={values?.phone_number}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>Phone</FormLabel>
+                  </FormControl>
+                </Stack>
+
+                <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
+                  <Button
+                    bgColor={"brand.primary"}
+                    _hover={{
+                      bgColor: "brand.hover",
+                    }}
+                    color={"#FFF"}
+                    isLoading={isLoading}
+                    onClick={() => handleSubmit(values)}
+                  >
+                    Save
+                  </Button>
+                </HStack>
+              </Form>
+            )}
+          </Formik>
+        ) : null}
       </Box>
 
       <br />

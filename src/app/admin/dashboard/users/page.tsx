@@ -77,8 +77,8 @@ const page = () => {
     setIsLoading(true);
     try {
       const res = await API.adminGetUsers({ role: role, ...values }, url);
-      setData(res.data);
-      setPages(res.links);
+      setData(res?.data);
+      setPages(res?.meta?.links);
       setIsLoading(false);
     } catch (error) {
       handleError({ title: "Error while fetching transactions", error: error });

@@ -66,7 +66,7 @@ const RecentPayouts = () => {
                 <Td borderBottom={0}>-</Td>
                 <Td borderBottom={0}>
                   <HStack gap={4} w={"full"} justifyContent={"center"}>
-                    <ReceiptButton />
+                    <ReceiptButton data={item} />
                     {/* <IconButton
                           aria-label="reject"
                           size={"xs"}

@@ -55,7 +55,7 @@ const PendingFundRequests = ({
     }
     if (parentData) {
       setData(parentData?.data);
-      setPages(parentData?.links);
+      setPages(parentData?.meta?.links);
     }
   }, []);
 

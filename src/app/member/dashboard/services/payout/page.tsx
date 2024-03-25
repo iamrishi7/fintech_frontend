@@ -1,7 +1,9 @@
 "use client";
-import PinDrawer from "@/components/dashboard/misc/PinDrawer";
+import PinModal from "@/components/dashboard/misc/PinModal";
+import PinDrawer from "@/components/dashboard/misc/PinModal";
 import RecentPayouts from "@/components/dashboard/services/RecentPayouts";
 import CustomTabs from "@/components/misc/CustomTabs";
+import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
 import {
   Box,
   Button,
@@ -14,40 +16,42 @@ import {
   NumberInputField,
   Stack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 
 const page = () => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
   const ref = useRef(true);
+  const Toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<any>(null);
   const [provider, setProvider] = useState<string | number | boolean>(
     "razorpay"
   );
   const [availableProviders, setAvailableProviders] = useState<any>(null);
-  const [formData, setFormData] = useState<null | object>(null);
-
-  async function handleFormSubmit() {
-    setIsLoading(true);
-    try {
-      setIsLoading(false);
-    } catch (error) {}
-    setIsLoading(false);
-  }
 
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(
-        localStorage.getItem("services")
-      );
+      const data = JSON.parse(localStorage.getItem("services"));
       if (data) {
         setAvailableProviders(data);
       }
     }
   }, []);
+
+  function handleFormSubmit(values: any) {
+    if (values?.account_number != values?.confirm_account_number) {
+      Toast({
+        description: "Account numbers don't match",
+      });
+      return;
+    }
+    setFormData({ ...values, provider: provider });
+    onOpen();
+  }
 
   return (
     <>
@@ -89,10 +93,7 @@ const page = () => {
             amount: "",
             provider: provider,
           }}
-          onSubmit={(values) => {
-            setFormData(values);
-            onOpen();
-          }}
+          onSubmit={console.log}
         >
           {({ values, handleChange, handleSubmit, handleReset, errors }) => (
             <Form onSubmit={handleSubmit}>
@@ -158,8 +159,7 @@ const page = () => {
                     bgColor: "brand.hover",
                   }}
                   color={"#FFF"}
-                  isLoading={isLoading}
-                  type="submit"
+                  onClick={() => handleFormSubmit(values)}
                 >
                   Submit
                 </Button>
@@ -177,11 +177,11 @@ const page = () => {
       </Heading>
       <RecentPayouts />
 
-      <PinDrawer
+      <PinModal
         isOpen={isOpen}
         onClose={onClose}
-        onSubmit={handleFormSubmit}
-        isLoading={isLoading}
+        type="payout"
+        formData={formData}
       />
     </>
   );

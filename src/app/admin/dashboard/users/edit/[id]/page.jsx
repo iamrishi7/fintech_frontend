@@ -345,6 +345,7 @@ const page = ({ params }) => {
                         placeholder=" "
                         value={values?.email}
                         onChange={handleChange}
+                        isDisabled={true}
                       />
                       <FormLabel>Email</FormLabel>
                     </FormControl>

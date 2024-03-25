@@ -63,7 +63,7 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
     <>
       <Box>
         <Tabs>
-          <TabList>
+          <TabList overflowX={'scroll'} className="hide-scrollbar">
             {services?.map((item, key) => (
               <Tab key={key} fontSize={"sm"}>
                 {item?.label}
@@ -72,19 +72,19 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <AepsWithdrawalSchema />
+              <AepsWithdrawalSchema packageId={packageId} />
             </TabPanel>
             <TabPanel>
-              <AepsMiniStatementSchema />
+              <AepsMiniStatementSchema packageId={packageId} />
             </TabPanel>
             <TabPanel>
               <BillPaySchema />
             </TabPanel>
             <TabPanel>
-              <DmtSchema />
+              <DmtSchema packageId={packageId} />
             </TabPanel>
             <TabPanel>
-              <PayoutSchema />
+              <PayoutSchema packageId={packageId} />
             </TabPanel>
             <TabPanel>
               <LicSchema />
@@ -93,7 +93,7 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
               <p>PAN WIP</p>
             </TabPanel>
             <TabPanel>
-              <CmsSchema />
+              <CmsSchema packageId={packageId} />
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -9,7 +9,8 @@ interface SelectRoleProps {
   onChange: SelectProps["onChange"];
   name?: SelectProps["name"];
   variant?: "floating" | "none";
-  value?: string | number
+  value?: string | number;
+  showAdmin?: boolean;
 }
 
 const SelectRole = ({
@@ -17,7 +18,8 @@ const SelectRole = ({
   onChange,
   name,
   variant,
-  value
+  value,
+  showAdmin = true,
 }: SelectRoleProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
@@ -46,18 +48,30 @@ const SelectRole = ({
   return (
     <>
       <FormControl maxW={["full", "xs"]} variant={variant || "floating"}>
-        {variant == "none" ? <FormLabel>Select Role</FormLabel> : null}
+        {variant != "floating" ? <FormLabel>Select Role</FormLabel> : null}
         <Select
           name={name}
           placeholder={placeholder || "Please select"}
           value={value}
           onChange={onChange}
+          textTransform={"capitalize"}
         >
-          {data?.map((item: any, key: number) => (
-            <option value={item?.id} key={key}>
-              {item?.name}
-            </option>
-          ))}
+          {data?.map((item: any, key: number) => {
+            if (showAdmin) {
+              return (
+                <option value={item?.id} key={key}>
+                  {item?.name?.replace("_", " ")}
+                </option>
+              );
+            }
+            if (!showAdmin && item?.name != "admin") {
+              return (
+                <option value={item?.id} key={key}>
+                  {item?.name?.replace("_", " ")}
+                </option>
+              );
+            }
+          })}
         </Select>
         {variant == "floating" ? <FormLabel>Select Role</FormLabel> : null}
       </FormControl>

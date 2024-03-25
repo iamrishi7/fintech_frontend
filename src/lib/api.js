@@ -49,6 +49,7 @@ export const API = {
     });
 
     if (res.status == 401) {
+      await fetch(`/api/logout`);
       window.location.replace("/auth/login");
     }
 
@@ -134,7 +135,7 @@ export const API = {
   },
 
   updateMe: async (data) => {
-    let res = await API.execute("/users/update/me", "PUT", data);
+    let res = await API.execute("/user/update", "PUT", data);
     return API.processResponse(res);
   },
 
@@ -185,6 +186,13 @@ export const API = {
         }`,
       "GET"
     );
+    return API.processResponse(res);
+  },
+
+  // Transaction Related APIs
+
+  doPayout: async (data) => {
+    let res = await API.execute(`/user/services/payout`, "POST", data);
     return API.processResponse(res);
   },
 
@@ -246,6 +254,15 @@ export const API = {
 
   adminGetUserPermissions: async (id) => {
     let res = await API.execute(`/admin/manage-user/permissions/${id}`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminUpdateUserPermissions: async (id, data) => {
+    let res = await API.execute(
+      `/admin/manage-access/sync-user-permissions/${id}`,
+      "PUT",
+      data
+    );
     return API.processResponse(res);
   },
 
@@ -334,6 +351,51 @@ export const API = {
     let res = await API.execute(
       `/admin/manage-access/role-permissions/${id}`,
       "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminUpdateRolePermissions: async (id, data) => {
+    let res = await API.execute(
+      `/admin/manage-access/sync-role-permissions/${id}`,
+      "PUT",
+      data
+    );
+    return API.processResponse(res);
+  },
+
+  // Commission related APIs
+
+  adminGetCommission: async (packageId, roleId, service, serviceType) => {
+    let res = await API.execute(
+      `/admin/commissions/get-commission/${packageId}?service=${service}&role_id=${roleId}&service_type=${serviceType}`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminCreateCommission: async (data) => {
+    let res = await API.execute(
+      `/admin/commissions/create-commission`,
+      "POST",
+      data
+    );
+    return API.processResponse(res);
+  },
+
+  adminUpdateCommission: async (id, service, data) => {
+    let res = await API.execute(
+      `/admin/commissions/update-commission/${id}?service=${service}`,
+      "PUT",
+      data
+    );
+    return API.processResponse(res);
+  },
+
+  adminDeleteCommission: async (id, service) => {
+    let res = await API.execute(
+      `/admin/commissions/update-commission/${id}?service=${service}`,
+      "DELETE"
     );
     return API.processResponse(res);
   },

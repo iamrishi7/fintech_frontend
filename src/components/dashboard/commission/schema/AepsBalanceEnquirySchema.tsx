@@ -28,20 +28,19 @@ interface CommissionSchemaProps {
   packageId: string | number;
 }
 
-const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
-  const service = "payout";
+const AepsBalanceEnquirySchema = ({ packageId }: CommissionSchemaProps) => {
+  const service = "aeps";
+  const serviceType = "BE"
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
   const Toast = useToast();
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState("");
   const [data, setData] = useState([
     {
       plan_id: packageId,
       role_id: role,
-      from: "",
-      to: "",
       commission: "",
       is_flat: false,
       fixed_charge: "",
@@ -53,22 +52,22 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
     if (ref.current) {
       ref.current = false;
       fetchData();
-      return
+      return;
     }
-    if(role){
-      fetchData()
+    if (role) {
+      fetchData();
     }
   }, [role]);
 
   async function fetchData() {
     try {
-      setIsLoading(true)
-      setData([])
-      const res = await API.adminGetCommission(packageId, role, service);
+      setIsLoading(true);
+      setData([]);
+      const res = await API.adminGetCommission(packageId, role, service, serviceType);
       setData(res?.data);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       handleError({
         title: "Error whil fetching commission",
         error: error,
@@ -82,8 +81,6 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
         plan_id: packageId,
         role_id: role,
         service: service,
-        from: 1,
-        to: 500,
         commission: 0,
         is_flat: 1,
         fixed_charge: 0,
@@ -137,9 +134,7 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
 
   return (
     <>
-    {
-      isLoading ? <Loader text={'Loading Data'} /> : null
-    }
+      {isLoading ? <Loader text={"Loading Data"} /> : null}
       <HStack my={6} w={"full"} justifyContent={"flex-start"}>
         <SelectRole
           onChange={(e) => setRole(e.target.value)}
@@ -155,8 +150,6 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
             <Table size={"md"} variant={"striped"}>
               <Thead>
                 <Tr color={"gray.600"}>
-                  <Th>From (₹)</Th>
-                  <Th>To (₹)</Th>
                   <Th>Commission</Th>
                   <Th>Service Charge</Th>
                   <Th textAlign={"center"}>Action</Th>
@@ -166,17 +159,13 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
                 {data?.map((item: any, key) => (
                   <Tr key={key}>
                     <Td>
-                      <CustomEditableInput defaultValue={item?.from} onSubmit={value => updateCommission(item?.id, {from: value})} />
-                    </Td>
-                    <Td>
-                      <CustomEditableInput defaultValue={item?.to} onSubmit={value => updateCommission(item?.id, {to: value})} />
-                    </Td>
-                    <Td>
                       <HStack gap={4} w={"full"} justifyContent={"center"}>
                         <CustomEditableInput
                           width={"80%"}
                           defaultValue={item?.commission}
-                          onSubmit={value => updateCommission(item?.id, {commission: value})}
+                          onSubmit={(value) =>
+                            updateCommission(item?.id, { commission: value })
+                          }
                         />
                         <CustomTabs
                           defaultValue={item?.is_flat ? "flat" : "percent"}
@@ -184,7 +173,11 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
                             { id: "flat", label: "₹" },
                             { id: "percent", label: "%" },
                           ]}
-                          onChange={value => updateCommission(item?.id, {is_flat: value == "flat" ? 1 : 0})}
+                          onChange={(value) =>
+                            updateCommission(item?.id, {
+                              is_flat: value == "flat" ? 1 : 0,
+                            })
+                          }
                           size={"xs"}
                           boxShadow={"none"}
                         />
@@ -196,7 +189,9 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
                         <CustomEditableInput
                           width={"50%"}
                           defaultValue={item?.fixed_charge}
-                          onSubmit={value => updateCommission(item?.id, {fixed_charge: value})}
+                          onSubmit={(value) =>
+                            updateCommission(item?.id, { fixed_charge: value })
+                          }
                         />
                         <CustomTabs
                           defaultValue={
@@ -206,7 +201,11 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
                             { id: "flat", label: "₹" },
                             { id: "percent", label: "%" },
                           ]}
-                          onChange={value => updateCommission(item?.id, {fixed_charge_flat: value == "flat" ? 1 : 0})}
+                          onChange={(value) =>
+                            updateCommission(item?.id, {
+                              fixed_charge_flat: value == "flat" ? 1 : 0,
+                            })
+                          }
                           size={"xs"}
                           boxShadow={"none"}
                         />
@@ -231,21 +230,23 @@ const PayoutSchema = ({ packageId }: CommissionSchemaProps) => {
             </Table>
           </TableContainer>
           <br />
-          <HStack w={"full"} justifyContent={"flex-end"} mt={4}>
-            <Button
-              size={"sm"}
-              leftIcon={<FaPlus />}
-              rounded={"full"}
-              colorScheme="twitter"
-              onClick={() => createCommission()}
-            >
-              Add New Rule
-            </Button>
-          </HStack>
+          {data?.length > 0 ? null : (
+            <HStack w={"full"} justifyContent={"flex-end"} mt={4}>
+              <Button
+                size={"sm"}
+                leftIcon={<FaPlus />}
+                rounded={"full"}
+                colorScheme="twitter"
+                onClick={() => createCommission()}
+              >
+                Add Rule
+              </Button>
+            </HStack>
+          )}
         </>
       ) : null}
     </>
   );
 };
 
-export default PayoutSchema;
+export default AepsBalanceEnquirySchema;
