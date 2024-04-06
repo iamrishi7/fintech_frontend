@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -28,10 +28,20 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    const data = JSON.parse(
+      localStorage.getItem("services")
+    );
+    if (data) {
+      setServices(data);
+    }
+  }, []);
 
   async function login() {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       if (!email || !password) {
         Toast({
@@ -43,17 +53,19 @@ const Login = () => {
       const res = await API.login({ email: email, password: password });
 
       if (res?.original?.access_token?.user) {
-        const role = res?.original?.access_token?.user?.roles[0]?.name
+        const role = res?.original?.access_token?.user?.roles[0]?.name;
         const user = JSON.stringify({
           ...res?.original?.access_token?.user,
           roles: role,
         });
         localStorage.setItem("user", user);
         localStorage.setItem("role", role);
-        window.location.href = `/${role == "admin" ? "admin" : "member"}/dashboard`;
+        window.location.href = `/${
+          role == "admin" ? "admin" : "member"
+        }/dashboard`;
       }
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       Toast({
         status: "error",
         title: "Error while logging in",
@@ -134,6 +146,7 @@ const Login = () => {
                   <Link
                     fontSize={{ base: "md", sm: "md" }}
                     color={"twitter.600"}
+                    href="/auth/forgot-password"
                   >
                     Forgot password?
                   </Link>
@@ -153,9 +166,14 @@ const Login = () => {
                   Sign in
                 </Button>
                 <br />
-                <Text as={"a"} href={"/auth/signup"} color={"twitter.700"}>
-                  Don't have an account? Register here!
-                </Text>
+                {services?.find(
+                  (item) =>
+                    item?.provider == "portal" && item?.name == "allow_signup"
+                )?.status ? (
+                  <Text as={"a"} href={"/auth/signup"} color={"twitter.700"}>
+                    Don't have an account? Register here!
+                  </Text>
+                ) : null}
               </VStack>
             </VStack>
           </Stack>

@@ -29,7 +29,7 @@ const useAuth = () => {
     } finally {
       localStorage.clear();
       setUser(null);
-      // window.location.replace("/auth/login");
+      window.location.replace("/auth/login");
     }
   };
 

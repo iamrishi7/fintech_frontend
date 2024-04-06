@@ -4,9 +4,9 @@ import { FormAxios } from "@/lib/utils/axios";
 import { useToast } from "@chakra-ui/react";
 
 interface UploadMediaProps {
-  file: File;
-  type: string;
-  userId: string;
+  file?: File;
+  type?: string;
+  userId?: string;
 }
 
 const useApiHandler = () => {

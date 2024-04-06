@@ -22,9 +22,24 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
+
+interface NavbarProps {
+  allowSignup?: boolean;
+}
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const [services, setServices] = useState<any>([]);
+
+  useEffect(() => {
+    const data = JSON.parse(
+      localStorage.getItem("services")
+    );
+    if (data) {
+      setServices(data);
+    }
+  }, []);
 
   return (
     <Box>
@@ -80,26 +95,31 @@ export default function WithSubnavigation() {
             as={"a"}
             fontSize={"sm"}
             fontWeight={"semibold"}
-            color={'gray.600'}
+            color={"gray.600"}
             variant={"link"}
             href={"/auth/login"}
           >
             Sign In
           </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"brand.primary"}
-            href={"/auth/signup"}
-            _hover={{
-              bg: "brand.hover",
-            }}
-          >
-            Sign Up
-          </Button>
+          {services?.find(
+            (item: any) =>
+              item?.provider == "portal" && item?.name == "allow_signup"
+          )?.status ? (
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"brand.primary"}
+              href={"/auth/signup"}
+              _hover={{
+                bg: "brand.hover",
+              }}
+            >
+              Sign Up
+            </Button>
+          ) : null}
         </Stack>
       </Flex>
 

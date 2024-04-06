@@ -25,9 +25,9 @@ import {
 } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineHome } from "react-icons/ai";
 import {
-  BsGear,
   BsClipboardDataFill,
   BsCalendar2CheckFill,
+  BsRocketTakeoffFill,
 } from "react-icons/bs";
 import { FiMenu } from "react-icons/fi";
 import { RiFlashlightFill } from "react-icons/ri";
@@ -38,14 +38,13 @@ import {
 } from "react-icons/io5";
 import { SiRazorpay } from "react-icons/si";
 import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
-import { FaIndianRupeeSign, FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
 import ServerStatus from "@/components/dashboard/main/ServerStatus";
 import MessageRibbon from "@/components/dashboard/main/MessageRibbon";
 import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import Wallet from "@/components/dashboard/main/Wallet";
-import { IoMdLogOut } from "react-icons/io";
-import { usePathname, useRouter } from "next/navigation";
-import { PiGearSix } from "react-icons/pi";
+import { IoMdLogOut, IoMdSwitch } from "react-icons/io";
+import { usePathname } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API } from "@/lib/api";
@@ -56,6 +55,14 @@ interface LayoutProps {
 
 const Index: FC<LayoutProps> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const { authUser } = useAuth();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      authUser();
+    }
+  }, []);
 
   return (
     <>
@@ -135,7 +142,7 @@ const Index: FC<LayoutProps> = ({ children }) => {
 
 const MemberSidebarContent = ({ ...props }: BoxProps) => {
   const pathname = usePathname();
-  const { handleLogout } = useAuth();
+  const { handleLogout, user } = useAuth();
 
   return (
     <Box
@@ -185,13 +192,15 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           Dashboard
         </NavItem>
-        <NavItem
-          icon={AiOutlineTeam}
-          isActive={pathname?.split("/")?.includes("team")}
-          link={"/member/dashboard/team"}
-        >
-          Team
-        </NavItem>
+        {user?.role != "retailer" ? (
+          <NavItem
+            icon={AiOutlineTeam}
+            isActive={pathname?.split("/")?.includes("team")}
+            link={"/member/dashboard/team"}
+          >
+            Team
+          </NavItem>
+        ) : null}
         <NavItem
           icon={FaUser}
           isActive={pathname?.split("/")?.includes("profile")}
@@ -210,6 +219,15 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           SERVICES
         </Text>
+        {user?.active ? (
+          <NavItem
+            icon={BsRocketTakeoffFill}
+            isActive={pathname?.split("/")?.includes("onboard")}
+            link={"/member/dashboard/onboard"}
+          >
+            Onboard
+          </NavItem>
+        ) : null}
         <NavItem
           icon={IoFingerPrint}
           isActive={

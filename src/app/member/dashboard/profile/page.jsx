@@ -1,6 +1,7 @@
 "use client";
 import PasswordUpdateForm from "@/components/dashboard/profile/PasswordUpdateForm";
 import PinUpdateForm from "@/components/dashboard/profile/PinUpdateForm";
+import BusinessDetailsForm from "@/components/dashboard/profile/BusinessDetailsForm";
 import Loader from "@/components/global/Loader";
 import FileDropzone from "@/components/misc/FileDropzone";
 import { API } from "@/lib/api";
@@ -100,7 +101,6 @@ const page = () => {
       reader.readAsDataURL(selectedFile);
     }
   };
-
 
   async function handleFormSubmit(values) {
     setIsLoading(true);
@@ -216,8 +216,9 @@ const page = () => {
               middle_name: user?.middle_name,
               last_name: user?.last_name,
               phone_number: user?.phone_number,
-              aadhaar_number: "",
-              pan: "",
+              aadhaar_number: user?.aadhaar_number,
+              pan: user?.pan,
+              date_of_birth: user?.date_of_birth,
             }}
             onSubmit={(values) => console.log(values)}
           >
@@ -236,6 +237,7 @@ const page = () => {
                   gap={8}
                   mb={8}
                   mt={4}
+                  flexWrap={"wrap"}
                 >
                   <FormControl w={["full", "xs"]} variant={"floating"}>
                     <Input
@@ -257,6 +259,7 @@ const page = () => {
                     />
                     <FormLabel>Middle Name</FormLabel>
                   </FormControl>
+
                   <FormControl w={["full", "xs"]} variant={"floating"}>
                     <Input
                       name="last_name"
@@ -267,15 +270,18 @@ const page = () => {
                     />
                     <FormLabel>Last Name</FormLabel>
                   </FormControl>
-                </Stack>
 
-                <Stack
-                  w={"full"}
-                  direction={["column", "row"]}
-                  gap={8}
-                  mb={8}
-                  mt={4}
-                >
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="date_of_birth"
+                      type="date"
+                      placeholder=" "
+                      value={values?.date_of_birth}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>Date of Birth</FormLabel>
+                  </FormControl>
+
                   <FormControl w={["full", "xs"]} variant={"floating"}>
                     <Input
                       name="email"
@@ -286,6 +292,7 @@ const page = () => {
                     />
                     <FormLabel>Email</FormLabel>
                   </FormControl>
+
                   <FormControl w={["full", "xs"]} variant={"floating"}>
                     <Input
                       name="phone_number"
@@ -422,6 +429,9 @@ const page = () => {
           </Formik>
         ) : null}
       </Box>
+
+      <br />
+      <BusinessDetailsForm />
 
       <br />
       <PinUpdateForm />

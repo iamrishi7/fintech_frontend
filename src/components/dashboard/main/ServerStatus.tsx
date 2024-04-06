@@ -3,7 +3,7 @@ import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 const ServerStatus = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any>([]);
 
   useEffect(() => {
     const services = JSON.parse(
@@ -25,7 +25,9 @@ const ServerStatus = () => {
             <Box
               boxSize={3}
               rounded={"full"}
-              bgColor={data?.razorpay_payout ? "whatsapp.500" : "red.500"}
+              bgColor={data?.find(
+                (item: any) => item?.provider == "razorpay" && item?.name == "payout"
+              )?.status ? "whatsapp.500" : "red.500"}
             ></Box>
             <Text fontSize={"xs"}>Razorpay</Text>
           </HStack>
@@ -33,7 +35,9 @@ const ServerStatus = () => {
             <Box
               boxSize={3}
               rounded={"full"}
-              bgColor={data?.eko_api ? "whatsapp.500" : "red.500"}
+              bgColor={data?.find(
+                (item: any) => item?.provider == "eko" && item?.name == "api"
+              )?.status ? "whatsapp.500" : "red.500"}
             ></Box>
             <Text fontSize={"xs"}>Eko</Text>
           </HStack>
@@ -41,7 +45,9 @@ const ServerStatus = () => {
             <Box
               boxSize={3}
               rounded={"full"}
-              bgColor={data?.paysprint_api ? "whatsapp.500" : "red.500"}
+              bgColor={data?.find(
+                (item: any) => item?.provider == "paysprint" && item?.name == "api"
+              )?.status ? "whatsapp.500" : "red.500"}
             ></Box>
             <Text fontSize={"xs"}>Paysprint</Text>
           </HStack>

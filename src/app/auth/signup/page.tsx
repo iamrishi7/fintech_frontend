@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -18,13 +18,32 @@ import Navbar from "@/components/main/Navbar";
 import { API } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Form, Formik } from "formik";
+import Forbidden from "@/components/cms/Forbidden";
 
 const Signup = () => {
   const Toast = useToast();
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
+  const [services, setServices] = useState([]);
 
-  function validateAndRegister(values) {
+  useEffect(() => {
+    const data = JSON.parse(
+      localStorage.getItem("services")
+    );
+    if (data) {
+      setServices(data);
+    }
+  }, []);
+
+  if (
+    !services?.find(
+      (item: any) => item?.provider == "portal" && item?.name == "allow_signup"
+    )?.status
+  ) {
+    return <Forbidden />;
+  }
+
+  function validateForm(values: any) {
     if (!values?.email) {
       Toast({
         status: "warning",
@@ -46,7 +65,7 @@ const Signup = () => {
     register(values);
   }
 
-  async function register(values) {
+  async function register(values: any) {
     try {
       setLoading(true);
       const res = await API.signup(values);
@@ -109,11 +128,12 @@ const Signup = () => {
             >
               <Formik
                 initialValues={{
+                  name: "",
                   email: "",
                   password: "",
                   password_confirmation: "",
                 }}
-                onSubmit={(values) => validateAndRegister(values)}
+                onSubmit={(values) => validateForm(values)}
               >
                 {({ values, handleChange, handleSubmit, errors }) => (
                   <VStack spacing={8} w="100%">

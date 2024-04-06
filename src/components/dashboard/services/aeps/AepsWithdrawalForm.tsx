@@ -15,7 +15,7 @@ import {
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import $ from "jquery";
-import PinModal from "../misc/PinModal";
+import PinModal from "../../misc/PinModal";
 
 interface AepsWithdrawalFormProps {
   provider: string | number | boolean;

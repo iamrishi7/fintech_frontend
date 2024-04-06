@@ -10,6 +10,7 @@ import {
   IconButton,
   Input,
   Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
@@ -47,7 +48,7 @@ const RecentFundRequests = ({
     try {
       const res = await API.fundRequests(url);
       setData(res?.data);
-      setPages(res?.links);
+      setPages(res?.meta?.links);
     } catch (error) {
       handleError({ title: "Couldn't fetch fund requests", error: error });
     }

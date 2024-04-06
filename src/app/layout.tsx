@@ -10,7 +10,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const ref = useRef(true)
+  const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
   const activeLabelStyles = {
@@ -53,7 +53,7 @@ export default function RootLayout({
             },
           },
         },
-      }
+      },
     },
     colors,
   });
@@ -64,15 +64,25 @@ export default function RootLayout({
       getSettings();
     }
   }, []);
-  
+
   async function getSettings() {
     try {
-      let services: { [key: string]: boolean } = {};
+      let services: {
+        name: string;
+        provider: string;
+        status: boolean;
+        id: number | string;
+      }[] = [];
       const res = await API.getServices();
 
       if (res.data?.length) {
         res.data?.forEach((item: any) => {
-          services[item?.name] = Boolean(item?.active);
+          services.push({
+            name: item?.name,
+            status: Boolean(item?.active),
+            provider: item?.provider,
+            id: item?.id
+          });
         });
       }
 

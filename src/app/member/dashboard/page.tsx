@@ -97,7 +97,7 @@ const Dashboard = () => {
     <>
       <Stack direction={['column', 'row']} alignItems={"center"} justifyContent={"space-between"}>
         <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
-          Good afternoon,{" "}
+          Hello,{" "}
           {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
         </Text>
         <CustomTabs
@@ -117,10 +117,6 @@ const Dashboard = () => {
           <Text color={"gray.700"} fontWeight={"semibold"}>
             Pending Fund Requests
           </Text>
-          <Text color={"gray.500"} fontSize={"sm"}>
-            3 Pending
-          </Text>
-          <br />
           <RecentFundRequests />
         </Box>
         <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>

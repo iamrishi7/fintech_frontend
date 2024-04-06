@@ -28,27 +28,12 @@ interface FormSubheadingProps {
   mb?: BoxProps["mb"];
 }
 
-const FormSubheading = ({ title, mt, mb }: FormSubheadingProps) => {
-  return (
-    <Text
-      fontSize={"sm"}
-      fontWeight={"medium"}
-      color={"gray.700"}
-      mt={mt ?? 16}
-      mb={mb ?? 8}
-      textTransform={"capitalize"}
-    >
-      {title}
-    </Text>
-  );
-};
-
 const page = () => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
-  const [data, setData] = useState<any>(null);
-  const [rawData, setRawData] = useState<any>(null);
+  const [data, setData] = useState<any>([]);
+  const [rawData, setRawData] = useState<any>([]);
 
   const [roles, setRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
@@ -75,16 +60,24 @@ const page = () => {
 
   async function getSettings() {
     try {
-      let services: { [key: string]: boolean } = {};
+      let services: {
+        name: string;
+        provider: string;
+        status: boolean;
+        service_id: number | string;
+      }[] = [];
       const res = await API.getServices();
       setRawData(res.data);
-
       if (res.data?.length) {
         res.data?.forEach((item: any) => {
-          services[item?.name] = Boolean(item?.active);
+          services.push({
+            name: item?.name,
+            status: Boolean(item?.active),
+            provider: item?.provider,
+            service_id: item?.id,
+          });
         });
       }
-
       setData(services);
       localStorage.setItem("services", JSON.stringify(services));
     } catch (error) {
@@ -118,11 +111,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Signup</Text>
             <Switch
-              isChecked={data?.allow_signup}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" && item?.name == "allow_signup"
+                )?.status
+              }
               name="allow_signup"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" && item?.name == "allow_signup"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -132,11 +133,21 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Fund Requests</Text>
             <Switch
-              isChecked={data?.allow_fund_request}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" &&
+                    item?.name == "allow_fund_request"
+                )?.status
+              }
               name="allow_fund_request"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" &&
+                      item?.name == "allow_fund_request"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -146,11 +157,21 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Wallet Transfers</Text>
             <Switch
-              isChecked={data?.allow_wallet_transfer}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" &&
+                    item?.name == "allow_wallet_transfer"
+                )?.status
+              }
               name="allow_wallet_transfer"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" &&
+                      item?.name == "allow_wallet_transfer"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -160,11 +181,21 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Fund Transfers</Text>
             <Switch
-              isChecked={data?.allow_fund_transfer}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" &&
+                    item?.name == "allow_fund_transfer"
+                )?.status
+              }
               name="allow_fund_transfer"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" &&
+                      item?.name == "allow_fund_transfer"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -174,11 +205,21 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Chat Support</Text>
             <Switch
-              isChecked={data?.allow_chat_support}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" &&
+                    item?.name == "allow_chat_support"
+                )?.status
+              }
               name="allow_chat_support"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" &&
+                      item?.name == "allow_chat_support"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -205,11 +246,18 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Eko API Status</Text>
             <Switch
-              isChecked={data?.eko_api}
+              isChecked={
+                data?.find(
+                  (item: any) => item?.provider == "eko" && item?.name == "api"
+                )?.status
+              }
               name="eko_api"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "eko" && item?.name == "api"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -219,11 +267,18 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>AePS Services</Text>
             <Switch
-              isChecked={data?.eko_aeps}
+              isChecked={
+                data?.find(
+                  (item: any) => item?.provider == "eko" && item?.name == "aeps"
+                )?.status
+              }
               name="eko_aeps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "eko" && item?.name == "aeps"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -233,11 +288,18 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Bill Pay Services</Text>
             <Switch
-              isChecked={data?.eko_bbps}
+              isChecked={
+                data?.find(
+                  (item: any) => item?.provider == "eko" && item?.name == "bbps"
+                )?.status
+              }
               name="eko_bbps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "eko" && item?.name == "bbps"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -247,11 +309,39 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>DMT Services</Text>
             <Switch
-              isChecked={data?.eko_dmt}
+              isChecked={
+                data?.find(
+                  (item: any) => item?.provider == "eko" && item?.name == "dmt"
+                )?.status
+              }
               name="eko_dmt"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "eko" && item?.name == "dmt"
+                  )?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Payout Services</Text>
+            <Switch
+              isChecked={
+                data?.find(
+                  (item: any) => item?.provider == "eko" && item?.name == "payout"
+                )?.status
+              }
+              name="eko_payout"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "eko" && item?.name == "payout"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -270,11 +360,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Paysprint API Status</Text>
             <Switch
-              isChecked={data?.paysprint_api}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "api"
+                )?.status
+              }
               name="paysprint_api"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "api"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -284,11 +382,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>AePS Services</Text>
             <Switch
-              isChecked={data?.paysprint_aeps}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "aeps"
+                )?.status
+              }
               name="paysprint_aeps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "aeps"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -298,11 +404,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Bill Pay Services</Text>
             <Switch
-              isChecked={data?.paysprint_bbps}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "bbps"
+                )?.status
+              }
               name="paysprint_bbps"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "bbps"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -312,11 +426,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>CMS Deposit Services</Text>
             <Switch
-              isChecked={data?.paysprint_cms}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "cms"
+                )?.status
+              }
               name="paysprint_cms"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "cms"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -326,11 +448,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>DMT Services</Text>
             <Switch
-              isChecked={data?.paysprint_dmt}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "dmt"
+                )?.status
+              }
               name="paysprint_dmt"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "dmt"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -340,11 +470,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Recharge Services</Text>
             <Switch
-              isChecked={data?.paysprint_recharge}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "recharge"
+                )?.status
+              }
               name="paysprint_recharge"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "recharge"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -354,11 +492,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>LIC Services</Text>
             <Switch
-              isChecked={data?.paysprint_lic}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "lic"
+                )?.status
+              }
               name="paysprint_lic"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "lic"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -368,11 +514,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Fastag Services</Text>
             <Switch
-              isChecked={data?.paysprint_fastag}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "fastag"
+                )?.status
+              }
               name="paysprint_fastag"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "fastag"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -382,11 +536,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>PAN Card Services</Text>
             <Switch
-              isChecked={data?.paysprint_pan}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paysprint" && item?.name == "pan"
+                )?.status
+              }
               name="paysprint_pan"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paysprint" && item?.name == "pan"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -405,11 +567,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Razorpay Payout Status</Text>
             <Switch
-              isChecked={data?.razorpay_payout}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "razorpay" && item?.name == "payout"
+                )?.status
+              }
               name="razorpay_payout"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "razorpay" && item?.name == "payout"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -419,11 +589,19 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Paydeer Payout Status</Text>
             <Switch
-              isChecked={data?.paydeer_payout}
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "paydeer" && item?.name == "payout"
+                )?.status
+              }
               name="paydeer_payout"
               onChange={(e) =>
                 handleStatusUpdate(
-                  rawData?.find((item: any) => item?.name == e.target.name)?.id,
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "paydeer" && item?.name == "payout"
+                  )?.id,
                   { active: e.target.checked }
                 )
               }
@@ -455,7 +633,7 @@ const page = () => {
         {roles?.length ? (
           <CustomTabs
             tabList={roles
-              ?.filter((role: any) => role?.name != "admin")
+              ?.find((role: any) => role?.name != "admin")
               ?.map((role: any) => ({
                 id: role?.id,
                 label: role?.name?.replace(/_/g, " "),

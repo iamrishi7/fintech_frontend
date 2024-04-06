@@ -134,6 +134,16 @@ export const API = {
     return API.processResponse(res);
   },
 
+  fetchUserAddress: async () => {
+    let res = await API.execute(`/user/address`, "GET");
+    return API.processResponse(res);
+  },
+
+  updateUserAddress: async (data) => {
+    let res = await API.execute("/user/address", "POST", data);
+    return API.processResponse(res);
+  },
+
   updateMe: async (data) => {
     let res = await API.execute("/user/update", "PUT", data);
     return API.processResponse(res);
@@ -148,6 +158,46 @@ export const API = {
     let res = await API.execute(`/user/fund-requests`, "POST", data);
     return API.processResponse(res);
   },
+
+  // Transaction Related APIs
+
+  // Payout APIs
+  doPayout: async (data) => {
+    let res = await API.execute(`/user/services/payout`, "POST", data);
+    return API.processResponse(res);
+  },
+
+  // BBPS APIs
+  fetchBbpsServices: async ({ provider }) => {
+    let res = await API.execute(
+      `/user/services/${provider?.toLowerCase()}/bbps/services`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  fetchBbpsOperators: async ({ provider }) => {
+    let res = await API.execute(
+      `/user/services/${provider?.toLowerCase()}/bbps/operators`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  fetchBbpsOperatorParams: async ({ provider }) => {
+    let res = await API.execute(
+      `/user/services/${provider?.toLowerCase()}/bbps/operator-params`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  doBbpsTransaction: async (data) => {
+    let res = await API.execute(`/user/services/bbps/new-transaction`, "POST", data);
+    return API.processResponse(res);
+  },
+
+  // Report Related APIs
 
   ledger: async (url, query) => {
     let res = await API.execute(
@@ -189,13 +239,6 @@ export const API = {
     return API.processResponse(res);
   },
 
-  // Transaction Related APIs
-
-  doPayout: async (data) => {
-    let res = await API.execute(`/user/services/payout`, "POST", data);
-    return API.processResponse(res);
-  },
-
   // Admin APIs
 
   adminGetUsers: async (query, url) => {
@@ -220,6 +263,16 @@ export const API = {
 
   adminGetUserInfo: async (id) => {
     let res = await API.execute(`/admin/manage-user/users/${id}`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminFetchUserAddress: async (id) => {
+    let res = await API.execute(`/user/address/${id}`, "GET");
+    return API.processResponse(res);
+  },
+
+  adminUpdateUserAddress: async (id, data) => {
+    let res = await API.execute(`/admin/manage-user/address/${id}`, "POST", data);
     return API.processResponse(res);
   },
 

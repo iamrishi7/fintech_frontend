@@ -4,7 +4,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 
 interface TabItem {
   label: string;
-  id: string | number;
+  id: string | number | boolean;
   isDisabled?: boolean;
 }
 

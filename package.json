@@ -20,6 +20,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "axios": "^1.6.5",
     "chakra-dayzed-datepicker": "^0.2.10",
+    "chakra-react-select": "^4.7.6",
     "cookie-parser": "^1.4.6",
     "date-fns": "^3.3.1",
     "dayzed": "^3.2.3",

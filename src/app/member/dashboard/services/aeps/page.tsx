@@ -1,5 +1,5 @@
 "use client";
-import AepsWithdrawalForm from "@/components/dashboard/services/AepsWithdrawalForm";
+import AepsWithdrawalForm from "@/components/dashboard/services/aeps/AepsWithdrawalForm";
 import CustomTabs from "@/components/misc/CustomTabs";
 import {
   Box,
@@ -25,12 +25,14 @@ const page = () => {
   const [provider, setProvider] = useState<string | number | boolean>(
     "paysprint"
   );
-  const [availableProviders, setAvailableProviders] = useState<any>(null);
+  const [availableProviders, setAvailableProviders] = useState<any>([]);
 
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(localStorage.getItem("services"));
+      const data = JSON.parse(
+        localStorage.getItem("services")
+      );
       if (data) {
         setAvailableProviders(data);
       }
@@ -49,19 +51,22 @@ const page = () => {
         </Heading>
 
         <CustomTabs
-          defaultValue={
-            availableProviders?.paysprint_aeps ? "paysprint" : "eko"
-          }
+          defaultValue={provider}
           tabList={[
             {
               id: "eko",
               label: "eko",
-              isDisabled: !availableProviders?.eko_aeps,
+              isDisabled: !availableProviders?.find(
+                (item: any) => item?.provider == "eko" && item?.name == "aeps"
+              )?.status,
             },
             {
               id: "paysprint",
               label: "paysprint",
-              isDisabled: !availableProviders?.paysprint_aeps,
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "paysprint" && item?.name == "aeps"
+              )?.status,
             },
           ]}
           onChange={(value) => setProvider(value)}

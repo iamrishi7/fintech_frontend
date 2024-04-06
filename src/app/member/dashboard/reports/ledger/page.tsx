@@ -55,7 +55,7 @@ const page = () => {
         to: selectedDates[1],
       });
       setData(res?.data);
-      setPages(res?.links);
+      setPages(res?.meta?.links);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

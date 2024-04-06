@@ -1,7 +1,7 @@
 "use client";
 import PinModal from "@/components/dashboard/misc/PinModal";
 import PinDrawer from "@/components/dashboard/misc/PinModal";
-import RecentPayouts from "@/components/dashboard/services/RecentPayouts";
+import RecentPayouts from "@/components/dashboard/services/payouts/RecentPayouts";
 import CustomTabs from "@/components/misc/CustomTabs";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
 import {
@@ -30,12 +30,14 @@ const page = () => {
   const [provider, setProvider] = useState<string | number | boolean>(
     "razorpay"
   );
-  const [availableProviders, setAvailableProviders] = useState<any>(null);
+  const [availableProviders, setAvailableProviders] = useState<any>([]);
 
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(localStorage.getItem("services"));
+      const data = JSON.parse(
+        localStorage.getItem("services")
+      );
       if (data) {
         setAvailableProviders(data);
       }
@@ -65,19 +67,30 @@ const page = () => {
         </Heading>
 
         <CustomTabs
-          defaultValue={
-            availableProviders?.razorpay_payout ? "razorpay" : "paydeer"
-          }
+          defaultValue={provider}
           tabList={[
+            {
+              id: "eko",
+              label: "eko",
+              isDisabled: !availableProviders?.find(
+                (item: any) => item?.provider == "eko" && item?.name == "payout"
+              )?.status,
+            },
             {
               id: "razorpay",
               label: "razorpay",
-              isDisabled: !availableProviders?.razorpay_payout,
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "razorpay" && item?.name == "payout"
+              )?.status,
             },
             {
               id: "paydeer",
               label: "paydeer",
-              isDisabled: !availableProviders?.paydeer_payout,
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "paydeer" && item?.name == "payout"
+              )?.status,
             },
           ]}
           onChange={(value) => setProvider(value)}
@@ -92,6 +105,10 @@ const page = () => {
             ifsc: "",
             amount: "",
             provider: provider,
+            service_id: availableProviders?.find(
+              (item: any) =>
+                item?.provider == "paydeer" && item?.name == "payout"
+            )?.id,
           }}
           onSubmit={console.log}
         >

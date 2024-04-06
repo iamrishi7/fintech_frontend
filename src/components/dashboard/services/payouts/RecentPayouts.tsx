@@ -12,7 +12,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import ReceiptButton from "../misc/ReceiptButton";
+import ReceiptButton from "../../misc/ReceiptButton";
 
 const RecentPayouts = () => {
   const [data, setData] = useState([
