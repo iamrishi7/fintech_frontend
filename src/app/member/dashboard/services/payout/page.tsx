@@ -14,6 +14,8 @@ import {
   Input,
   NumberInput,
   NumberInputField,
+  Radio,
+  RadioGroup,
   Stack,
   useDisclosure,
   useToast,
@@ -32,12 +34,25 @@ const page = () => {
   );
   const [availableProviders, setAvailableProviders] = useState<any>([]);
 
+  const paymentModes = [
+    {
+      type: "imps",
+      eko_code: "5",
+    },
+    {
+      type: "neft",
+      eko_code: "4",
+    },
+    {
+      type: "rtgs",
+      eko_code: "13",
+    },
+  ];
+
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(
-        localStorage.getItem("services")
-      );
+      const data = JSON.parse(localStorage.getItem("services"));
       if (data) {
         setAvailableProviders(data);
       }
@@ -45,13 +60,19 @@ const page = () => {
   }, []);
 
   function handleFormSubmit(values: any) {
-    if (values?.account_number != values?.confirm_account_number) {
+    if (values?.account_number != values?.account_number_confirmation) {
       Toast({
         description: "Account numbers don't match",
       });
       return;
     }
-    setFormData({ ...values, provider: provider });
+    setFormData({
+      ...values,
+      provider: provider,
+      service_id: availableProviders?.find(
+        (item: any) => item?.provider == provider && item?.name == "payout"
+      )?.id,
+    });
     onOpen();
   }
 
@@ -101,18 +122,22 @@ const page = () => {
           initialValues={{
             beneficiary_name: "",
             account_number: "",
-            confirm_account_number: "",
-            ifsc: "",
+            account_number_confirmation: "",
+            ifsc_code: "",
             amount: "",
             provider: provider,
-            service_id: availableProviders?.find(
-              (item: any) =>
-                item?.provider == "paydeer" && item?.name == "payout"
-            )?.id,
+            mode: "neft",
           }}
           onSubmit={console.log}
         >
-          {({ values, handleChange, handleSubmit, handleReset, errors }) => (
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleReset,
+            errors,
+            setFieldValue,
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Stack
                 direction={["column", "row"]}
@@ -140,18 +165,18 @@ const page = () => {
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="confirm_account_number"
+                    name="account_number_confirmation"
                     onChange={handleChange}
-                    value={values?.confirm_account_number}
+                    value={values?.account_number_confirmation}
                     placeholder=" "
                   />
                   <FormLabel>Confirm Account Number</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="ifsc"
+                    name="ifsc_code"
                     onChange={handleChange}
-                    value={values?.ifsc}
+                    value={values?.ifsc_code}
                     placeholder=" "
                   />
                   <FormLabel>IFSC</FormLabel>
@@ -167,6 +192,26 @@ const page = () => {
                     <FormLabel>Amount (₹)</FormLabel>
                   </NumberInput>
                 </FormControl>
+
+                <Box>
+                  <FormLabel>Payment Mode</FormLabel>
+                  <RadioGroup
+                    value={values?.mode}
+                    onChange={(value) => setFieldValue("mode", value)}
+                  >
+                    <HStack justifyContent={'flex-start'} gap={6}>
+                      {paymentModes.map((item, key) => (
+                        <Radio
+                          value={
+                            provider == "eko" ? item?.eko_code : item?.type
+                          }
+                        >
+                          {item?.type?.toUpperCase()}
+                        </Radio>
+                      ))}
+                    </HStack>
+                  </RadioGroup>
+                </Box>
               </Stack>
 
               <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>

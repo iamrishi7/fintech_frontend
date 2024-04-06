@@ -159,11 +159,16 @@ export const API = {
     return API.processResponse(res);
   },
 
+  onboardUser: async (provider) => {
+    let res = await API.execute(`/user/onboard/${provider}`, "GET");
+    return API.processResponse(res);
+  },
+
   // Transaction Related APIs
 
   // Payout APIs
   doPayout: async (data) => {
-    let res = await API.execute(`/user/services/payout`, "POST", data);
+    let res = await API.execute(`/user/transaction/payout`, "POST", data);
     return API.processResponse(res);
   },
 

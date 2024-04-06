@@ -101,7 +101,7 @@ export default function WithSubnavigation() {
           >
             Sign In
           </Button>
-          {services?.find(
+          {services && services?.find(
             (item: any) =>
               item?.provider == "portal" && item?.name == "allow_signup"
           )?.status ? (

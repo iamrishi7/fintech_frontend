@@ -44,8 +44,10 @@ const BusinessDetailsForm = ({ userId }: BusinessDetailsFormProps) => {
       setIsLoading(true);
       if (userId) {
         await API.adminUpdateUserAddress(userId, values);
+        await fetchUserAddress();
       } else {
         await API.updateUserAddress(values);
+        await fetchMyAddress();
       }
       Toast({
         status: "success",
@@ -100,11 +102,11 @@ const BusinessDetailsForm = ({ userId }: BusinessDetailsFormProps) => {
         {!isLoading && prefilData ? (
           <Formik
             initialValues={{
-              shop_name: "",
-              street: "",
-              city: "",
-              state: "",
-              pincode: "",
+              shop_name: prefilData?.shop_name,
+              street: prefilData?.street,
+              city: prefilData?.city,
+              state: prefilData?.state,
+              pincode: prefilData?.pincode,
             }}
             onSubmit={(values) => handleUpdate(values)}
           >

@@ -23,7 +23,7 @@ const useAuth = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/logout')
+      await fetch("/api/logout");
     } catch (error) {
       console.log(error);
     } finally {
@@ -33,7 +33,7 @@ const useAuth = () => {
     }
   };
 
-  const authUser = async () => {
+  const authUser = async (disableRedirect?: boolean) => {
     try {
       const res = await API.me();
       if (res?.user) {
@@ -49,9 +49,11 @@ const useAuth = () => {
         if (existingRole != role) {
           localStorage.setItem("role", role);
         }
-        window.location.href = `/${
-          role == "admin" ? "admin" : "member"
-        }/dashboard`;
+        // if (!disableRedirect) {
+        //   window.location.href = `/${
+        //     role == "admin" ? "admin" : "member"
+        //   }/dashboard`;
+        // }
       }
     } catch (error: any) {
       console.log(error);

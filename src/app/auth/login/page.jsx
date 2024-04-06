@@ -166,7 +166,7 @@ const Login = () => {
                   Sign in
                 </Button>
                 <br />
-                {services?.find(
+                {services && services?.find(
                   (item) =>
                     item?.provider == "portal" && item?.name == "allow_signup"
                 )?.status ? (

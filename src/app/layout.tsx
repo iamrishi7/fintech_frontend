@@ -61,6 +61,7 @@ export default function RootLayout({
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
+      
       getSettings();
     }
   }, []);
