@@ -56,7 +56,7 @@ const page = () => {
       const from = format(selectedDates[0], "yyyy-MM-dd");
       const to = format(selectedDates[1], "yyyy-MM-dd");
       setFormData({ ...query, from: from, to: to });
-      const res = await API.reportPayouts(url, {
+      const res = await API.adminReportWalletTransfers(url, {
         ...query,
         from: from,
         to: to,
@@ -76,15 +76,14 @@ const page = () => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Payout Report
+        Wallet Transfer Report
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
             transaction_id: "",
-            account_number: "",
-            utr: "",
+            receiver_id: "",
           }}
           onSubmit={console.log}
         >
@@ -115,21 +114,12 @@ const page = () => {
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="utr"
+                    name="receiver_id"
                     type="text"
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Bank Ref. ID (UTR)</FormLabel>
-                </FormControl>
-                <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <Input
-                    name="account_number"
-                    type="text"
-                    placeholder=" "
-                    onChange={handleChange}
-                  />
-                  <FormLabel>Beneficiary Acc.</FormLabel>
+                  <FormLabel>Receiver Phone No.</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
@@ -156,8 +146,8 @@ const page = () => {
           className="hide-scrollbar"
         >
           <ExportButtons
-            fileName={"Payouts"}
-            service="payout"
+            fileName={"WalletTransfers"}
+            service="wallet-transfer"
             query={formData}
           />
           <Pagination
@@ -166,19 +156,18 @@ const page = () => {
           />
         </HStack>
 
-        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
+        <TableContainer maxH={"sm"} overflowY={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
-                <Th color={"gray.600"}>Trnxn ID</Th>
+                <Th color={"gray.600"}>ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
-                <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Bank Ref. ID (UTR)</Th>
                 <Th color={"gray.600"}>Beneficiary</Th>
-                <Th color={"gray.600"}>Provider/Mode</Th>
+                <Th color={"gray.600"}>Status</Th>
+                <Th color={"gray.600"}>User Remarks</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
-                <Th color={"gray.600"}>Receipt</Th>
+                <Th color={"gray.600"}>Action</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
@@ -188,39 +177,27 @@ const page = () => {
                   <Td borderBottom={0}>
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
+                  <Td>{item?.receiver?.name}</Td>
                   <Td>
                     <StatusBadge status={item?.status} />
                   </Td>
-                  <Td>{item?.utr}</Td>
-                  <Td>
-                    <Text>{item?.beneficiary_name}</Text>
-                    <Text>{item?.account_number}</Text>
-                    <Text>{item?.ifsc_code}</Text>
-                  </Td>
-                  <Td textTransform={"uppercase"}>
-                    {item?.provider} / {item?.mode}
-                  </Td>
+                  <Td>{item?.user_remarks}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.updated_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td>
+                  <Td borderBottom={0} textAlign={"center"}>
                     <ReceiptButton
                       data={{
-                        type: "payout",
-                        transaction_id: item?.reference_id?.toUpperCase(),
-                        amount: item?.amount,
                         status: item?.status,
-                        timestamp: new Date(item?.created_at)?.toLocaleString(
-                          "en-GB"
-                        ),
+                        transaction_id: item?.reference_id,
+                        amount: item?.amount,
+                        timestamp: item?.created_at,
+                        type: "wallet-transfer",
                         miscData: {
-                          beneficiary: item?.beneficiary_name,
-                          account_no: item?.account_number,
-                          IFSC: item?.ifsc_code?.toUpperCase(),
-                          UTR: item?.utr?.toUpperCase()
+                          beneficiary: item?.receiver?.name,
                         },
                       }}
                     />

@@ -52,7 +52,7 @@ const Wallet = () => {
 
   return (
     <>
-      <Tooltip label="Click for more options" hasArrow rounded={4}>
+      <Tooltip label="Click to refresh wallet" hasArrow rounded={4}>
         <HStack
           rounded={"full"}
           bgColor={"#FFF"}
@@ -60,11 +60,12 @@ const Wallet = () => {
           overflow={"hidden"}
           gap={0}
           cursor={"pointer"}
-          onClick={() => {
+          onClick={async () => {
             if(user?.roles == "admin"){
               console.log("Admin Wallet")
+              await getBalance()
             } else {
-              onOpen()
+              await getBalance()
             }
           }}
         >
@@ -115,7 +116,7 @@ const WalletModal: FC<WalletModalProps> = ({ isOpen, onClose }) => {
         title={intent == "request" ? "New Fund Request" : "Transfer Your Funds"}
         isOpen={isOpen}
         onClose={onClose}
-        showFooter={false}
+        hideFooter={false}
       >
         <HStack w={"full"} justifyContent={"center"}>
           <CustomTabs

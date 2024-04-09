@@ -148,6 +148,19 @@ const page = () => {
     }
   }
 
+  async function updateUser(id: string, values: object) {
+    try {
+      await API.adminUpdateUser(id, values);
+      await fetchData({});
+      Toast({
+        status: "success",
+        description: "User was updated successfully!",
+      });
+    } catch (error) {
+      handleError({ title: "Error while updating user", error: error });
+    }
+  }
+
   async function addRemarks() {
     try {
       await API.adminUpdateUser(updateUserId, { admin_remarks: remarks });
@@ -413,6 +426,25 @@ const page = () => {
                                     await unblockUser(item?.id);
                                   } else {
                                     await blockUser(item?.id);
+                                  }
+                                }}
+                              />
+                            </HStack>
+                          </MenuItem>
+                          <MenuItem>
+                            <HStack w={"full"} justifyContent={"space-between"}>
+                              <Text>
+                                {Boolean(item?.deleted_at)
+                                  ? "Allow Onboarding"
+                                  : "Block Onboarding"}
+                              </Text>
+                              <Switch
+                                isChecked={Boolean(item?.is_active)}
+                                onChange={async (e) => {
+                                  if (e.target.checked) {
+                                    await updateUser(item?.id, {is_active: 1});
+                                  } else {
+                                    await updateUser(item?.id, {is_active: 0});
                                   }
                                 }}
                               />

@@ -1,12 +1,11 @@
 "use client";
-import ExportButtons from "@/components/dashboard/misc/ExportButtons";
-import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
+import CustomButton from "@/components/misc/CustomButton";
 import Pagination from "@/components/misc/Pagination";
+import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Badge,
   Box,
-  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -23,25 +22,54 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { RangeDatepicker } from "chakra-dayzed-datepicker";
+import ExportButtons from "@/components/dashboard/misc/ExportButtons";
+import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
+import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
+import { format } from "date-fns";
+import StatusBadge from "@/components/dashboard/reports/StatusBadge";
 
 const page = () => {
+  const ref = useRef(true);
   const { handleError } = useErrorHandler();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-    { id: 1, name: "John Doe", amount: "50" },
-  ]);
 
-  async function fetchTransaction(values: any) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [pages, setPages] = useState([]);
+  const [selectedDates, setSelectedDates] = useState<Date[]>([
+    new Date(),
+    new Date(),
+  ]);
+  const [formData, setFormData] = useState<any>({});
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      getData();
+    }
+  }, []);
+
+  async function getData(url?: string, query?: object) {
     setIsLoading(true);
     try {
+      const from = format(selectedDates[0], "yyyy-MM-dd");
+      const to = format(selectedDates[1], "yyyy-MM-dd");
+      setFormData({ ...query, from: from, to: to });
+      const res = await API.adminReportPayouts(url, {
+        ...query,
+        from: from,
+        to: to,
+      });
+      setData(res?.data);
+      setPages(res?.meta?.links);
       setIsLoading(false);
     } catch (error) {
-      handleError({ title: "Error while fetching transactions", error: error });
       setIsLoading(false);
+      handleError({
+        title: "Could not fetch data",
+        error: error,
+      });
     }
   }
 
@@ -51,149 +79,169 @@ const page = () => {
         Payout Report
       </Heading>
 
-      <Box p={6} bgColor={"#FFF"} rounded={4} boxShadow={"base"} mb={8}>
+      <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
-            from: "",
-            to: "",
             transaction_id: "",
+            user_id: "",
             account_number: "",
+            utr: "",
           }}
-          onSubmit={(values) => {
-            fetchTransaction(values);
-          }}
+          onSubmit={console.log}
         >
-          {({ values, handleChange, handleSubmit, handleReset, errors }) => (
+          {({ values, handleChange, handleSubmit, errors }) => (
             <Form onSubmit={handleSubmit}>
               <Stack
                 direction={["column", "row"]}
-                spacing={8}
+                alignItems={"flex-end"}
+                gap={8}
+                mb={8}
                 flexWrap={"wrap"}
-                my={4}
               >
                 <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>From</FormLabel>
-                  <Input
-                    name="from"
-                    onChange={handleChange}
-                    type="date"
-                    value={values?.from}
-                    placeholder=" "
+                  <FormLabel>Dates</FormLabel>
+                  <RangeDatepicker
+                    selectedDates={selectedDates}
+                    onDateChange={setSelectedDates}
                   />
                 </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>To</FormLabel>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="to"
-                    type="date"
-                    onChange={handleChange}
-                    value={values?.to}
+                    name="user_id"
+                    type="text"
                     placeholder=" "
-                  />
-                </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>Account Number</FormLabel>
-                  <Input
-                    name="account_number"
                     onChange={handleChange}
-                    value={values?.account_number}
-                    placeholder=" "
                   />
-                </FormControl>
-                <FormControl maxW={["full", "xs"]}>
                   <FormLabel>Transaction ID</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
                     name="transaction_id"
-                    onChange={handleChange}
-                    value={values?.transaction_id}
+                    type="text"
                     placeholder=" "
+                    onChange={handleChange}
                   />
+                  <FormLabel>Transaction ID</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="utr"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
+                  <FormLabel>Bank Ref. ID (UTR)</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="account_number"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
+                  <FormLabel>Beneficiary Acc.</FormLabel>
                 </FormControl>
               </Stack>
-
-              <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
-                <Button
-                  bgColor={"brand.primary"}
-                  _hover={{
-                    bgColor: "brand.hover",
-                  }}
-                  color={"#FFF"}
+              <HStack justifyContent={"flex-end"}>
+                <CustomButton
+                  onClick={() => getData("", values)}
                   isLoading={isLoading}
-                  type="submit"
                 >
                   Search
-                </Button>
+                </CustomButton>
               </HStack>
             </Form>
           )}
         </Formik>
       </Box>
-
-      <Box p={6} bgColor={"#FFF"} rounded={4} boxShadow={"base"}>
-        <Stack
+      <br />
+      <br />
+      <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
+        <HStack
           w={"full"}
-          direction={["column", "row"]}
           alignItems={"center"}
-          justifyContent={["center", "space-between"]}
+          justifyContent={"space-between"}
+          mb={8}
+          overflowX={"scroll"}
+          className="hide-scrollbar"
         >
-          <ExportButtons />
-          <Pagination />
-        </Stack>
-        <br />
-        <TableContainer maxH={"lg"} overflowY={"scroll"}>
+          <ExportButtons
+            fileName={"Payouts"}
+            service="payout"
+            query={formData}
+          />
+          <Pagination
+            pages={pages}
+            onClick={(value: string) => getData(value, {})}
+          />
+        </HStack>
+
+        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
-                <Th color={"gray.600"}>ID</Th>
+                <Th color={"gray.600"}>Trnxn ID</Th>
+                <Th color={"gray.600"}>User</Th>
                 <Th color={"gray.600"}>Amount</Th>
-                <Th color={"gray.600"}>Beneficiary</Th>
                 <Th color={"gray.600"}>Status</Th>
+                <Th color={"gray.600"}>Bank Ref. ID (UTR)</Th>
+                <Th color={"gray.600"}>Beneficiary</Th>
+                <Th color={"gray.600"}>Provider/Mode</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
-                <Th color={"gray.600"}>Provider</Th>
-                <Th color={"gray.600"}>Admin Remarks</Th>
-                <Th color={"gray.600"}>Action</Th>
+                <Th color={"gray.600"}>Receipt</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
-              {data?.map((item, key) => (
+              {data?.map((item: any, key) => (
                 <Tr key={key}>
-                  <Td borderBottom={0}>RZPPYT234</Td>
+                  <Td borderBottom={0}>{item?.reference_id}</Td>
+                  <Td borderBottom={0}>{item?.user?.name}</Td>
                   <Td borderBottom={0}>
-                    ₹{Number(50000)?.toLocaleString("en-IN") ?? 0}
+                    ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
                   <Td>
-                    <Text>Sangam Kumar</Text>
-                    <Text>39488734970</Text>
-                    <Text>SBIN0032284</Text>
+                    <StatusBadge status={item?.status} />
+                  </Td>
+                  <Td>{item?.utr}</Td>
+                  <Td>
+                    <Text>{item?.beneficiary_name}</Text>
+                    <Text>{item?.account_number}</Text>
+                    <Text>{item?.ifsc_code}</Text>
+                  </Td>
+                  <Td textTransform={"uppercase"}>
+                    {item?.provider} / {item?.mode}
+                  </Td>
+                  <Td borderBottom={0}>
+                    {new Date(item?.created_at)?.toLocaleString("en-GB")}
+                  </Td>
+                  <Td borderBottom={0}>
+                    {new Date(item?.updated_at)?.toLocaleString("en-GB")}
                   </Td>
                   <Td>
-                    <Badge colorScheme="whatsapp">SUCCESS</Badge>
-                  </Td>
-
-                  <Td borderBottom={0}>13-02-2024 19:34</Td>
-                  <Td borderBottom={0}>13-02-2024 19:54</Td>
-                  <Td borderBottom={0}>Razorpay</Td>
-                  <Td borderBottom={0}>-</Td>
-                  <Td borderBottom={0}>
-                    <HStack gap={4} w={"full"} justifyContent={"center"}>
-                      <ReceiptButton />
-                      {/* <IconButton
-                          aria-label="reject"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaXmark />}
-                          colorScheme="red"
-                        /> */}
-                    </HStack>
+                    <ReceiptButton
+                      data={{
+                        type: "payout",
+                        transaction_id: item?.reference_id?.toUpperCase(),
+                        amount: item?.amount,
+                        status: item?.status,
+                        timestamp: new Date(item?.created_at)?.toLocaleString(
+                          "en-GB"
+                        ),
+                        miscData: {
+                          beneficiary: item?.beneficiary_name,
+                          account_no: item?.account_number,
+                          IFSC: item?.ifsc_code?.toUpperCase(),
+                          UTR: item?.utr?.toUpperCase()
+                        },
+                      }}
+                    />
                   </Td>
                 </Tr>
               ))}
             </Tbody>
           </Table>
         </TableContainer>
-        <br />
-        <Pagination />
       </Box>
     </>
   );

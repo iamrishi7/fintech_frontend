@@ -20,7 +20,7 @@ interface CustomModalProps {
   onSubmit?: (value: any) => void;
   title?: string | ReactNode;
   children: ReactNode;
-  showFooter?: boolean;
+  hideFooter?: boolean;
   closeOnBlur?: boolean;
   isLoading?: boolean;
 }
@@ -32,7 +32,7 @@ const CustomModal: FC<CustomModalProps> = ({
   onSubmit,
   title,
   children,
-  showFooter = true,
+  hideFooter = true,
   closeOnBlur = false,
   isLoading = false,
 }) => {
@@ -49,8 +49,8 @@ const CustomModal: FC<CustomModalProps> = ({
         <ModalContent>
           <ModalHeader fontWeight={"medium"}>{title}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={showFooter ? 4 : 6}>{children}</ModalBody>
-          {showFooter ? (
+          <ModalBody pb={hideFooter ? 4 : 6}>{children}</ModalBody>
+          {hideFooter ? (
             <ModalFooter>
               <HStack w={"full"} justifyContent={"flex-end"} gap={4}>
                 <Button onClick={onClose} isLoading={isLoading}>

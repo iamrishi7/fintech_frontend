@@ -1,10 +1,11 @@
 "use client";
+import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import CustomButton from "@/components/misc/CustomButton";
 import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
+import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
-  Badge,
   Box,
   FormControl,
   FormLabel,
@@ -21,31 +22,33 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React, { useState, useEffect, useRef } from "react";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
-import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import { format } from "date-fns";
 import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = () => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
+  const { user, authUser } = useAuth();
 
+  const [selectedDates, setSelectedDates] = useState([new Date(), new Date()]);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>({});
   const [pages, setPages] = useState([]);
-  const [selectedDates, setSelectedDates] = useState<Date[]>([
-    new Date(),
-    new Date(),
-  ]);
   const [formData, setFormData] = useState<any>({});
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current = false;
-      getData();
-    }
-  }, []);
+    (async () => {
+      if (ref.current && user?.id) {
+        ref.current = false;
+        await getData();
+      } else if (!user?.id) {
+        await authUser();
+      }
+    })();
+    console.log(user?.id);
+  }, [user]);
 
   async function getData(url?: string, query?: object) {
     setIsLoading(true);
@@ -53,7 +56,7 @@ const page = () => {
       const from = format(selectedDates[0], "yyyy-MM-dd");
       const to = format(selectedDates[1], "yyyy-MM-dd");
       setFormData({ ...query, from: from, to: to });
-      const res = await API.adminReportFundTransfers(url, {
+      const res = await API.adminReportDailySales(url, {
         ...query,
         from: from,
         to: to,
@@ -61,6 +64,11 @@ const page = () => {
       setData(res?.data);
       setPages(res?.meta?.links);
       setIsLoading(false);
+      console.log("User ID", user?.id);
+      console.log(
+        res?.data[user?.id]?.payout?.debit_amount -
+          res?.data[user?.id]?.payout?.credit_amount
+      );
     } catch (error) {
       setIsLoading(false);
       handleError({
@@ -73,11 +81,11 @@ const page = () => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Fund Transfer Report
+        Daily Sales
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-      <Formik
+        <Formik
           initialValues={{
             receiver_id: "",
           }}
@@ -106,7 +114,7 @@ const page = () => {
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Receiver ID</FormLabel>
+                  <FormLabel>Transaction ID</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
@@ -121,8 +129,7 @@ const page = () => {
           )}
         </Formik>
       </Box>
-      <br />
-      <br />
+
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <HStack
           w={"full"}
@@ -132,49 +139,38 @@ const page = () => {
           overflowX={"scroll"}
           className="hide-scrollbar"
         >
-          <ExportButtons
-            fileName={"FundTransfer"}
-            service="fund-transfer"
-            query={formData}
-          />
           <Pagination
             pages={pages}
             onClick={(value: string) => getData(value, {})}
           />
         </HStack>
 
-        <TableContainer maxH={"sm"} overflowY={"scroll"}>
+        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
-                <Th color={"gray.600"}>ID</Th>
                 <Th color={"gray.600"}>User</Th>
-                <Th color={"gray.600"}>Admin</Th>
-                <Th color={"gray.600"}>Debit Amount</Th>
-                <Th color={"gray.600"}>Credit Amount</Th>
-                <Th color={"gray.600"}>Admin Remarks</Th>
-                <Th color={"gray.600"}>Created At</Th>
-                <Th color={"gray.600"}>Updated At</Th>
+                <Th color={"gray.600"}>Payout</Th>
+                <Th color={"gray.600"}>Payout Fees</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
-              {data?.map((item: any, key) => (
+              {Object?.entries(data)?.map((item: any, key) => (
                 <Tr key={key}>
-                  <Td borderBottom={0}>{item?.reference_id}</Td>
-                  <Td borderBottom={0}>{item?.user?.name}</Td>
-                  <Td borderBottom={0}>{item?.admin?.name}</Td>
+                  <Td>User Name</Td>
                   <Td borderBottom={0}>
-                    ₹{Number(item?.debit_amount)?.toLocaleString("en-IN") ?? 0}
+                    ₹
+                    {(
+                      item[1]?.payout?.debit_amount -
+                        item[1]?.payout?.credit_amount || 0
+                    )?.toLocaleString("en-IN") || 0}
                   </Td>
                   <Td borderBottom={0}>
-                    ₹{Number(item?.credit_amount)?.toLocaleString("en-IN") ?? 0}
-                  </Td>
-                  <Td>{item?.admin_remarks}</Td>
-                  <Td borderBottom={0}>
-                    {new Date(item?.created_at)?.toLocaleString("en-GB")}
-                  </Td>
-                  <Td borderBottom={0}>
-                    {new Date(item?.updated_at)?.toLocaleString("en-GB")}
+                    ₹
+                    {(
+                      item[1]?.payout_commission?.debit_amount -
+                        item[1]?.payout_commission?.credit_amount || 0
+                    )?.toLocaleString("en-IN") || 0}
                   </Td>
                 </Tr>
               ))}

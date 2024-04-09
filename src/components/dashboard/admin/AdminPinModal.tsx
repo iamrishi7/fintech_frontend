@@ -22,7 +22,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import Receipt from "./receipt/Receipt";
+import Receipt from "../misc/receipt/Receipt";
+import useAdminTransactionHandler from "@/lib/hooks/useAdminTransactionHandler";
 
 interface PinInputParams {
   type:
@@ -43,7 +44,7 @@ interface PinInputParams {
   title?: string;
 }
 
-const PinModal = ({
+const AdminPinModal = ({
   isOpen,
   onClose,
   type,
@@ -52,7 +53,7 @@ const PinModal = ({
   description,
 }: PinInputParams) => {
   const { processTransaction, isLoading, setPin, receiptData } =
-    useTransactionHandler();
+    useAdminTransactionHandler();
 
   const [receiptStatus, setReceiptStatus] = useState(false);
 
@@ -140,4 +141,4 @@ const PinModal = ({
   );
 };
 
-export default PinModal;
+export default AdminPinModal;

@@ -10,15 +10,9 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Layout1 from "./Layout1";
+import { ReceiptProps } from "@/lib/commons/types";
 
-interface ReceiptProps {
-  amount: number;
-  showLogo?: boolean;
-  showFooter?: boolean;
-  footerMessage?: string;
-  timestamp: string;
-  status: string | boolean;
-}
+
 
 interface ReceiptModalProps {
   isOpen: boolean;
@@ -29,14 +23,14 @@ interface ReceiptModalProps {
 const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
   return (
     <>
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size={'xs'}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size={"xs"}>
         <ModalOverlay />
-        <ModalContent bg={"transparent"} boxShadow={'none'}>
-          <ModalBody p={0} boxShadow={'md'}>
-            <Layout1 {...data} />
+        <ModalContent bg={"transparent"} boxShadow={"none"}>
+          <ModalBody p={0} boxShadow={"md"}>
+            <Layout1 data={data} />
           </ModalBody>
           <ModalFooter>
-            <HStack w={'full'} justifyContent={"center"}>
+            <HStack w={"full"} justifyContent={"center"}>
               <Button
                 onClick={() => console.log("Download")}
                 bgColor={"brand.primary"}
@@ -45,7 +39,7 @@ const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
                 }}
                 size={"xs"}
                 rounded={"full"}
-                color={'#FFF'}
+                color={"#FFF"}
               >
                 Download
               </Button>
