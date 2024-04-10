@@ -142,7 +142,7 @@ const page = () => {
           onClose();
           setBeneficiary(null);
         }}
-        type="wallet-transfer"
+        type="fund-transfer"
         formData={formData}
         title={`${formData?.activity_type == "transfer" ? "Credit" : "Debit"} ₹${formData?.amount} ${formData?.activity_type == "transfer" ? "to" : "from"} ${beneficiary?.name}?`}
         description={"Enter your PIN to confirm this transaction"}
