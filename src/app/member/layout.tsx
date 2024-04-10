@@ -55,11 +55,13 @@ interface LayoutProps {
 
 const Index: FC<LayoutProps> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const ref = useRef(true)
   const { authUser } = useAuth();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
+    if (ref.current) {
+      ref.current = false
       authUser();
     }
   }, []);
