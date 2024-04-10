@@ -8,7 +8,7 @@ export const CLIENT_BASE_URL =
 export const API_BASE_URL =
   process.env.NODE_ENV == "development"
     ? "http://localhost:8000/api"
-    : "https://backend.janpay.in/api";
+    : "https://backend.janpay.online/api";
 
 export const STATES = [
   {
