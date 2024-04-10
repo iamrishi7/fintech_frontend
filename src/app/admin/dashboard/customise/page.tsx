@@ -168,7 +168,13 @@ const page = () => {
               >
                 <Box>
                   <Box w={48} boxShadow={"base"}>
-                    <Layout1 isLayout={true} status="success" />
+                    <Layout1 isLayout={true} data={{
+                      status: "success",
+                      type: "payout",
+                      timestamp: "2024-04-10T14:49:38.000000Z",
+                      amount: 1000,
+                      transaction_id: "REF12345678",
+                    }} />
                   </Box>
                   <Text
                     px={"8px"}
