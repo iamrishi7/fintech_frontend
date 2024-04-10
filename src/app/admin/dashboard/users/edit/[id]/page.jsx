@@ -259,6 +259,8 @@ const page = ({ params }) => {
                 last_name: user?.last_name,
                 email: user?.email,
                 phone_number: user?.phone_number,
+                aadhaar_number: user?.aadhaar_number,
+                pan: user?.pan,
                 capped_balance: user?.capped_balance,
                 plan_id: user?.plan_id,
                 aadhaar_front: null,
@@ -360,6 +362,38 @@ const page = ({ params }) => {
                         onChange={handleChange}
                       />
                       <FormLabel>Phone</FormLabel>
+                    </FormControl>
+                  </Stack>
+
+                  <FormSubheading title={"KYC Details"} />
+                  <Stack
+                    w={"full"}
+                    direction={["column", "row"]}
+                    gap={8}
+                    mb={8}
+                    mt={4}
+                  >
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="aadhaar_number"
+                        type="text"
+                        placeholder=" "
+                        value={values?.aadhaar_number}
+                        onChange={handleChange}
+                        // isDisabled={Boolean(values?.aadhaar_number)}
+                      />
+                      <FormLabel>Aadhaar No.</FormLabel>
+                    </FormControl>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="pan"
+                        type="text"
+                        placeholder=" "
+                        value={values?.pan}
+                        onChange={handleChange}
+                        // isDisabled={Boolean(values?.pan)}
+                      />
+                      <FormLabel>PAN</FormLabel>
                     </FormControl>
                   </Stack>
 

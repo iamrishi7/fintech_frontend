@@ -67,7 +67,13 @@ const BusinessDetailsForm = ({ userId }: BusinessDetailsFormProps) => {
     try {
       setIsLoading(true);
       const res = await API.fetchUserAddress();
-      setPrefilData(res?.data[0]);
+      setPrefilData(res?.data[0] || {
+        shop_name: "",
+        street: "",
+        city: "",
+        state: "",
+        pincode: "",
+      });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -82,7 +88,15 @@ const BusinessDetailsForm = ({ userId }: BusinessDetailsFormProps) => {
     try {
       setIsLoading(true);
       const res = await API.adminFetchUserAddress(userId);
-      setPrefilData(res?.data[0]);
+      setPrefilData(
+        res?.data[0] || {
+          shop_name: "",
+          street: "",
+          city: "",
+          state: "",
+          pincode: "",
+        }
+      );
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
