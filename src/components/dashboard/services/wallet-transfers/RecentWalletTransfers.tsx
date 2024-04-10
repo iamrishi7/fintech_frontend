@@ -1,7 +1,11 @@
 "use client";
+import { API } from "@/lib/api";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
-  Badge,
+  Box,
+  Button,
   HStack,
+  Heading,
   Table,
   TableContainer,
   Tbody,
@@ -11,14 +15,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
-import ReceiptButton from "../../misc/ReceiptButton";
-import { API } from "@/lib/api";
-import useErrorHandler from "@/lib/hooks/useErrorHandler";
-import StatusBadge from "../../reports/StatusBadge";
 import { format } from "date-fns";
+import React, { useEffect, useRef, useState } from "react";
+import StatusBadge from "../../reports/StatusBadge";
+import ReceiptButton from "../../misc/ReceiptButton";
 
-const RecentPayouts = () => {
+const RecentWalletTransfers = () => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
@@ -37,7 +39,7 @@ const RecentPayouts = () => {
 
   async function getData(url?: string, query?: object) {
     try {
-      const res = await API.reportPayouts("", {
+      const res = await API.reportWalletTransfers("", {
         ...query,
         from: format(selectedDates[0], "yyyy-MM-dd"),
         to: format(selectedDates[1], "yyyy-MM-dd"),
@@ -53,6 +55,21 @@ const RecentPayouts = () => {
 
   return (
     <>
+      <Heading as={"h1"} fontSize={"xl"} mb={4}>
+        Recent Wallet Transfers
+      </Heading>
+
+      <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
+        <HStack justifyContent={"flex-end"}>
+          <Button
+            variant={"ghost"}
+            onClick={() => getData("", {})}
+            fontWeight={"medium"}
+            rounded={"full"}
+          >
+            Refresh Data
+          </Button>
+        </HStack>
         <TableContainer maxH={"sm"} overflowY={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
@@ -61,8 +78,7 @@ const RecentPayouts = () => {
                 <Th color={"gray.600"}>Amount</Th>
                 <Th color={"gray.600"}>Beneficiary</Th>
                 <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Provider</Th>
-                <Th color={"gray.600"}>Description</Th>
+                <Th color={"gray.600"}>User Remarks</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
                 <Th color={"gray.600"}>Action</Th>
@@ -75,42 +91,28 @@ const RecentPayouts = () => {
                   <Td borderBottom={0}>
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
-                  <Td>
-                    <Text>{item?.beneficiary_name}</Text>
-                    <Text>{item?.account_number}</Text>
-                    <Text>{item?.ifsc_code}</Text>
-                  </Td>
+                  <Td>{item?.receiver?.name}</Td>
                   <Td>
                     <StatusBadge status={item?.status} />
                   </Td>
-                  <Td>
-                    <Badge>{item?.provider}</Badge>
-                  </Td>
-                  <Td>{item?.description}</Td>
+                  <Td>{item?.user_remarks}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.updated_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td>
+                  <Td borderBottom={0} textAlign={"center"}>
                     <ReceiptButton
                       data={{
-                        type: "payout",
-                        transaction_id: item?.reference_id?.toUpperCase(),
-                        amount: item?.amount,
                         status: item?.status,
-                        timestamp: new Date(item?.created_at)?.toLocaleString(
-                          "en-GB"
-                        ),
+                        transaction_id: item?.reference_id,
+                        amount: item?.amount,
+                        timestamp: item?.created_at,
+                        type: "wallet-transfer",
                         miscData: {
-                          beneficiary: item?.beneficiary_name,
-                          account_no: item?.account_number,
-                          IFSC: item?.ifsc_code?.toUpperCase(),
-                          UTR: item?.utr?.toUpperCase()
+                          beneficiary: item?.receiver?.name,
                         },
-                        hideFooter: true,
-                        hideLogo: true,
                       }}
                     />
                   </Td>
@@ -119,8 +121,9 @@ const RecentPayouts = () => {
             </Tbody>
           </Table>
         </TableContainer>
+      </Box>
     </>
   );
 };
 
-export default RecentPayouts;
+export default RecentWalletTransfers;

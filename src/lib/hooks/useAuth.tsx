@@ -12,7 +12,6 @@ interface HandleErrorParams {
 
 const useAuth = () => {
   const [user, setUser] = useState<any>(null);
-  const Toast = useToast();
 
   useEffect(() => {
     const me = JSON.parse(localStorage.getItem("user"));

@@ -26,9 +26,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
-import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
 import { format } from "date-fns";
-import StatusBadge from "@/components/dashboard/reports/StatusBadge";
 
 const page = () => {
   const ref = useRef(true);
@@ -41,7 +39,7 @@ const page = () => {
     new Date(),
     new Date(),
   ]);
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (ref.current) {
@@ -55,8 +53,12 @@ const page = () => {
     try {
       const from = format(selectedDates[0], "yyyy-MM-dd");
       const to = format(selectedDates[1], "yyyy-MM-dd");
-      setFormData({ ...query, from: from, to: to });
-      const res = await API.reportPayouts(url, {
+      setFormData({
+        ...query,
+        from: from,
+        to: to,
+      });
+      const res = await API.adminLedger(url, {
         ...query,
         from: from,
         to: to,
@@ -76,15 +78,14 @@ const page = () => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Payout Report
+        Transaction Ledger
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
             transaction_id: "",
-            account_number: "",
-            utr: "",
+            user_id: "",
           }}
           onSubmit={console.log}
         >
@@ -95,7 +96,6 @@ const page = () => {
                 alignItems={"flex-end"}
                 gap={8}
                 mb={8}
-                flexWrap={"wrap"}
               >
                 <FormControl maxW={["full", "xs"]}>
                   <FormLabel>Dates</FormLabel>
@@ -115,21 +115,12 @@ const page = () => {
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="utr"
+                    name="user_id"
                     type="text"
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Bank Ref. ID (UTR)</FormLabel>
-                </FormControl>
-                <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <Input
-                    name="account_number"
-                    type="text"
-                    placeholder=" "
-                    onChange={handleChange}
-                  />
-                  <FormLabel>Beneficiary Acc.</FormLabel>
+                  <FormLabel>User ID</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
@@ -155,11 +146,7 @@ const page = () => {
           overflowX={"scroll"}
           className="hide-scrollbar"
         >
-          <ExportButtons
-            fileName={"Payouts"}
-            service="payout"
-            query={formData}
-          />
+          <ExportButtons fileName="Ledger" service="ledger" query={formData} />
           <Pagination
             pages={pages}
             onClick={(value: string) => getData(value, {})}
@@ -171,59 +158,46 @@ const page = () => {
             <Thead>
               <Tr>
                 <Th color={"gray.600"}>Trnxn ID</Th>
-                <Th color={"gray.600"}>Amount</Th>
-                <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Bank Ref. ID (UTR)</Th>
-                <Th color={"gray.600"}>Beneficiary</Th>
-                <Th color={"gray.600"}>Provider/Mode</Th>
+                <Th color={"gray.600"}>User</Th>
+                <Th color={"gray.600"}>Debit Amount</Th>
+                <Th color={"gray.600"}>Credit Amount</Th>
+                <Th color={"gray.600"}>Service</Th>
+                <Th color={"gray.600"}>Description</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
-                <Th color={"gray.600"}>Receipt</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
               {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.reference_id}</Td>
-                  <Td borderBottom={0}>
-                    ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                  <Td borderBottom={0}>{item?.user?.name}</Td>
+                  <Td borderBottom={0} isNumeric>
+                    <Badge colorScheme="red" minW={16}>
+                      ₹
+                      {Number(item?.debit_amount)?.toLocaleString("en-IN") ?? 0}
+                    </Badge>
+                  </Td>
+                  <Td borderBottom={0} isNumeric>
+                    <Badge colorScheme="whatsapp" minW={16}>
+                      ₹
+                      {Number(item?.credit_amount)?.toLocaleString("en-IN") ??
+                        0}
+                    </Badge>
                   </Td>
                   <Td>
-                    <StatusBadge status={item?.status} />
+                    <HStack justifyContent={"center"}>
+                      <TransactionBadge>{item?.service}</TransactionBadge>
+                    </HStack>
                   </Td>
-                  <Td>{item?.utr}</Td>
                   <Td>
-                    <Text>{item?.beneficiary_name}</Text>
-                    <Text>{item?.account_number}</Text>
-                    <Text>{item?.ifsc_code}</Text>
-                  </Td>
-                  <Td textTransform={"uppercase"}>
-                    {item?.provider} / {item?.mode}
+                    <Text fontSize={"sm"}>{item?.description}</Text>
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.updated_at)?.toLocaleString("en-GB")}
-                  </Td>
-                  <Td>
-                    <ReceiptButton
-                      data={{
-                        type: "payout",
-                        transaction_id: item?.reference_id?.toUpperCase(),
-                        amount: item?.amount,
-                        status: item?.status,
-                        timestamp: new Date(item?.created_at)?.toLocaleString(
-                          "en-GB"
-                        ),
-                        miscData: {
-                          beneficiary: item?.beneficiary_name,
-                          account_no: item?.account_number,
-                          IFSC: item?.ifsc_code?.toUpperCase(),
-                          UTR: item?.utr?.toUpperCase()
-                        },
-                      }}
-                    />
                   </Td>
                 </Tr>
               ))}

@@ -34,6 +34,7 @@ import SelectDistributor from "@/components/dashboard/misc/select/SelectDistribu
 import SelectSuperDistributor from "@/components/dashboard/misc/select/SelectSuperDistributor";
 import ManageAdminPermissions from "@/components/dashboard/admin/ManageAdminPermissions";
 import ManageMemberPermissions from "@/components/dashboard/admin/ManageMemberPermissions";
+import BusinessDetailsForm from "@/components/dashboard/profile/BusinessDetailsForm";
 
 const FormSubheading = ({ title }) => {
   return (
@@ -488,6 +489,14 @@ const page = ({ params }) => {
               )}
             </Formik>
           </Box>
+
+          <br />
+          <br />
+          <Text mb={8} fontWeight={"semibold"} fontSize={"lg"}>
+            Business Details
+          </Text>
+          <BusinessDetailsForm userId={id} />
+
           <br />
           <br />
           <Text mb={8} fontWeight={"semibold"} fontSize={"lg"}>

@@ -90,10 +90,10 @@ const RecentFundRequests = ({
                   ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                 </Td>
                 <Td>
-                  {item?.status != "pending" && item?.approved_by?.id ? (
+                  {item?.status != "pending" && item?.reviewer?.id ? (
                     <HStack alignItems={"flex-start"}>
-                      <Avatar size={"xs"} name={item?.approved_by?.name} />
-                      <Text>{item?.approved_by?.name}</Text>
+                      <Avatar size={"xs"} name={item?.reviewer?.name} />
+                      <Text>{item?.reviewer?.name}</Text>
                     </HStack>
                   ) : null}
                 </Td>

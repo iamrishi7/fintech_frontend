@@ -1,25 +1,21 @@
 "use client";
+import { ReceiptProps } from "@/lib/commons/types";
 import { Box, HStack, Icon, Text, TextProps, VStack } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { BiSolidError } from "react-icons/bi";
 import { BsFillClockFill, BsFillPatchCheckFill } from "react-icons/bs";
-import { FaClock } from "react-icons/fa";
-import { MdError } from "react-icons/md";
 
-interface ReceiptProps {
-  amount: number;
-  showLogo?: boolean;
-  showFooter?: boolean;
+interface ReceiptLayoutProps {
+  hideLogo?: boolean;
+  hideFooter?: boolean;
   footerMessage?: string;
-  timestamp: string;
-  status: string | boolean;
-  data?: object;
+  data?: ReceiptProps;
   isLayout?: boolean;
 }
 
 interface ReceiptEntryProps {
   k: string;
-  v: string;
+  v: string | undefined;
   fontSize: TextProps["fontSize"];
 }
 
@@ -39,7 +35,7 @@ const ReceiptEntry = ({ k, v, fontSize }: ReceiptEntryProps) => {
             fontSize={fontSize || "10"}
             fontWeight={"medium"}
           >
-            {k}
+            {k?.replace(/_/g, " ")}
           </Text>
         </Box>
         <Box
@@ -58,16 +54,7 @@ const ReceiptEntry = ({ k, v, fontSize }: ReceiptEntryProps) => {
   );
 };
 
-const Layout1 = ({
-  amount,
-  showLogo = true,
-  showFooter = true,
-  footerMessage,
-  timestamp,
-  status,
-  data,
-  isLayout,
-}: any) => {
+const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
   const config = {
     fontSize: isLayout ? "6" : "10",
   };
@@ -89,21 +76,21 @@ const Layout1 = ({
             fontWeight={"medium"}
             color={"gray.700"}
           >
-            ₹{Number(amount ?? 0)?.toFixed(2)}
+            ₹{Number(data?.amount ?? 0)?.toFixed(2)}
           </Text>
-          {status == "success" ? (
+          {data?.status == "success" ? (
             <Icon
               as={BsFillPatchCheckFill}
               color={"whatsapp.500"}
               fontSize={isLayout ? "32" : "64"}
             />
-          ) : status == "pending" ? (
+          ) : data?.status == "pending" ? (
             <Icon
               as={BsFillClockFill}
               color={"orange.500"}
               fontSize={isLayout ? "32" : "64"}
             />
-          ) : status == "failed" ? (
+          ) : data?.status == "failed" ? (
             <Icon
               as={BiSolidError}
               color={"red.500"}
@@ -114,18 +101,18 @@ const Layout1 = ({
           <Text
             fontWeight={"semibold"}
             color={
-              status == "success"
+              data?.status == "success"
                 ? "whatsapp.500"
-                : status == "pending"
+                : data?.status == "pending"
                 ? "orange.500"
-                : status == "failed"
+                : data?.status == "failed"
                 ? "red.500"
                 : "gray.700"
             }
             textTransform={"uppercase"}
             fontSize={isLayout ? "sm" : "md"}
           >
-            {status}
+            {data?.status}
           </Text>
         </VStack>
 
@@ -133,43 +120,48 @@ const Layout1 = ({
         <Box w={"full"}>
           <ReceiptEntry
             k="Trnxn Type"
-            v="Payout"
+            v={data?.type}
             fontSize={config?.fontSize}
           />
           <ReceiptEntry
             k="Trnxn ID"
-            v="RZPPYT243"
+            v={data?.transaction_id}
             fontSize={config?.fontSize}
           />
+
           <ReceiptEntry
             k="Timestamp"
-            v="13-02-2024 19:34"
+            v={new Date(data?.timestamp || new Date()).toLocaleString("en-GB")}
             fontSize={config?.fontSize}
           />
-          <ReceiptEntry
-            k="Account No."
-            v="39488734970"
-            fontSize={config?.fontSize}
-          />
-          <ReceiptEntry
-            k="Beneficiary"
-            v="Sangam Kumar"
-            fontSize={config?.fontSize}
-          />
+          {Object.entries(data?.miscData || {})?.map((entry, i) => (
+            <ReceiptEntry
+              k={entry[0]}
+              v={entry[1]}
+              fontSize={config?.fontSize}
+            />
+          ))}
         </Box>
 
         {/* Receipt Footer */}
-        <VStack gap={1}>
-          <HStack w={"full"} justifyContent={"center"}>
-            <Text fontSize={isLayout ? "2xs" : "md"} fontWeight={"semibold"}>
-              NXGENIUS
+        {data?.hideFooter ? null : (
+          <VStack gap={1}>
+            {data?.hideLogo ? null : (
+              <HStack w={"full"} justifyContent={"center"}>
+                <Text
+                  fontSize={isLayout ? "2xs" : "md"}
+                  fontWeight={"semibold"}
+                >
+                  NXGENIUS
+                </Text>
+              </HStack>
+            )}
+            <Text fontSize={isLayout ? 6 : 10} textAlign={"center"}>
+              {data?.footerMessage ||
+                "This is a computer generated receipt and does not require physical signature."}
             </Text>
-          </HStack>
-          <Text fontSize={isLayout ? 6 : 10} textAlign={"center"}>
-            This is a computer generated receipt and does not require physical
-            signature.
-          </Text>
-        </VStack>
+          </VStack>
+        )}
       </VStack>
     </>
   );

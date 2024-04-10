@@ -26,6 +26,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
+import { format } from "date-fns";
 
 const page = () => {
   const ref = useRef(true);
@@ -38,6 +39,7 @@ const page = () => {
     new Date(),
     new Date(),
   ]);
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     if (ref.current) {
@@ -49,10 +51,17 @@ const page = () => {
   async function getData(url?: string, query?: object) {
     setIsLoading(true);
     try {
+      const from = format(selectedDates[0], "yyyy-MM-dd");
+      const to = format(selectedDates[1], "yyyy-MM-dd");
+      setFormData({
+        ...query,
+        from: from,
+        to: to,
+      });
       const res = await API.ledger(url, {
         ...query,
-        from: selectedDates[0],
-        to: selectedDates[1],
+        from: from,
+        to: to,
       });
       setData(res?.data);
       setPages(res?.meta?.links);
@@ -127,21 +136,21 @@ const page = () => {
           overflowX={"scroll"}
           className="hide-scrollbar"
         >
-          <ExportButtons />
+          <ExportButtons fileName="Ledger" service="ledger" query={formData} />
           <Pagination
             pages={pages}
             onClick={(value: string) => getData(value, {})}
           />
         </HStack>
 
-        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={'scroll'}>
+        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
                 <Th color={"gray.600"}>Trnxn ID</Th>
-                <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Debit Amount</Th>
+                <Th color={"gray.600"}>Credit Amount</Th>
                 <Th color={"gray.600"}>Service</Th>
-                <Th color={"gray.600"}>Status</Th>
                 <Th color={"gray.600"}>Description</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
@@ -150,23 +159,27 @@ const page = () => {
             <Tbody fontSize={"xs"}>
               {data?.map((item: any, key) => (
                 <Tr key={key}>
-                  <Td borderBottom={0}>{item?.id}</Td>
-                  <Td borderBottom={0}>
-                    ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                  <Td borderBottom={0}>{item?.reference_id}</Td>
+                  <Td borderBottom={0} isNumeric>
+                    <Badge colorScheme="red" minW={16}>
+                      ₹
+                      {Number(item?.debit_amount)?.toLocaleString("en-IN") ?? 0}
+                    </Badge>
+                  </Td>
+                  <Td borderBottom={0} isNumeric>
+                    <Badge colorScheme="whatsapp" minW={16}>
+                      ₹
+                      {Number(item?.credit_amount)?.toLocaleString("en-IN") ??
+                        0}
+                    </Badge>
                   </Td>
                   <Td>
                     <HStack justifyContent={"center"}>
-                      <TransactionBadge>payout</TransactionBadge>
+                      <TransactionBadge>{item?.service}</TransactionBadge>
                     </HStack>
                   </Td>
                   <Td>
-                    <Badge>pending</Badge>
-                  </Td>
-                  <Td>
-                    <Text fontSize={"sm"}>
-                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                      Cupiditate, ut.
-                    </Text>
+                    <Text fontSize={"sm"}>{item?.description}</Text>
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}

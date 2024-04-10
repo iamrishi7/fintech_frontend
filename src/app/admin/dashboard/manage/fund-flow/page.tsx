@@ -1,4 +1,5 @@
 "use client";
+import AdminPinModal from "@/components/dashboard/admin/AdminPinModal";
 import PinModal from "@/components/dashboard/misc/PinModal";
 import CustomButton from "@/components/misc/CustomButton";
 import { API } from "@/lib/api";
@@ -12,6 +13,7 @@ import {
   Input,
   NumberInput,
   NumberInputField,
+  Select,
   Stack,
   useDisclosure,
   useStatStyles,
@@ -26,18 +28,10 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [beneficiary, setBeneficiary] = useState<any>({});
   const [formData, setFormData] = useState<any>({});
-  const [maxAmount, setMaxAmount] = useState("");
+  const [maxAmount, setMaxAmount] = useState(50000);
   const [availableProviders, setAvailableProviders] = useState([]);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const services = JSON.parse(localStorage.getItem("services"));
-    if (user) {
-      setMaxAmount(user?.wallet);
-    }
-    if (services) {
-      setAvailableProviders(services);
-    }
     if (beneficiary?.id) {
       onOpen();
     }
@@ -46,10 +40,10 @@ const page = () => {
   async function verifyBeneficiary(values: any) {
     try {
       console.log(values);
-      if (!values?.amount || !values?.user_id) {
+      if (!values?.amount || !values?.user_id ||  !values?.activity_type) {
         handleError({
           title: "All fields are required",
-          description: "Please enter amount and user phone number",
+          description: "Please enter amount, trnxn type and user phone number",
         });
         return;
       }
@@ -58,10 +52,6 @@ const page = () => {
       const res = await API.fetchUserInfo(values?.user_id);
       setFormData({
         ...values,
-        service_id: availableProviders?.find(
-          (item: any) =>
-            item?.provider == "portal" && item?.name == "allow_wallet_transfer"
-        )?.id,
         receiver_id: res?.data?.id,
       });
       setBeneficiary(res?.data);
@@ -84,8 +74,9 @@ const page = () => {
         <Formik
           initialValues={{
             user_id: "",
-            user_remarks: "",
+            admin_remarks: "",
             amount: "",
+            activity: ""
           }}
           onSubmit={console.log}
         >
@@ -99,29 +90,36 @@ const page = () => {
                     onChange={handleChange}
                     placeholder=" "
                   />
-                  <FormLabel>Beneficiary Phone</FormLabel>
+                  <FormLabel>User Phone</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <NumberInput
                     name="amount"
                     onChange={(value) => setFieldValue("amount", value)}
                     min={1}
-                    max={Number(maxAmount) || 10000}
+                    max={Number(maxAmount) || 50000}
                   >
                     <NumberInputField placeholder="₹" />
                     <FormLabel>Amount</FormLabel>
                   </NumberInput>
                 </FormControl>
-                <FormControl maxW={["full", "lg"]} variant={"floating"}>
-                <Input
-                    name="user_remarks"
-                    type="text"
-                    onChange={handleChange}
-                    placeholder=" "
-                  />
-                    <FormLabel>Remarks</FormLabel>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Select name="activity_type" onChange={handleChange}>
+                    <option value="">Transaction Type</option>
+                    <option value="transfer">Transfer</option>
+                    <option value="reversal">Reversal</option>
+                  </Select>
                 </FormControl>
               </Stack>
+              <FormControl maxW={["full"]} variant={"floating"} mb={4}>
+                <Input
+                  name="admin_remarks"
+                  type="text"
+                  onChange={handleChange}
+                  placeholder=" "
+                />
+                <FormLabel>Remarks</FormLabel>
+              </FormControl>
               <HStack w={"full"} justifyContent={"flex-end"} gap={6} mt={16}>
                 <CustomButton
                   isLoading={isLoading}
@@ -138,9 +136,7 @@ const page = () => {
       <br />
       <br />
 
-
-
-      <PinModal
+      <AdminPinModal
         isOpen={isOpen}
         onClose={() => {
           onClose();
@@ -148,7 +144,7 @@ const page = () => {
         }}
         type="wallet-transfer"
         formData={formData}
-        title={`Send ₹${formData?.amount} to ${beneficiary?.name}?`}
+        title={`${formData?.activity_type == "transfer" ? "Credit" : "Debit"} ₹${formData?.amount} ${formData?.activity_type == "transfer" ? "to" : "from"} ${beneficiary?.name}?`}
         description={"Enter your PIN to confirm this transaction"}
       />
     </>

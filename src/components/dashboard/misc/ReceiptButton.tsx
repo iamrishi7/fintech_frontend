@@ -3,10 +3,11 @@ import { ButtonProps, IconButton, useDisclosure } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { IoReceipt } from "react-icons/io5";
 import Receipt from "./receipt/Receipt";
+import { ReceiptProps } from "@/lib/commons/types";
 
 interface ReceiptButtonProps {
   size?: ButtonProps["size"];
-  data?: object | undefined;
+  data?: ReceiptProps | undefined;
 }
 
 const ReceiptButton: FC<ReceiptButtonProps> = ({ size, data }) => {
@@ -15,7 +16,7 @@ const ReceiptButton: FC<ReceiptButtonProps> = ({ size, data }) => {
     <>
       <IconButton
         aria-label="receipt"
-        size={"xs"}
+        size={size || "xs"}
         rounded={"full"}
         icon={<IoReceipt />}
         colorScheme="whatsapp"
@@ -25,7 +26,7 @@ const ReceiptButton: FC<ReceiptButtonProps> = ({ size, data }) => {
       <Receipt
         isOpen={isOpen}
         onClose={onClose}
-        data={{ ...data, status: "success" }}
+        data={data}
       />
     </>
   );

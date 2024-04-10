@@ -149,6 +149,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  onboardUser: async (provider) => {
+    let res = await API.execute(`/user/onboard/${provider}`, "GET");
+    return API.processResponse(res);
+  },
+
   fundRequests: async (url) => {
     let res = await API.execute(url || `/user/fund-requests`, "GET");
     return API.processResponse(res);
@@ -159,12 +164,22 @@ export const API = {
     return API.processResponse(res);
   },
 
-  onboardUser: async (provider) => {
-    let res = await API.execute(`/user/onboard/${provider}`, "GET");
+  fetchUserInfo: async (id) => {
+    let res = await API.execute(`/verify/${id}`, "GET");
     return API.processResponse(res);
   },
 
   // Transaction Related APIs
+
+  // Wallet Transfer APIs
+  doWalletTransfer: async (data) => {
+    let res = await API.execute(
+      `/user/transaction/wallet-transfer`,
+      "POST",
+      data
+    );
+    return API.processResponse(res);
+  },
 
   // Payout APIs
   doPayout: async (data) => {
@@ -198,7 +213,11 @@ export const API = {
   },
 
   doBbpsTransaction: async (data) => {
-    let res = await API.execute(`/user/services/bbps/new-transaction`, "POST", data);
+    let res = await API.execute(
+      `/user/services/bbps/new-transaction`,
+      "POST",
+      data
+    );
     return API.processResponse(res);
   },
 
@@ -224,10 +243,90 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminLedger: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/ledger?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
   reportPayouts: async (url, query) => {
     let res = await API.execute(
       url ||
         `/user/report/payout?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  reportWalletTransfers: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/report/wallet-transfer?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  reportFundTransfers: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/report/wallet-transfer?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  reportDailySales: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/report/daily-sales?${
           query
             ? Object.keys(query)
                 .map(
@@ -272,12 +371,16 @@ export const API = {
   },
 
   adminFetchUserAddress: async (id) => {
-    let res = await API.execute(`/user/address/${id}`, "GET");
+    let res = await API.execute(`/admin/manage-user/address/${id}`, "GET");
     return API.processResponse(res);
   },
 
   adminUpdateUserAddress: async (id, data) => {
-    let res = await API.execute(`/admin/manage-user/address/${id}`, "POST", data);
+    let res = await API.execute(
+      `/admin/manage-user/address/${id}`,
+      "PUT",
+      data
+    );
     return API.processResponse(res);
   },
 
@@ -320,27 +423,6 @@ export const API = {
       `/admin/manage-access/sync-user-permissions/${id}`,
       "PUT",
       data
-    );
-    return API.processResponse(res);
-  },
-
-  adminPendingFundRequests: async (query, url) => {
-    let res = await API.execute(
-      url ||
-        `/admin/fund-requests?status=${"pending"}${
-          query
-            ? `&` +
-              Object.keys(query)
-                .map(
-                  (key) =>
-                    encodeURIComponent(key) +
-                    "=" +
-                    encodeURIComponent(query[key])
-                )
-                .join("&")
-            : ""
-        }`,
-      "GET"
     );
     return API.processResponse(res);
   },
@@ -454,6 +536,150 @@ export const API = {
     let res = await API.execute(
       `/admin/commissions/update-commission/${id}?service=${service}`,
       "DELETE"
+    );
+    return API.processResponse(res);
+  },
+
+  // Transaction related APIs
+
+  adminUpdateTransaction: async (id) => {
+    let res = await API.execute(`/admin/transactions/payout/${id}`, "PUT", {});
+    return API.processResponse(res);
+  },
+
+  adminDoFundTransfer: async (data) => {
+    let res = await API.execute(
+      `/admin/tramsactopm/fund-transfer/${id}`,
+      "POST",
+      data
+    );
+    return API.processResponse(res);
+  },
+
+  // Report Related APIs
+
+  adminPendingFundRequests: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/fund-requests?status=${"pending"}${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportTransactionLedger: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/ledger?${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportPayouts: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/payout?${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportWalletTransfers: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/wallet-transfer?${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportFundTransfers: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/fund-transfer?${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportDailySales: async (query, url) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/fund-transfer?${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
     );
     return API.processResponse(res);
   },

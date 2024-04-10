@@ -29,20 +29,21 @@ import { ReceiptProps } from "../commons/types";
 
 interface TransactionHandlerParams {
   type:
-  | "payout"
-  | "cw"
-  | "ms"
-  | "be"
-  | "bbps"
-  | "cms"
-  | "dmt"
-  | "lic"
-  | "matm"
-  | "wallet-transfer";
+    | "payout"
+    | "cw"
+    | "ms"
+    | "be"
+    | "bbps"
+    | "cms"
+    | "dmt"
+    | "lic"
+    | "matm"
+    | "wallet-transfer"
+    | "fund-transfer";
   formData?: object | null;
 }
 
-const useTransactionHandler = () => {
+const useAdminTransactionHandler = () => {
   const { handleError } = useErrorHandler();
 
   const [pin, setPin] = useState("");
@@ -55,46 +56,15 @@ const useTransactionHandler = () => {
     formData,
   }: TransactionHandlerParams) {
     setIsLoading(true);
-    if (type == "payout") {
+    if (type == "fund-transfer") {
       try {
-        const res = await API.doPayout({ ...formData, pin: pin });
+        const res = await API.adminDoFundTransfer({ ...formData, pin: pin });
         setIsLoading(false);
-        setReceiptData({
-          type: "payout",
-          amount: res?.data?.amount,
-          status: res?.data?.status,
-          transaction_id: res?.data?.reference_id,
-          timestamp: res?.data?.created_at,
-          miscData: {
-            account_no: res?.data?.account_number,
-            beneficiary_name: res?.data?.beneficiary_name,
-            IFSC: res?.data?.ifsc_code,
-            UTR: res?.data?.utr
-          }
-        });
+
       } catch (error) {
         setIsLoading(false);
         handleError({
           title: "Error while processing payout",
-          error: error,
-        });
-      }
-    }
-    if (type == "wallet-transfer") {
-      try {
-        const res = await API.doWalletTransfer({ ...formData, pin: pin });
-        setIsLoading(false);
-        setReceiptData({
-          type: "wallet-transfer",
-          amount: res?.data?.amount,
-          status: res?.data?.status,
-          transaction_id: res?.data?.reference_id,
-          timestamp: res?.data?.created_at,
-        });
-      } catch (error) {
-        setIsLoading(false);
-        handleError({
-          title: "Error while transferring amount",
           error: error,
         });
       }
@@ -109,4 +79,4 @@ const useTransactionHandler = () => {
   };
 };
 
-export default useTransactionHandler;
+export default useAdminTransactionHandler;

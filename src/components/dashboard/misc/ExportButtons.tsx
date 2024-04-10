@@ -12,21 +12,30 @@ import React, { useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
 import { SiMicrosoftexcel } from "react-icons/si";
 
-const ExportButtons = ({ keyword, query, body, fileName }: any) => {
+interface ExportProps {
+  service: "payout" | "ledger" | "wallet-transfer" | "fund-transfer";
+  fileName: string;
+  query?: object;
+  body?: object;
+}
+
+const ExportButtons = ({ service, query, body, fileName }: ExportProps) => {
   const Toast = useToast({ position: "top-right" });
   const [isLoading, setIsLoading] = useState(false);
 
   function handleExport(extension: string) {
     setIsLoading(true);
     BackendAxios.post(
-      `/api/${localStorage.getItem("role")}/print-report/${keyword}${
+      `/${
+        localStorage.getItem("role") == "admin" ? "admin" : "user"
+      }/report/export?report=${service}&format=${extension}&${
         query
-          ? `?${Object.keys(query)
+          ? Object.keys(query)
               .map(
                 (key) =>
                   encodeURIComponent(key) + "=" + encodeURIComponent(query[key])
               )
-              .join("&")}`
+              .join("&")
           : ""
       }`,
       { ...body, extension: extension },
@@ -51,31 +60,35 @@ const ExportButtons = ({ keyword, query, body, fileName }: any) => {
     <>
       <HStack justifyContent={"flex-start"} gap={4}>
         <Tooltip label={"Excel Export"} placement="top">
-          <IconButton
+          <Button
             size={"sm"}
             variant={"ghost"}
             colorScheme="whatsapp"
             aria-label="Excel"
-            icon={<SiMicrosoftexcel />}
+            leftIcon={<SiMicrosoftexcel />}
             bgColor={"gray.50"}
             rounded={"full"}
             onClick={() => handleExport("xlsx")}
             isLoading={isLoading}
-          />
+          >
+            Excel
+          </Button>
         </Tooltip>
 
         <Tooltip label={"PDF Export"} placement="top">
-          <IconButton
+          <Button
             size={"sm"}
             variant={"ghost"}
             colorScheme="red"
             aria-label="Excel"
-            icon={<FaFilePdf />}
+            leftIcon={<FaFilePdf />}
             bgColor={"gray.50"}
             rounded={"full"}
             onClick={() => handleExport("pdf")}
             isLoading={isLoading}
-          />
+          >
+            PDF
+          </Button>
         </Tooltip>
       </HStack>
     </>
