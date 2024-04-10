@@ -35,7 +35,7 @@ const useApiHandler = () => {
 
   const userUploadMedia = async ({ file, type }: UploadMediaProps) => {
     await FormAxios.post(
-      `/user/upload-document`,
+      `/user/document`,
       {
         file: file,
         document_type: type,

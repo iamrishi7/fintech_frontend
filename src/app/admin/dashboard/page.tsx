@@ -119,7 +119,7 @@ const Dashboard = () => {
           </Text>
           <PendingFundRequests showPagination={false} />
         </Box>
-        <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
+        {/* <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>
             Recent Transactions
           </Text>
@@ -133,7 +133,7 @@ const Dashboard = () => {
             View All
           </Text>
           <RecentTransactions />
-        </Box>
+        </Box> */}
       </Stack>
     </>
   );
