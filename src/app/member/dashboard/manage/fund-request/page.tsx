@@ -54,7 +54,7 @@ const page = () => {
           }}
           onSubmit={console.log}
         >
-          {({ values, handleChange, handleSubmit, errors }) => (
+          {({ values, handleChange, handleSubmit, setFieldValue, errors }) => (
             <Form onSubmit={handleSubmit}>
               <Stack direction={["column", "row"]} gap={8} mb={8}>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
@@ -70,7 +70,12 @@ const page = () => {
                   </NumberInput>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <Input name="transaction_id" type="text" placeholder=" " />
+                  <Input
+                    name="transaction_id"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Transaction ID</FormLabel>
                 </FormControl>
               </Stack>
@@ -81,6 +86,7 @@ const page = () => {
                     name="transaction_date"
                     type="date"
                     placeholder="Transaction Date"
+                    onChange={handleChange}
                   />
                 </FormControl>
                 <SelectPortalBank name="bank" onChange={handleChange} />
@@ -88,7 +94,7 @@ const page = () => {
               <Stack direction={["column", "row"]} gap={8} mb={8}>
                 <Box w={["full", "xs"]}>
                   <FileDropzone
-                    onUpload={(files) => console.log(files)}
+                    onUpload={(files) => setFieldValue("receipt", files)}
                     accept="image/*,application/pdf"
                     label="Upload payment receipt"
                     height={32}
@@ -101,6 +107,7 @@ const page = () => {
                     w={"full"}
                     h={"32"}
                     placeholder=" "
+                    onChange={handleChange}
                   />
                   <FormLabel>Remarks</FormLabel>
                 </FormControl>

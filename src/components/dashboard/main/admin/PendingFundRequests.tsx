@@ -29,6 +29,7 @@ interface PendingFundRequestProps {
   parentData?: Array<any>;
   query?: object | null | undefined;
   showPagination?: boolean;
+  status?: "pending" | "approved" | "rejected"
 }
 
 const PendingFundRequests = ({
@@ -36,6 +37,7 @@ const PendingFundRequests = ({
   parentData,
   query,
   showPagination = true,
+  status
 }: PendingFundRequestProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
@@ -49,19 +51,20 @@ const PendingFundRequests = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (ref.current && !parentData) {
-      ref.current = false;
-      getPendingRequests();
-    }
     if (parentData) {
       setData(parentData?.data);
       setPages(parentData?.meta?.links);
+    } else {
+      if (ref.current) {
+        ref.current = false;
+        getPendingRequests();
+      }
     }
   }, []);
 
   async function getPendingRequests(url?: string) {
     try {
-      const res = await API.adminPendingFundRequests(query, url);
+      const res = await API.adminFundRequests(query, url, status);
       setData(res?.data);
     } catch (error) {
       handleError({ title: "Couldn't fetch fund requests", error: error });

@@ -117,7 +117,7 @@ const Dashboard = () => {
           >
             View All
           </Text>
-          <PendingFundRequests showPagination={false} />
+          <PendingFundRequests showPagination={false} status="pending" />
         </Box>
         {/* <Box flex={3} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>

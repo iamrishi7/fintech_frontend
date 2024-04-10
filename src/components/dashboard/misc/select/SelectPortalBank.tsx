@@ -24,7 +24,7 @@ const SelectPortalBank = ({
     const banks = JSON.parse(
       localStorage.getItem("banks")
     );
-    if (banks) {
+    if (banks?.length) {
       setData(banks);
     } else if (ref.current) {
       ref.current = false;
