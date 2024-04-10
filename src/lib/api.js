@@ -243,6 +243,26 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminLedger: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/ledger?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
   reportPayouts: async (url, query) => {
     let res = await API.execute(
       url ||

@@ -58,7 +58,7 @@ const page = () => {
         from: from,
         to: to,
       });
-      const res = await API.ledger(url, {
+      const res = await API.adminLedger(url, {
         ...query,
         from: from,
         to: to,
