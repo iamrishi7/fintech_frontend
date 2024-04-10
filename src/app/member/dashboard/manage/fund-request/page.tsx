@@ -1,6 +1,8 @@
 "use client";
 import RecentFundRequests from "@/components/dashboard/main/RecentFundRequests";
+import SelectPortalBank from "@/components/dashboard/misc/select/SelectPortalBank";
 import FileDropzone from "@/components/misc/FileDropzone";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { FormAxios } from "@/lib/utils/axios";
 import {
   Box,
@@ -20,6 +22,7 @@ import { Form, Formik } from "formik";
 import React, { FC, useState } from "react";
 
 const page = () => {
+  const { handleError } = useErrorHandler();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: object) {
@@ -29,6 +32,7 @@ const page = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      handleError({ title: "Couldn't post your fund request", error: error });
     }
   }
 
@@ -43,8 +47,8 @@ const page = () => {
             amount: "",
             transaction_id: "",
             transaction_date: "",
-            requested_bank: "",
-            member_remarks: "",
+            bank: "",
+            user_remarks: "",
             receipt: null,
             channel: "",
           }}
@@ -79,12 +83,7 @@ const page = () => {
                     placeholder="Transaction Date"
                   />
                 </FormControl>
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel fontSize={"xs"}>Requested Bank</FormLabel>
-                  <Select name="requested_bank" placeholder="Please select">
-                    <option value="SBI">State Bank of India</option>
-                  </Select>
-                </FormControl>
+                <SelectPortalBank name="bank" onChange={handleChange} />
               </Stack>
               <Stack direction={["column", "row"]} gap={8} mb={8}>
                 <Box w={["full", "xs"]}>
@@ -97,7 +96,7 @@ const page = () => {
                 </Box>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Textarea
-                    name="transaction_date"
+                    name="user_remarks"
                     resize={"none"}
                     w={"full"}
                     h={"32"}

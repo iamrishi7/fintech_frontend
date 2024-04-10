@@ -28,14 +28,14 @@ const page = () => {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      getPendingRequests();
+      getData();
     }
   }, []);
 
-  async function getPendingRequests(query?: object) {
+  async function getData(query?: object) {
     try {
       setIsLoading(true);
-      const res = await API.adminPendingFundRequests(query);
+      const res = await API.adminFundRequests(query, "");
       setData(res);
       setIsLoading(false);
     } catch (error) {
@@ -86,7 +86,7 @@ const page = () => {
                 />
               </Stack>
               <HStack justifyContent={"flex-end"}>
-                <CustomButton onClick={() => getPendingRequests(values)}>
+                <CustomButton onClick={() => getData(values)}>
                   Search
                 </CustomButton>
               </HStack>

@@ -140,26 +140,28 @@ const PendingFundRequests = ({
                   {new Date(item?.created_at)?.toLocaleString("en-GB")}
                 </Td>
                 <Td borderBottom={0}>
-                  <HStack gap={4} w={"full"} justifyContent={"center"}>
-                    <IconButton
-                      aria-label="approve"
-                      size={"xs"}
-                      rounded={"full"}
-                      icon={<FaCheck />}
-                      colorScheme="whatsapp"
-                      onClick={() => approveRequest(item?.id)}
-                      isLoading={isLoading}
-                    />
-                    <IconButton
-                      aria-label="reject"
-                      size={"xs"}
-                      rounded={"full"}
-                      icon={<FaXmark />}
-                      colorScheme="red"
-                      onClick={() => setTargetRequestId(item?.id)}
-                      isLoading={isLoading}
-                    />
-                  </HStack>
+                  {item?.status == "pending" ? (
+                    <HStack gap={4} w={"full"} justifyContent={"center"}>
+                      <IconButton
+                        aria-label="approve"
+                        size={"xs"}
+                        rounded={"full"}
+                        icon={<FaCheck />}
+                        colorScheme="whatsapp"
+                        onClick={() => approveRequest(item?.id)}
+                        isLoading={isLoading}
+                      />
+                      <IconButton
+                        aria-label="reject"
+                        size={"xs"}
+                        rounded={"full"}
+                        icon={<FaXmark />}
+                        colorScheme="red"
+                        onClick={() => setTargetRequestId(item?.id)}
+                        isLoading={isLoading}
+                      />
+                    </HStack>
+                  ) : null}
                 </Td>
               </Tr>
             ))}

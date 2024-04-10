@@ -84,7 +84,7 @@ const FundRequestForm: FC<FormProps> = ({ onClose }) => {
                   onChange={handleChange}
                 />
               </FormControl>
-              <SelectPortalBank name="requested_bank" onChange={handleChange} />
+              <SelectPortalBank name="bank" onChange={handleChange} />
             </Stack>
             <Stack direction={["column", "row"]} gap={8} mb={8}>
               <Box w={["full"]}>

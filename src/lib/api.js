@@ -589,6 +589,27 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminFundRequests: async (query, url, status) => {
+    let res = await API.execute(
+      url ||
+        `/admin/fund-requests?status=${status}${
+          query
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
   adminReportTransactionLedger: async (query, url) => {
     let res = await API.execute(
       url ||
