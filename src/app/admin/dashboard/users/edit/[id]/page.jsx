@@ -260,7 +260,7 @@ const page = ({ params }) => {
                 email: user?.email,
                 phone_number: user?.phone_number,
                 aadhaar_number: user?.aadhaar_number,
-                pan: user?.pan,
+                pan_number: user?.pan_number,
                 capped_balance: user?.capped_balance,
                 plan_id: user?.plan_id,
                 aadhaar_front: null,
@@ -386,10 +386,10 @@ const page = ({ params }) => {
                     </FormControl>
                     <FormControl w={["full", "xs"]} variant={"floating"}>
                       <Input
-                        name="pan"
+                        name="pan_number"
                         type="text"
                         placeholder=" "
-                        value={values?.pan}
+                        value={values?.pan_number}
                         onChange={handleChange}
                         // isDisabled={Boolean(values?.pan)}
                       />
