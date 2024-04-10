@@ -439,12 +439,12 @@ const page = () => {
                                   : "Block Onboarding"}
                               </Text>
                               <Switch
-                                isChecked={Boolean(item?.is_active)}
+                                isChecked={Boolean(item?.active)}
                                 onChange={async (e) => {
                                   if (e.target.checked) {
-                                    await updateUser(item?.id, {is_active: 1});
+                                    await updateUser(item?.id, {active: 1});
                                   } else {
-                                    await updateUser(item?.id, {is_active: 0});
+                                    await updateUser(item?.id, {active: 0});
                                   }
                                 }}
                               />
