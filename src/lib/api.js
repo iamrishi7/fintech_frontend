@@ -121,6 +121,16 @@ export const API = {
     return API.processResponse(res);
   },
 
+  changePin: async (data) => {
+    let res = await API.execute(`/credentials`, "PUT", {...data, credential_type: "pin"});
+    return API.processResponse(res);
+  },
+
+  changePassword: async (data) => {
+    let res = await API.execute(`/credentials`, "PUT", {...data, credential_type: "password"});
+    return API.processResponse(res);
+  },
+
   // Member APIs
 
   overview: async (duration) => {

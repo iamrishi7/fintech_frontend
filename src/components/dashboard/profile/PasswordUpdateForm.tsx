@@ -9,17 +9,26 @@ import {
   Heading,
   Input,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import CustomPinInput from "../misc/CustomPinInput";
+import { API } from "@/lib/api";
 
 const PasswordUpdateForm = () => {
   const { handleError } = useErrorHandler();
+  const Toast = useToast()
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function handlePasswordChange(values: object) {
     setIsLoading(true);
+    await API.changePassword(values)
+    Toast({
+      status: 'success',
+      description: 'Password updated successfully!'
+    })
     try {
       setIsLoading(false);
     } catch (error: any) {

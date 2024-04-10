@@ -8,17 +8,26 @@ import {
   HStack,
   Heading,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import CustomPinInput from "../misc/CustomPinInput";
+import { API } from "@/lib/api";
 
 const PinUpdateForm = () => {
   const { handleError } = useErrorHandler();
+  const Toast = useToast()
+
   const [isLoading, setIsLoading] = useState(false);
 
   async function handlePinChange(values: object) {
     setIsLoading(true);
+    await API.changePin(values)
+    Toast({
+      status: 'success',
+      description: 'PIN updated successfully!'
+    })
     try {
       setIsLoading(false);
     } catch (error: any) {
@@ -34,9 +43,9 @@ const PinUpdateForm = () => {
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
-            old_pin: "",
-            new_pin: "",
-            confirm_pin: "",
+            old_credential: "",
+            new_credential: "",
+            new_credential_confirmation: "",
           }}
           onSubmit={(values) => handlePinChange(values)}
         >
@@ -53,7 +62,7 @@ const PinUpdateForm = () => {
                   <FormLabel>Old PIN</FormLabel>
                   <CustomPinInput
                     justifyContent={"flex-start"}
-                    onComplete={(value) => setFieldValue("old_pin", value)}
+                    onComplete={(value) => setFieldValue("old_credential", value)}
                   />
                 </Box>
 
@@ -61,7 +70,7 @@ const PinUpdateForm = () => {
                   <FormLabel>New PIN</FormLabel>
                   <CustomPinInput
                     justifyContent={"flex-start"}
-                    onComplete={(value) => setFieldValue("new_pin", value)}
+                    onComplete={(value) => setFieldValue("new_credential", value)}
                   />
                 </Box>
 
@@ -69,7 +78,7 @@ const PinUpdateForm = () => {
                   <FormLabel>Confirm New PIN</FormLabel>
                   <CustomPinInput
                     justifyContent={"flex-start"}
-                    onComplete={(value) => setFieldValue("confirm_pin", value)}
+                    onComplete={(value) => setFieldValue("new_credential_confirmation", value)}
                   />
                 </Box>
               </Stack>
