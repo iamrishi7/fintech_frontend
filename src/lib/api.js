@@ -589,31 +589,31 @@ export const API = {
 
   // Report Related APIs
 
-  // adminPendingFundRequests: async (query, url) => {
-  //   let res = await API.execute(
-  //     url ||
-  //       `/admin/fund-requests?status=${"pending"}${
-  //         Object.keys(query).length > 0
-  //           ? `&` +
-  //             Object.keys(query)
-  //               .map(
-  //                 (key) =>
-  //                   encodeURIComponent(key) +
-  //                   "=" +
-  //                   encodeURIComponent(query[key])
-  //               )
-  //               .join("&")
-  //           : ""
-  //       }`,
-  //     "GET"
-  //   );
-  //   return API.processResponse(res);
-  // },
-
-  adminFundRequests: async (url, query) => {
+  adminPendingFundRequests: async (url, query) => {
     let res = await API.execute(
       url ||
-        `/admin/fund-requests?${
+        `/admin/fund-requests?status=${"pending"}${
+          Object.keys(query).length > 0
+            ? `&` +
+              Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  adminReportFundRequests: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/admin/report/fund-requests?${
           Object.keys(query).length > 0
             ?
               Object.keys(query)

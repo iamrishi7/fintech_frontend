@@ -60,9 +60,8 @@ const PendingFundRequests = ({
 
   async function getPendingRequests(url?: string, query?: object) {
     try {
-      const res = await API.adminFundRequests(url, {
+      const res = await API.adminPendingFundRequests(url, {
         ...query,
-        status: "pending",
       });
       setData(res?.data);
       setPages(res?.meta?.links)
