@@ -615,7 +615,7 @@ export const API = {
       url ||
         `/admin/fund-requests?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>
@@ -636,7 +636,7 @@ export const API = {
       url ||
         `/admin/report/ledger?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>
@@ -657,7 +657,7 @@ export const API = {
       url ||
         `/admin/report/payout?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>
@@ -678,7 +678,7 @@ export const API = {
       url ||
         `/admin/report/wallet-transfer?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>
@@ -699,7 +699,7 @@ export const API = {
       url ||
         `/admin/report/fund-transfer?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>
@@ -720,7 +720,7 @@ export const API = {
       url ||
         `/admin/report/fund-transfer?${
           query
-            ? `&` +
+            ?
               Object.keys(query)
                 .map(
                   (key) =>

@@ -263,7 +263,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           icon={FaMoneyBillTransfer}
           isActive={
             pathname?.split("/")?.includes("fund-flow") &&
-            pathname?.split("/")?.includes("reports")
+            pathname?.split("/")?.includes("manage")
           }
           link={"/admin/dashboard/manage/fund-flow"}
         >
@@ -300,7 +300,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
         >
           Fund Request
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={FaUser}
           isActive={
             pathname?.split("/")?.includes("user-ledger") &&
@@ -309,7 +309,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           link={"/admin/dashboard/reports/user-ledger"}
         >
           User Ledger
-        </NavItem>
+        </NavItem> */}
         <NavItem
           icon={BsCalendar2CheckFill}
           isActive={

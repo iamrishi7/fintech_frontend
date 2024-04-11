@@ -84,6 +84,7 @@ const page = () => {
           initialValues={{
             transaction_id: "",
             receiver_id: "",
+            sender_id: "",
           }}
           onSubmit={console.log}
         >
@@ -111,6 +112,15 @@ const page = () => {
                     onChange={handleChange}
                   />
                   <FormLabel>Transaction ID</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="sender_id"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
+                  <FormLabel>Sender Phone No.</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
