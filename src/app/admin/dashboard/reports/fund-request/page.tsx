@@ -194,7 +194,7 @@ const page = () => {
         >
           <ExportButtons
             fileName="FundRequests"
-            service="fund-request"
+            service="fund-requests"
             query={formData}
           />
           <Pagination
