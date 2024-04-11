@@ -238,7 +238,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/ledger?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -258,7 +258,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/fund-requests?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -278,7 +278,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/ledger?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -298,7 +298,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/payout?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -318,7 +318,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/wallet-transfer?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -338,7 +338,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/wallet-transfer?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -358,7 +358,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/daily-sales?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -380,7 +380,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/manage-user/users?${
-          query
+          Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -593,7 +593,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/fund-requests?status=${"pending"}${
-          query
+          Object.keys(query).length > 0
             ? `&` +
               Object.keys(query)
                 .map(
@@ -614,7 +614,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/fund-requests?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
@@ -635,7 +635,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/ledger?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
@@ -656,7 +656,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/payout?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
@@ -677,7 +677,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/wallet-transfer?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
@@ -698,7 +698,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/fund-transfer?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
@@ -719,7 +719,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/fund-transfer?${
-          query
+          Object.keys(query).length > 0
             ?
               Object.keys(query)
                 .map(
