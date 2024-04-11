@@ -68,7 +68,7 @@ const page = () => {
         from: from,
         to: to,
       });
-      const res = await API.adminFundRequests(url, {
+      const res = await API.adminReportFundRequests(url, {
         ...query,
         from: from,
         to: to,
