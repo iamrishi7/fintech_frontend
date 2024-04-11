@@ -194,7 +194,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           Dashboard
         </NavItem>
-        {user?.role != "retailer" ? (
+        {/* {user?.role != "retailer" ? (
           <NavItem
             icon={AiOutlineTeam}
             isActive={pathname?.split("/")?.includes("team")}
@@ -202,7 +202,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           >
             Team
           </NavItem>
-        ) : null}
+        ) : null} */}
         <NavItem
           icon={FaUser}
           isActive={pathname?.split("/")?.includes("profile")}
@@ -230,7 +230,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
             Onboard
           </NavItem>
         ) : null}
-        <NavItem
+        {/* <NavItem
           icon={IoFingerPrint}
           isActive={
             pathname?.split("/")?.includes("aeps") &&
@@ -249,7 +249,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/services/bill-pay"}
         >
           Bill Pay
-        </NavItem>
+        </NavItem> */}
         <NavItem
           icon={SiRazorpay}
           isActive={
@@ -260,7 +260,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           Payout
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={IoPhonePortraitOutline}
           isActive={
             pathname?.split("/")?.includes("recharge") &&
@@ -289,7 +289,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/services/lic"}
         >
           LIC
-        </NavItem>
+        </NavItem> */}
         <br />
         <Text
           fontWeight={"semibold"}
@@ -362,7 +362,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           Fund Flow
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={IoFingerPrint}
           isActive={
             pathname?.split("/")?.includes("aeps") &&
@@ -381,7 +381,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/reports/bill-pay"}
         >
           Bill Pay
-        </NavItem>
+        </NavItem> */}
         <NavItem
           icon={SiRazorpay}
           isActive={
@@ -392,7 +392,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           Payout
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={IoPhonePortraitOutline}
           isActive={
             pathname?.split("/")?.includes("recharge") &&
@@ -421,7 +421,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/reports/lic"}
         >
           LIC
-        </NavItem>
+        </NavItem> */}
 
         <br />
         <br />

@@ -330,7 +330,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
         >
           Fund Flow
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={IoFingerPrint}
           isActive={
             pathname?.split("/")?.includes("aeps") &&
@@ -349,7 +349,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           link={"/admin/dashboard/reports/bill-pay"}
         >
           Bill Pay
-        </NavItem>
+        </NavItem> */}
         <NavItem
           icon={SiRazorpay}
           isActive={
@@ -360,7 +360,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
         >
           Payout
         </NavItem>
-        <NavItem
+        {/* <NavItem
           icon={IoPhonePortraitOutline}
           isActive={
             pathname?.split("/")?.includes("recharge") &&
@@ -399,7 +399,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           link={"/admin/dashboard/reports/lic"}
         >
           Login Report
-        </NavItem>
+        </NavItem> */}
 
         <br />
         <br />

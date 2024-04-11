@@ -24,38 +24,38 @@ interface CommissionSetupProps {
 
 const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
   const [services, setServices] = useState([
-    {
-      id: "aeps-withdrawal",
-      label: "AePS Withdrawal",
-    },
-    {
-      id: "aeps-mini-statement",
-      label: "AePS Mini Statement",
-    },
-    {
-      id: "bbps",
-      label: "Bill Pay",
-    },
-    {
-      id: "dmt",
-      label: "DMT",
-    },
+    // {
+    //   id: "aeps-withdrawal",
+    //   label: "AePS Withdrawal",
+    // },
+    // {
+    //   id: "aeps-mini-statement",
+    //   label: "AePS Mini Statement",
+    // },
+    // {
+    //   id: "bbps",
+    //   label: "Bill Pay",
+    // },
+    // {
+    //   id: "dmt",
+    //   label: "DMT",
+    // },
     {
       id: "payout",
       label: "Payout",
     },
-    {
-      id: "lic",
-      label: "LIC Payment",
-    },
-    {
-      id: "pan",
-      label: "PAN Application",
-    },
-    {
-      id: "cms",
-      label: "CMS Deposit",
-    },
+    // {
+    //   id: "lic",
+    //   label: "LIC Payment",
+    // },
+    // {
+    //   id: "pan",
+    //   label: "PAN Application",
+    // },
+    // {
+    //   id: "cms",
+    //   label: "CMS Deposit",
+    // },
   ]);
 
 
@@ -71,7 +71,7 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
             ))}
           </TabList>
           <TabPanels>
-            <TabPanel>
+            {/* <TabPanel>
               <AepsWithdrawalSchema packageId={packageId} />
             </TabPanel>
             <TabPanel>
@@ -82,11 +82,11 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
             </TabPanel>
             <TabPanel>
               <DmtSchema packageId={packageId} />
-            </TabPanel>
+            </TabPanel> */}
             <TabPanel>
               <PayoutSchema packageId={packageId} />
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <LicSchema />
             </TabPanel>
             <TabPanel>
@@ -94,7 +94,7 @@ const CommissionSetup = ({ packageId }: CommissionSetupProps) => {
             </TabPanel>
             <TabPanel>
               <CmsSchema packageId={packageId} />
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
         <br />
