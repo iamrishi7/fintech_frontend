@@ -104,7 +104,7 @@ const page = () => {
             Loading...
           </Text>
         ) : (
-          <PendingFundRequests parentData={data} />
+          <PendingFundRequests parentData={data} status="pending" />
         )}
       </Box>
     </>

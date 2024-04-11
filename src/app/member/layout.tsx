@@ -343,6 +343,16 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           Ledger
         </NavItem>
         <NavItem
+          icon={GiReceiveMoney}
+          isActive={
+            pathname?.split("/")?.includes("ledger") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/member/dashboard/reports/fund-request"}
+        >
+          Fund Request
+        </NavItem>
+        <NavItem
           icon={BsCalendar2CheckFill}
           isActive={
             pathname?.split("/")?.includes("daily-sales") &&
@@ -361,6 +371,16 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/reports/fund-flow"}
         >
           Fund Flow
+        </NavItem>
+        <NavItem
+          icon={FaMoneyBillTransfer}
+          isActive={
+            pathname?.split("/")?.includes("fund-flow") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/member/dashboard/reports/wallet-transfer"}
+        >
+          Wallet Transfer
         </NavItem>
         {/* <NavItem
           icon={IoFingerPrint}

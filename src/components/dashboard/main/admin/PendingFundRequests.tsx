@@ -4,8 +4,10 @@ import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API_BASE_URL } from "@/lib/utils/constants";
 import {
   Avatar,
+  Badge,
   BoxProps,
   HStack,
   IconButton,
@@ -23,21 +25,20 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { FaCheck, FaClock } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
+import { IoReceipt } from "react-icons/io5";
+import StatusBadge from "../../reports/StatusBadge";
 
 interface PendingFundRequestProps {
   maxH?: BoxProps["maxH"];
   parentData?: Array<any>;
   query?: object | null | undefined;
   showPagination?: boolean;
-  status?: "pending" | "approved" | "rejected"
+  status?: "pending" | "approved" | "rejected";
 }
 
 const PendingFundRequests = ({
   maxH,
-  parentData,
-  query,
   showPagination = true,
-  status
 }: PendingFundRequestProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
@@ -51,21 +52,20 @@ const PendingFundRequests = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (parentData) {
-      setData(parentData?.data);
-      setPages(parentData?.meta?.links);
-    } else {
-      if (ref.current) {
-        ref.current = false;
-        getPendingRequests();
-      }
+    if (ref.current) {
+      ref.current = false;
+      getPendingRequests();
     }
   }, []);
 
-  async function getPendingRequests(url?: string) {
+  async function getPendingRequests(url?: string, query?: object) {
     try {
-      const res = await API.adminFundRequests(query, url, status);
+      const res = await API.adminFundRequests(url, {
+        ...query,
+        status: "pending",
+      });
       setData(res?.data);
+      setPages(res?.meta?.links)
     } catch (error) {
       handleError({ title: "Couldn't fetch fund requests", error: error });
     }
@@ -109,7 +109,7 @@ const PendingFundRequests = ({
         >
           <Pagination
             pages={pages}
-            onClick={(value: string) => getPendingRequests(value)}
+            onClick={(value: string) => getPendingRequests(value, {})}
           />
         </HStack>
       ) : null}
@@ -117,19 +117,24 @@ const PendingFundRequests = ({
         <Table size={"md"} variant={"striped"}>
           <Thead>
             <Tr>
-              <Th color={"gray.600"}>ID</Th>
+              <Th color={"gray.600"}>Trnxn ID</Th>
               <Th color={"gray.600"}>Amount</Th>
+              <Th color={"gray.600"}>Status</Th>
+              <Th color={"gray.600"}>Updated By</Th>
               <Th color={"gray.600"}>User</Th>
               <Th color={"gray.600"}>Req. At</Th>
-              <Th color={"gray.600"}>Status</Th>
+              <Th color={"gray.600"}>Action</Th>
             </Tr>
           </Thead>
           <Tbody fontSize={"xs"}>
             {data?.map((item: any, key: number) => (
               <Tr key={key}>
-                <Td borderBottom={0}>{item?.id}</Td>
+                <Td borderBottom={0}>{item?.transaction_id}</Td>
                 <Td borderBottom={0}>
                   ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                </Td>
+                <Td>
+                  <Badge textTransform={"uppercase"}>{item?.status}</Badge>
                 </Td>
                 <Td>
                   <HStack alignItems={"flex-start"}>
@@ -139,10 +144,16 @@ const PendingFundRequests = ({
                     </Text>
                   </HStack>
                 </Td>
+                <Td>
+                  <HStack alignItems={"flex-start"}>
+                    <Avatar size={"xs"} name={item?.reviewer?.name} />
+                    <Text>{item?.reviewer?.name}</Text>
+                  </HStack>
+                </Td>
                 <Td borderBottom={0}>
                   {new Date(item?.created_at)?.toLocaleString("en-GB")}
                 </Td>
-                <Td borderBottom={0}>
+                <Td borderBottom={0} textAlign={"center"}>
                   {item?.status == "pending" ? (
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
                       <IconButton
@@ -165,6 +176,22 @@ const PendingFundRequests = ({
                       />
                     </HStack>
                   ) : null}
+                  <IconButton
+                    aria-label="view-receipt"
+                    size={"xs"}
+                    rounded={"full"}
+                    icon={<IoReceipt />}
+                    colorScheme="twitter"
+                    onClick={() =>
+                      window.open(
+                        `${API_BASE_URL.replace("api", "storage")}+${
+                          item?.receipt
+                        }`,
+                        "_blank"
+                      )
+                    }
+                    isLoading={isLoading}
+                  />
                 </Td>
               </Tr>
             ))}
@@ -182,7 +209,7 @@ const PendingFundRequests = ({
         >
           <Pagination
             pages={pages}
-            onClick={(value: string) => getPendingRequests(value)}
+            onClick={(value: string) => getPendingRequests(value, {})}
           />
         </HStack>
       ) : null}

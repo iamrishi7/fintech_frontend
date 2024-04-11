@@ -122,12 +122,18 @@ export const API = {
   },
 
   changePin: async (data) => {
-    let res = await API.execute(`/credentials`, "PUT", {...data, credential_type: "pin"});
+    let res = await API.execute(`/credentials`, "PUT", {
+      ...data,
+      credential_type: "pin",
+    });
     return API.processResponse(res);
   },
 
   changePassword: async (data) => {
-    let res = await API.execute(`/credentials`, "PUT", {...data, credential_type: "password"});
+    let res = await API.execute(`/credentials`, "PUT", {
+      ...data,
+      credential_type: "password",
+    });
     return API.processResponse(res);
   },
 
@@ -161,11 +167,6 @@ export const API = {
 
   onboardUser: async (provider) => {
     let res = await API.execute(`/user/onboard/${provider}`, "GET");
-    return API.processResponse(res);
-  },
-
-  fundRequests: async (url) => {
-    let res = await API.execute(url || `/user/fund-requests`, "GET");
     return API.processResponse(res);
   },
 
@@ -237,6 +238,26 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/ledger?${
+          query
+            ? Object.keys(query)
+                .map(
+                  (key) =>
+                    encodeURIComponent(key) +
+                    "=" +
+                    encodeURIComponent(query[key])
+                )
+                .join("&")
+            : ""
+        }`,
+      "GET"
+    );
+    return API.processResponse(res);
+  },
+
+  reportFundRequests: async (url, query) => {
+    let res = await API.execute(
+      url ||
+        `/user/fund-requests?${
           query
             ? Object.keys(query)
                 .map(
@@ -589,10 +610,10 @@ export const API = {
     return API.processResponse(res);
   },
 
-  adminFundRequests: async (query, url, status) => {
+  adminFundRequests: async (url, query) => {
     let res = await API.execute(
       url ||
-        `/admin/fund-requests?status=${status}${
+        `/admin/fund-requests?${
           query
             ? `&` +
               Object.keys(query)

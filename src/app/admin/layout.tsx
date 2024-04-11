@@ -291,6 +291,16 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           Ledger
         </NavItem>
         <NavItem
+          icon={GiReceiveMoney}
+          isActive={
+            pathname?.split("/")?.includes("ledger") &&
+            pathname?.split("/")?.includes("reports")
+          }
+          link={"/admin/dashboard/reports/fund-request"}
+        >
+          Fund Request
+        </NavItem>
+        <NavItem
           icon={FaUser}
           isActive={
             pathname?.split("/")?.includes("user-ledger") &&

@@ -13,7 +13,7 @@ import { FaFilePdf } from "react-icons/fa";
 import { SiMicrosoftexcel } from "react-icons/si";
 
 interface ExportProps {
-  service: "payout" | "ledger" | "wallet-transfer" | "fund-transfer";
+  service: "payout" | "ledger" | "wallet-transfer" | "fund-transfer" | "fund-request";
   fileName: string;
   query?: object;
   body?: object;

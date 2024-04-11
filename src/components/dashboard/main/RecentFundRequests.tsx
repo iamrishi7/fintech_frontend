@@ -20,6 +20,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
+import { format } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCheck, FaClock } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
@@ -35,6 +36,10 @@ const RecentFundRequests = ({
   const { handleError } = useErrorHandler();
 
   const [data, setData] = useState([]);
+  const [selectedDates, setSelectedDates] = useState([
+    new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    new Date(),
+  ]);
   const [pages, setPages] = useState([]);
 
   useEffect(() => {
@@ -44,9 +49,16 @@ const RecentFundRequests = ({
     }
   }, []);
 
-  async function getMyRequests(url?: string) {
+  async function getMyRequests(url?: string, query?: object) {
     try {
-      const res = await API.fundRequests(url);
+      const from = format(selectedDates[0], "yyyy-MM-dd");
+      const to = format(selectedDates[1], "yyyy-MM-dd");
+      const res = await API.reportFundRequests(url, {
+        ...query,
+        from: from,
+        to: to,
+        status: "pending",
+      });
       setData(res?.data);
       setPages(res?.meta?.links);
     } catch (error) {
@@ -56,21 +68,6 @@ const RecentFundRequests = ({
 
   return (
     <>
-      {showPagination ? (
-        <HStack
-          w={"full"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          mb={8}
-          overflowX={"scroll"}
-          className="hide-scrollbar"
-        >
-          <Pagination
-            pages={pages}
-            onClick={(value: string) => getMyRequests(value)}
-          />
-        </HStack>
-      ) : null}
       <TableContainer maxH={"sm"} overflowY={"scroll"}>
         <Table size={"md"} variant={"striped"}>
           <Thead>
@@ -134,22 +131,6 @@ const RecentFundRequests = ({
           </Tbody>
         </Table>
       </TableContainer>
-
-      {showPagination ? (
-        <HStack
-          w={"full"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          mt={8}
-          overflowX={"scroll"}
-          className="hide-scrollbar"
-        >
-          <Pagination
-            pages={pages}
-            onClick={(value: string) => getMyRequests(value)}
-          />
-        </HStack>
-      ) : null}
     </>
   );
 };
