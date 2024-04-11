@@ -101,12 +101,12 @@ const page = () => {
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="receiver_id"
+                    name="user_id"
                     type="text"
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Receiver ID</FormLabel>
+                  <FormLabel>User ID</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
