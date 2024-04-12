@@ -349,7 +349,7 @@ export const API = {
   reportFundTransfers: async (url, query) => {
     let res = await API.execute(
       url ||
-        `/user/report/wallet-transfer?${
+        `/user/report/fund-transfer?${
           Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(

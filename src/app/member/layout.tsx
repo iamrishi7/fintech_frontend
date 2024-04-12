@@ -345,7 +345,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         <NavItem
           icon={GiReceiveMoney}
           isActive={
-            pathname?.split("/")?.includes("ledger") &&
+            pathname?.split("/")?.includes("fund-request") &&
             pathname?.split("/")?.includes("reports")
           }
           link={"/member/dashboard/reports/fund-request"}
@@ -375,7 +375,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         <NavItem
           icon={FaMoneyBillTransfer}
           isActive={
-            pathname?.split("/")?.includes("fund-flow") &&
+            pathname?.split("/")?.includes("wallet-transfer") &&
             pathname?.split("/")?.includes("reports")
           }
           link={"/member/dashboard/reports/wallet-transfer"}
