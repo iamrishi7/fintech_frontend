@@ -157,7 +157,7 @@ const page = () => {
             <Tbody fontSize={"xs"}>
               {Object?.entries(data)?.map((item: any, key) => (
                 <Tr key={key}>
-                  <Td>User Name</Td>
+                  <Td>{item[1]?.user_name}</Td>
                   <Td borderBottom={0}>
                     ₹
                     {(
