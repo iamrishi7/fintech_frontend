@@ -588,7 +588,7 @@ export const API = {
 
   adminDeleteCommission: async (id, service) => {
     let res = await API.execute(
-      `/admin/commissions/update-commission/${id}?service=${service}`,
+      `/admin/commissions/delete-commission/${id}?service=${service}`,
       "DELETE"
     );
     return API.processResponse(res);
