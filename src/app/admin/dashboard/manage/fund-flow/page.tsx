@@ -67,7 +67,7 @@ const page = () => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={4}>
-        Wallet Transfer
+        Fund Flow
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>

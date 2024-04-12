@@ -36,7 +36,7 @@ interface PinInputParams {
     | "dmt"
     | "lic"
     | "matm"
-    | "wallet-transfer";
+    | "wallet-transfer" | "fund-transfer";
   formData?: object | null;
   isOpen: boolean;
   onClose: () => void;

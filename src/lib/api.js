@@ -592,7 +592,7 @@ export const API = {
 
   adminDoFundTransfer: async (data) => {
     let res = await API.execute(
-      `/admin/tramsactopm/fund-transfer/${id}`,
+      `/admin/tramsactopm/fund-transfer`,
       "POST",
       data
     );
