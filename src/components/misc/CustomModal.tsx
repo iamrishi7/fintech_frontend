@@ -50,7 +50,7 @@ const CustomModal: FC<CustomModalProps> = ({
           <ModalHeader fontWeight={"medium"}>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={hideFooter ? 4 : 6}>{children}</ModalBody>
-          {hideFooter ? (
+          {hideFooter ? null : (
             <ModalFooter>
               <HStack w={"full"} justifyContent={"flex-end"} gap={4}>
                 <Button onClick={onClose} isLoading={isLoading}>
@@ -69,7 +69,7 @@ const CustomModal: FC<CustomModalProps> = ({
                 </Button>
               </HStack>
             </ModalFooter>
-          ) : null}
+          )}
         </ModalContent>
       </Modal>
     </>

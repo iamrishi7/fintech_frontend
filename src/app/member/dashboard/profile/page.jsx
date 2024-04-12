@@ -27,6 +27,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useRef, useState } from "react";
 import { BsCamera } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
+import PanVerificationInput from "@/components/dashboard/profile/PanVerificationInput";
 
 const FormSubheading = ({ title }) => {
   return (
@@ -326,17 +327,10 @@ const page = () => {
                     />
                     <FormLabel>Aadhaar No.</FormLabel>
                   </FormControl>
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="pan_number"
-                      type="text"
-                      placeholder=" "
-                      value={values?.pan_number}
-                      onChange={handleChange}
-                      isDisabled={Boolean(values?.pan_number)}
-                    />
-                    <FormLabel>PAN</FormLabel>
-                  </FormControl>
+                  <PanVerificationInput
+                    onSuccess={(data) => setFieldValue("pan_number", data)}
+                    value={values?.pan_number}
+                  />
                 </Stack>
 
                 <FormSubheading title={"Upload Documents"} />

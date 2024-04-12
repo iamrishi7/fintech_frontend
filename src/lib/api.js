@@ -137,6 +137,18 @@ export const API = {
     return API.processResponse(res);
   },
 
+  verifyPanNumber: async (pan) => {
+    let res = await API.execute(`/user/verify/pan?pan_number=${pan}`, "GET");
+    return API.processResponse(res);
+  },
+
+  savePanNumber: async (pan) => {
+    let res = await API.execute(`/user/verify/pan`, "PUT", {
+      pan_number: pan
+    });
+    return API.processResponse(res);
+  },
+
   // Member APIs
 
   overview: async (duration) => {
