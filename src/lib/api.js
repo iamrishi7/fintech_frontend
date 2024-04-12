@@ -144,7 +144,7 @@ export const API = {
 
   savePanNumber: async (pan) => {
     let res = await API.execute(`/user/verify/pan`, "PUT", {
-      pan_number: pan
+      pan_number: pan,
     });
     return API.processResponse(res);
   },
@@ -510,6 +510,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  adminCreatePlan: async (data) => {
+    let res = await API.execute(`/admin/plans`, "POST", data);
+    return API.processResponse(res);
+  },
+
   adminGetPlans: async () => {
     let res = await API.execute(`/admin/plans`, "GET");
     return API.processResponse(res);
@@ -517,6 +522,12 @@ export const API = {
 
   adminUpdatePlan: async (id, data) => {
     let res = await API.execute(`/admin/plans/${id}`, "PUT", data);
+    return API.processResponse(res);
+  },
+
+  // !!!WARNING!!! - This API will permanently delete the plan and all of its associated commission rules
+  adminDeletePlan: async (id) => {
+    let res = await API.execute(`/admin/plans/${id}`, "DELETE");
     return API.processResponse(res);
   },
 
@@ -627,8 +638,7 @@ export const API = {
       url ||
         `/admin/report/fund-requests?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +
@@ -648,8 +658,7 @@ export const API = {
       url ||
         `/admin/report/ledger?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +
@@ -669,8 +678,7 @@ export const API = {
       url ||
         `/admin/report/payout?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +
@@ -690,8 +698,7 @@ export const API = {
       url ||
         `/admin/report/wallet-transfer?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +
@@ -711,8 +718,7 @@ export const API = {
       url ||
         `/admin/report/fund-transfer?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +
@@ -732,8 +738,7 @@ export const API = {
       url ||
         `/admin/report/daily-sales?${
           Object.keys(query).length > 0
-            ?
-              Object.keys(query)
+            ? Object.keys(query)
                 .map(
                   (key) =>
                     encodeURIComponent(key) +

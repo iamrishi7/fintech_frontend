@@ -68,10 +68,29 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
     }
   }
 
+  async function createPlan() {
+    try {
+      await API.adminCreatePlan({
+        name: "New Plan",
+        default: 0,
+      });
+      Toast({
+        status: "success",
+        description: "Plan created successfully",
+      });
+      fetchData();
+    } catch (error) {
+      handleError({
+        title: "Error while creating plan",
+        error: error,
+      });
+    }
+  }
+
   return (
     <>
       <HStack w={"full"} justifyContent={"flex-end"} mb={4}>
-        <CustomButton size={"sm"} rounded={"full"} leftIcon={<FaPlus />}>
+        <CustomButton size={"sm"} rounded={"full"} leftIcon={<FaPlus />} onClick={createPlan}>
           Create New
         </CustomButton>
       </HStack>
