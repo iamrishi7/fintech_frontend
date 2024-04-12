@@ -30,17 +30,16 @@ const PanVerificationInput = ({
   const [panHolder, setPanHolder] = useState<any>(null);
   const { handleError } = useErrorHandler();
 
-
-  function isValidPanCardNumber(panNumber:string) {
+  function isValidPanCardNumber(panNumber: string) {
     const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
     return panRegex.test(panNumber);
-}
-
+  }
 
   async function verify() {
     try {
-      if (!isValidPanCardNumber(panNumber)) throw new Error("Invalid PAN number")
+      if (!isValidPanCardNumber(panNumber))
+        throw new Error("Invalid PAN number");
       const res = await API.verifyPanNumber(panNumber);
       setPanHolder(res?.data);
     } catch (error) {
@@ -53,7 +52,8 @@ const PanVerificationInput = ({
 
   async function save() {
     try {
-      if (!isValidPanCardNumber(panNumber)) throw new Error("Invalid PAN number")
+      if (!isValidPanCardNumber(panNumber))
+        throw new Error("Invalid PAN number");
       const res = await API.savePanNumber(panNumber);
       Toast({
         status: "success",
@@ -62,7 +62,7 @@ const PanVerificationInput = ({
       if (onSuccess) {
         onSuccess(panNumber);
       }
-      onClose()
+      onClose();
     } catch (error) {
       handleError({
         title: "Error while saving PAN details",
@@ -86,7 +86,7 @@ const PanVerificationInput = ({
               });
             } else onOpen();
           }}
-          cursor={'pointer'}
+          cursor={"pointer"}
           placeholder="Click to verify PAN"
         />
       </FormControl>
@@ -112,16 +112,9 @@ const PanVerificationInput = ({
             </Text>
           ) : null}
           <br />
-          {panHolder ? (
-            <HStack justifyContent={"flex-end"}>
-            <Button onClick={() => setPanHolder(null)}>Reset</Button>
+          <HStack justifyContent={"flex-end"}>
             <CustomButton onClick={save}>Save</CustomButton>
           </HStack>
-          ) : (
-            <HStack justifyContent={"flex-end"}>
-              <Button onClick={verify}>Verify</Button>
-            </HStack>
-          )}
         </Box>
       </CustomModal>
     </>
