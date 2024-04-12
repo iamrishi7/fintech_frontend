@@ -151,7 +151,7 @@ const page = () => {
           overflowX={"scroll"}
           className="hide-scrollbar"
         >
-          <ExportButtons fileName="FundRequests" service="fund-request" query={formData} />
+          <ExportButtons fileName="FundRequests" service="fund-requests" query={formData} />
           <Pagination
             pages={pages}
             onClick={(value: string) => getData(value, {})}

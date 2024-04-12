@@ -718,7 +718,7 @@ export const API = {
   adminReportDailySales: async (url, query) => {
     let res = await API.execute(
       url ||
-        `/admin/report/fund-transfer?${
+        `/admin/report/daily-sales?${
           Object.keys(query).length > 0
             ?
               Object.keys(query)
