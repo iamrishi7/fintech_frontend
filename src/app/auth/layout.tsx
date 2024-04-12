@@ -13,7 +13,7 @@ const layout = ({ children }: LayoutProps) => {
   async function validateSession() {
     try {
       const res = await fetch("/api/validate-session", {
-        method: 'POST',
+        method: 'GET',
         credentials: "include",
       });
 
