@@ -30,7 +30,10 @@ const page = () => {
   const { handleError } = useErrorHandler();
   const { user, authUser } = useAuth();
 
-  const [selectedDates, setSelectedDates] = useState([new Date(), new Date()]);
+  const [selectedDates, setSelectedDates] = useState([
+    new Date(new Date().setDate(new Date().getDate() - 1)),
+    new Date(new Date().setDate(new Date().getDate() + 1)),
+  ]);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>({});
   const [pages, setPages] = useState([]);
@@ -41,12 +44,11 @@ const page = () => {
       if (ref.current && user?.id) {
         ref.current = false;
         await getData();
-      }
-      else if(!user?.id) {
+      } else if (!user?.id) {
         await authUser();
       }
     })();
-    console.log(user?.id)
+    console.log(user?.id);
   }, [user]);
 
   async function getData(url?: string, query?: object) {
@@ -63,8 +65,11 @@ const page = () => {
       setData(res?.data);
       setPages(res?.meta?.links);
       setIsLoading(false);
-      console.log("User ID", user?.id)
-      console.log(res?.data[user?.id]?.payout?.debit_amount - res?.data[user?.id]?.payout?.credit_amount)
+      console.log("User ID", user?.id);
+      console.log(
+        res?.data[user?.id]?.payout?.debit_amount -
+          res?.data[user?.id]?.payout?.credit_amount
+      );
     } catch (error) {
       setIsLoading(false);
       handleError({
@@ -130,11 +135,17 @@ const page = () => {
               <Tr>
                 <Td borderBottom={0}>
                   ₹
-                  {((data[user?.id]?.payout?.debit_amount - data[user?.id]?.payout?.credit_amount) || 0)?.toLocaleString("en-IN") || 0}
+                  {(
+                    data[user?.id]?.payout?.debit_amount -
+                      data[user?.id]?.payout?.credit_amount || 0
+                  )?.toLocaleString("en-IN") || 0}
                 </Td>
                 <Td borderBottom={0}>
                   ₹
-                  {((data[user?.id]?.payout_commission?.debit_amount - data[user?.id]?.payout_commission?.credit_amount) || 0)?.toLocaleString("en-IN") || 0}
+                  {(
+                    data[user?.id]?.payout_commission?.debit_amount -
+                      data[user?.id]?.payout_commission?.credit_amount || 0
+                  )?.toLocaleString("en-IN") || 0}
                 </Td>
               </Tr>
             </Tbody>

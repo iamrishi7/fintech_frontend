@@ -14,6 +14,7 @@ import {
   Input,
   Stack,
   Table,
+  TableCaption,
   TableContainer,
   Tbody,
   Td,
@@ -32,9 +33,12 @@ const page = () => {
   const { handleError } = useErrorHandler();
   const { user, authUser } = useAuth();
 
-  const [selectedDates, setSelectedDates] = useState([new Date(), new Date()]);
+  const [selectedDates, setSelectedDates] = useState([
+    new Date(new Date().setDate(new Date().getDate() - 1)),
+    new Date(new Date().setDate(new Date().getDate() + 1)),
+  ]);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<any>({});
+  const [data, setData] = useState<any>([]);
   const [pages, setPages] = useState([]);
   const [formData, setFormData] = useState<any>({});
 
@@ -61,14 +65,14 @@ const page = () => {
         from: from,
         to: to,
       });
-      setData(res?.data);
-      setPages(res?.meta?.links);
+
+      if(Object?.entries(res?.data)?.map((item) => item[1])){
+        setData(Object?.entries(res?.data)?.map((item) => item[1]));
+        setPages(res?.meta?.links);
+      }
+
       setIsLoading(false);
-      console.log("User ID", user?.id);
-      console.log(
-        res?.data[user?.id]?.payout?.debit_amount -
-          res?.data[user?.id]?.payout?.credit_amount
-      );
+      console.log(Object?.entries(res?.data)?.map((item) => item[1]));
     } catch (error) {
       setIsLoading(false);
       handleError({
@@ -147,6 +151,7 @@ const page = () => {
 
         <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
+            <TableCaption placement="top">Negative amount means the amount has been credited to the user</TableCaption>
             <Thead>
               <Tr>
                 <Th color={"gray.600"}>User</Th>
@@ -155,21 +160,21 @@ const page = () => {
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
-              {Object?.entries(data)?.map((item: any, key) => (
+              {data?.map((item: any, key: number) => (
                 <Tr key={key}>
-                  <Td>{item[1]?.user_name}</Td>
+                  <Td>{item[0]?.user_name}</Td>
                   <Td borderBottom={0}>
                     ₹
                     {(
-                      item[1]?.payout?.debit_amount -
-                        item[1]?.payout?.credit_amount || 0
+                      item?.find(_ => _?.service == "payout")?.total_debit_amount -
+                        item?.find(_ => _?.service == "payout")?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
                   <Td borderBottom={0}>
                     ₹
                     {(
-                      item[1]?.payout_commission?.debit_amount -
-                        item[1]?.payout_commission?.credit_amount || 0
+                      item?.find(_ => _?.service == "payout_commission")?.total_debit_amount -
+                        item?.find(_ => _?.service == "payout_commission")?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
                 </Tr>

@@ -38,7 +38,7 @@ const page = () => {
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([]);
   const [selectedDates, setSelectedDates] = useState<Date[]>([
-    new Date(),
+    new Date(new Date().setMonth(new Date().getMonth() - 1)),
     new Date(),
   ]);
   const [formData, setFormData] = useState<any>({});
@@ -147,7 +147,7 @@ const page = () => {
         >
           <ExportButtons
             fileName={"WalletTransfers"}
-            service="wallet-transfer"
+            service="wallet-transfers"
             query={formData}
           />
           <Pagination
