@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 
-
 interface FormSubheadingProps {
   title: string;
   mt?: BoxProps["mt"];
@@ -75,7 +74,6 @@ const page = () => {
                 mb={8}
                 flexWrap={"wrap"}
               >
-
                 <Box w={["full", "xs"]}>
                   <FileDropzone
                     onUpload={(files) => console.log(files)}
@@ -84,21 +82,6 @@ const page = () => {
                     height={32}
                   />
                 </Box>
-                
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="portal_name" type="text" placeholder=" " />
-                  <FormLabel>Portal Name</FormLabel>
-                </FormControl>
-
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="company_name" type="text" placeholder=" " />
-                  <FormLabel>Company Name</FormLabel>
-                </FormControl>
-
-                <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="company_tagline" type="text" placeholder=" " />
-                  <FormLabel>Company Tagline</FormLabel>
-                </FormControl>
 
                 <Box w={["full", "xs"]}>
                   <FileDropzone
@@ -110,6 +93,29 @@ const page = () => {
                 </Box>
               </Stack>
 
+              <Stack
+                w={"full"}
+                direction={["column", "row"]}
+                gap={8}
+                mb={8}
+                flexWrap={"wrap"}
+              >
+                <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <Input name="portal_name" type="text" value={'NXGENIUS'} placeholder=" " />
+                  <FormLabel>Portal Name</FormLabel>
+                </FormControl>
+
+                <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <Input name="company_name" type="text" value={'NXGENIUS'} placeholder=" " />
+                  <FormLabel>Company Name</FormLabel>
+                </FormControl>
+
+                <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <Input name="company_tagline" type="text" placeholder=" " />
+                  <FormLabel>Company Tagline</FormLabel>
+                </FormControl>
+              </Stack>
+
               <FormSubheading title="Theme Selection" mt={0} />
               <HStack gap={[6, 8]}>
                 <VStack cursor={"pointer"}>
@@ -117,6 +123,8 @@ const page = () => {
                     boxSize={"12"}
                     rounded={"full"}
                     bgColor={"#48BB78"}
+                    border={'2px solid'}
+                    borderColor={'black'}
                   ></Box>
                   <Text fontSize={"xs"}>Green</Text>
                 </VStack>
@@ -168,13 +176,16 @@ const page = () => {
               >
                 <Box>
                   <Box w={48} boxShadow={"base"}>
-                    <Layout1 isLayout={true} data={{
-                      status: "success",
-                      type: "payout",
-                      timestamp: "2024-04-10T14:49:38.000000Z",
-                      amount: 1000,
-                      transaction_id: "REF12345678",
-                    }} />
+                    <Layout1
+                      isLayout={true}
+                      data={{
+                        status: "success",
+                        type: "payout",
+                        timestamp: "2024-04-10T14:49:38.000000Z",
+                        amount: 1000,
+                        transaction_id: "REF12345678",
+                      }}
+                    />
                   </Box>
                   <Text
                     px={"8px"}

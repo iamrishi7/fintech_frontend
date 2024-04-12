@@ -616,7 +616,7 @@ const page = () => {
         Default Admin Permissions
       </Heading>
       <ManageAdminPermissions
-        roleId={roles?.find((role: any) => role?.name == "admin")?.id}
+        roleId={roles?.filter((role: any) => role?.name == "admin")?.id}
       />
 
       <br />
@@ -633,7 +633,7 @@ const page = () => {
         {roles?.length ? (
           <CustomTabs
             tabList={roles
-              ?.find((role: any) => role?.name != "admin")
+              ?.filter((role: any) => role?.name != "admin")
               ?.map((role: any) => ({
                 id: role?.id,
                 label: role?.name?.replace(/_/g, " "),
