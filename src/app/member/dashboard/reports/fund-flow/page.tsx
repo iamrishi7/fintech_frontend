@@ -76,30 +76,26 @@ const page = () => {
       </Heading>
 
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
-
-              <Stack
-                direction={["column", "row"]}
-                alignItems={"flex-end"}
-                gap={8}
-                mb={8}
-                flexWrap={"wrap"}
-              >
-                <FormControl maxW={["full", "xs"]}>
-                  <FormLabel>Dates</FormLabel>
-                  <RangeDatepicker
-                    selectedDates={selectedDates}
-                    onDateChange={setSelectedDates}
-                  />
-                </FormControl>
-              </Stack>
-              <HStack justifyContent={"flex-end"}>
-                <CustomButton
-                  onClick={() => getData("", {})}
-                  isLoading={isLoading}
-                >
-                  Search
-                </CustomButton>
-              </HStack>
+        <Stack
+          direction={["column", "row"]}
+          alignItems={"flex-end"}
+          gap={8}
+          mb={8}
+          flexWrap={"wrap"}
+        >
+          <FormControl maxW={["full", "xs"]}>
+            <FormLabel>Dates</FormLabel>
+            <RangeDatepicker
+              selectedDates={selectedDates}
+              onDateChange={setSelectedDates}
+            />
+          </FormControl>
+        </Stack>
+        <HStack justifyContent={"flex-end"}>
+          <CustomButton onClick={() => getData("", {})} isLoading={isLoading}>
+            Search
+          </CustomButton>
+        </HStack>
       </Box>
       <br />
       <br />
@@ -129,8 +125,8 @@ const page = () => {
               <Tr>
                 <Th color={"gray.600"}>ID</Th>
                 <Th color={"gray.600"}>Admin</Th>
-                <Th color={"gray.600"}>Debit Amount</Th>
-                <Th color={"gray.600"}>Credit Amount</Th>
+                <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Type</Th>
                 <Th color={"gray.600"}>Admin Remarks</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
@@ -142,11 +138,16 @@ const page = () => {
                   <Td borderBottom={0}>{item?.reference_id}</Td>
                   <Td borderBottom={0}>{item?.admin?.name}</Td>
                   <Td borderBottom={0}>
-                    ₹{Number(item?.debit_amount)?.toLocaleString("en-IN") ?? 0}
+                    <Badge
+                      colorScheme={
+                        item?.activity == "transfer" ? "whatsapp" : "red"
+                      }
+                    >
+                      ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                    </Badge>
                   </Td>
-                  <Td borderBottom={0}>
-                    ₹{Number(item?.credit_amount)?.toLocaleString("en-IN") ?? 0}
-                  </Td>
+
+                  <Td>{item?.type}</Td>
                   <Td>{item?.admin_remarks}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}

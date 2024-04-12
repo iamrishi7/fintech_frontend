@@ -150,8 +150,8 @@ const page = () => {
                 <Th color={"gray.600"}>ID</Th>
                 <Th color={"gray.600"}>User</Th>
                 <Th color={"gray.600"}>Admin</Th>
-                <Th color={"gray.600"}>Debit Amount</Th>
-                <Th color={"gray.600"}>Credit Amount</Th>
+                <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Type</Th>
                 <Th color={"gray.600"}>Admin Remarks</Th>
                 <Th color={"gray.600"}>Created At</Th>
                 <Th color={"gray.600"}>Updated At</Th>
@@ -164,11 +164,16 @@ const page = () => {
                   <Td borderBottom={0}>{item?.user?.name}</Td>
                   <Td borderBottom={0}>{item?.admin?.name}</Td>
                   <Td borderBottom={0}>
-                    ₹{Number(item?.debit_amount)?.toLocaleString("en-IN") ?? 0}
+                    <Badge
+                      colorScheme={
+                        item?.activity == "transfer" ? "whatsapp" : "red"
+                      }
+                    >
+                      ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                    </Badge>
                   </Td>
-                  <Td borderBottom={0}>
-                    ₹{Number(item?.credit_amount)?.toLocaleString("en-IN") ?? 0}
-                  </Td>
+
+                  <Td>{item?.type}</Td>
                   <Td>{item?.admin_remarks}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
