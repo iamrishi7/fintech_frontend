@@ -428,12 +428,7 @@ export const API = {
   },
 
   adminCreateUser: async (data) => {
-    let res = await API.execute(`/admin/manage-user/user`, "POST", data);
-    return API.processResponse(res);
-  },
-
-  adminUpdateUserInfo: async (id, data) => {
-    let res = await API.execute(`/admin/manage-user/user/${id}`, "PUT", data);
+    let res = await API.execute(`/admin/manage-user/users`, "POST", data);
     return API.processResponse(res);
   },
 
