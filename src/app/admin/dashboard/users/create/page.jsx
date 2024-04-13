@@ -3,6 +3,8 @@ import PasswordUpdateForm from "@/components/dashboard/profile/PasswordUpdateFor
 import PinUpdateForm from "@/components/dashboard/profile/PinUpdateForm";
 import CustomTabs from "@/components/misc/CustomTabs";
 import FileDropzone from "@/components/misc/FileDropzone";
+import { API } from "@/lib/api";
+import useApiHandler from "@/lib/hooks/useApiHandler";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Box,
@@ -18,6 +20,7 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
@@ -40,6 +43,9 @@ const FormSubheading = ({ title }) => {
 
 const page = () => {
   const { handleError } = useErrorHandler();
+  const Toast = useToast();
+  const { adminUploadMedia } = useApiHandler();
+
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -69,6 +75,18 @@ const page = () => {
 
   async function handleFormSubmit(values) {
     setIsLoading(true);
+    const res = await API.adminCreateUser(values);
+    if (avatar) {
+      await adminUploadMedia({
+        file: avatar,
+        type: "avatar",
+        userId: res?.data?.id,
+      });
+    }
+    Toast({
+      status: "success",
+      description: "User was created successfully!",
+    });
     try {
       setIsLoading(false);
     } catch (error) {

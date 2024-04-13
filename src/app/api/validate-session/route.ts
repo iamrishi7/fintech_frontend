@@ -3,9 +3,9 @@ import { NextResponse as res } from "next/server";
 
 export function GET(req: NextApiRequest) {
   // Access cookies from the request
-  const secureCookie = req.cookies["token"];
-
-  if (secureCookie) {
+  const secureCookie = req.cookies.get("token");
+  
+  if (secureCookie?.value) {
     return res.json(
       {
         ok: true,
