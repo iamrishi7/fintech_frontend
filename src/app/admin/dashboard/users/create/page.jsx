@@ -239,17 +239,17 @@ const page = () => {
                 mb={8}
                 mt={4}
               >
-                <SelectRole onChange={value => setFieldValue("role", role)} />
+                <SelectRole name="role" onChange={handleChange} />
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="first_name" type="text" placeholder=" " />
+                  <Input name="first_name" type="text" placeholder=" " onChange={handleChange} />
                   <FormLabel>First Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="middle_name" type="text" placeholder=" " />
+                  <Input name="middle_name" type="text" placeholder=" " onChange={handleChange} />
                   <FormLabel>Middle Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="last_name" type="text" placeholder=" " />
+                  <Input name="last_name" type="text" placeholder=" " onChange={handleChange} />
                   <FormLabel>Last Name</FormLabel>
                 </FormControl>
               </Stack>
@@ -262,7 +262,7 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="email" type="email" placeholder=" " />
+                  <Input name="email" type="email" placeholder=" " onChange={handleChange} />
                   <FormLabel>Email</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
@@ -271,6 +271,7 @@ const page = () => {
                     type="tel"
                     maxLength={10}
                     placeholder=" "
+                    onChange={handleChange}
                   />
                   <FormLabel>Phone</FormLabel>
                 </FormControl>
@@ -285,11 +286,11 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="aadhaar_number" type="text" placeholder=" " />
+                  <Input name="aadhaar_number" type="text" placeholder=" " onChange={handleChange} />
                   <FormLabel>Aadhaar No.</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="pan" type="text" placeholder=" " />
+                  <Input name="pan" type="text" placeholder=" " onChange={handleChange} />
                   <FormLabel>PAN</FormLabel>
                 </FormControl>
               </Stack>
