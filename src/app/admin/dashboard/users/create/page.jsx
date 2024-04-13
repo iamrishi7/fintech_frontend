@@ -1,4 +1,5 @@
 "use client";
+import SelectRole from "@/components/dashboard/misc/select/SelectRole";
 import PasswordUpdateForm from "@/components/dashboard/profile/PasswordUpdateForm";
 import PinUpdateForm from "@/components/dashboard/profile/PinUpdateForm";
 import CustomTabs from "@/components/misc/CustomTabs";
@@ -80,6 +81,27 @@ const page = () => {
       await adminUploadMedia({
         file: avatar,
         type: "avatar",
+        userId: res?.data?.id,
+      });
+    }
+    if (values?.aadhaar_front) {
+      await adminUploadMedia({
+        file: values?.aadhaar_front,
+        type: "aadhaar_front",
+        userId: res?.data?.id,
+      });
+    }
+    if (values?.aadhaar_back) {
+      await adminUploadMedia({
+        file: values?.aadhaar_back,
+        type: "aadhaar_back",
+        userId: res?.data?.id,
+      });
+    }
+    if (values?.pan) {
+      await adminUploadMedia({
+        file: values?.pan,
+        type: "pan",
         userId: res?.data?.id,
       });
     }
@@ -199,6 +221,7 @@ const page = () => {
             last_name: "",
             email: "",
             phone: "",
+            role: "",
             minimum_balance: "",
             aadhaar_front: null,
             aadhaar_back: null,
@@ -216,6 +239,7 @@ const page = () => {
                 mb={8}
                 mt={4}
               >
+                <SelectRole onChange={value => setFieldValue("role", role)} />
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input name="first_name" type="text" placeholder=" " />
                   <FormLabel>First Name</FormLabel>
