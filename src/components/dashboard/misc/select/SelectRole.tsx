@@ -59,14 +59,14 @@ const SelectRole = ({
           {data?.map((item: any, key: number) => {
             if (showAdmin) {
               return (
-                <option value={item?.id} key={key}>
+                <option value={item?.name} key={key}>
                   {item?.name?.replace("_", " ")}
                 </option>
               );
             }
             if (!showAdmin && item?.name != "admin") {
               return (
-                <option value={item?.id} key={key}>
+                <option value={item?.name} key={key}>
                   {item?.name?.replace("_", " ")}
                 </option>
               );
