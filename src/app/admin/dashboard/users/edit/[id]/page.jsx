@@ -266,7 +266,7 @@ const page = ({ params }) => {
                 aadhaar_front: null,
                 aadhaar_back: null,
                 pan: null,
-                role: user?.roles[0]?.id,
+                role: user?.roles[0]?.name,
               }}
               onSubmit={(values) => handleFormSubmit(values)}
             >
