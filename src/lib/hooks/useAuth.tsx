@@ -22,7 +22,9 @@ const useAuth = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/logout");
+      await API.logout();
+      localStorage.clear();
+      setUser(null);
     } catch (error) {
       console.log(error);
     } finally {
