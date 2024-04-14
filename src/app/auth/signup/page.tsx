@@ -51,17 +51,17 @@ const Signup = () => {
       });
       return;
     }
-    if (
-      !values?.password ||
-      !values.password_confirmation ||
-      values.password != values.password_confirmation
-    ) {
-      Toast({
-        status: "warning",
-        description: "Passwords must be same!",
-      });
-      return;
-    }
+    // if (
+    //   !values?.password ||
+    //   !values.password_confirmation ||
+    //   values.password != values.password_confirmation
+    // ) {
+    //   Toast({
+    //     status: "warning",
+    //     description: "Passwords must be same!",
+    //   });
+    //   return;
+    // }
     register(values);
   }
 
@@ -128,15 +128,36 @@ const Signup = () => {
             >
               <Formik
                 initialValues={{
-                  name: "",
+                  first_name: "",
+                  last_name: "",
                   email: "",
-                  password: "",
-                  password_confirmation: "",
+                  // password: "",
+                  // password_confirmation: "",
                 }}
                 onSubmit={(values) => validateForm(values)}
               >
                 {({ values, handleChange, handleSubmit, errors }) => (
                   <VStack spacing={8} w="100%">
+                    <FormControl variant={"floating"} isRequired>
+                      <Input
+                        rounded="md"
+                        placeholder=" "
+                        name="first_name"
+                        value={values.first_name}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>First Name</FormLabel>
+                    </FormControl>
+                    <FormControl variant={"floating"} isRequired>
+                      <Input
+                        rounded="md"
+                        placeholder=" "
+                        name="last_name"
+                        value={values.last_name}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Last Name</FormLabel>
+                    </FormControl>
                     <FormControl id="email" variant={"floating"} isRequired>
                       <Input
                         rounded="md"
@@ -148,7 +169,7 @@ const Signup = () => {
                       />
                       <FormLabel>Email</FormLabel>
                     </FormControl>
-                    <FormControl id="password" variant={"floating"} isRequired>
+                    {/* <FormControl id="password" variant={"floating"} isRequired>
                       <Input
                         rounded="md"
                         type="password"
@@ -172,7 +193,7 @@ const Signup = () => {
                         onChange={handleChange}
                       />
                       <FormLabel>Confirm Password</FormLabel>
-                    </FormControl>
+                    </FormControl> */}
                     <VStack w="100%">
                       <Button
                         bg="brand.primary"
