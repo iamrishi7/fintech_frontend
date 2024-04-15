@@ -23,13 +23,12 @@ const useAuth = () => {
   const handleLogout = async () => {
     try {
       await API.logout();
-      localStorage.clear();
-      setUser(null);
     } catch (error) {
       console.log(error);
     } finally {
       localStorage.clear();
       setUser(null);
+      Cookies.remove("token");
       setTimeout(() => {
         window.location.replace("/auth/login");
       }, 2000);
