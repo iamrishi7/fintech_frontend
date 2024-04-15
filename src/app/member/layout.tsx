@@ -48,6 +48,8 @@ import { usePathname } from "next/navigation";
 import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API } from "@/lib/api";
+import CustomModal from "@/components/misc/CustomModal";
+import Link from "next/link";
 
 interface LayoutProps {
   children: ReactNode;
@@ -55,13 +57,20 @@ interface LayoutProps {
 
 const Index: FC<LayoutProps> = ({ children }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const ref = useRef(true)
+  const ref = useRef(true);
   const { authUser } = useAuth();
+
+  const [onboardModal, setOnboardModal] = useState(false);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      if (!user?.eko_user_code) {
+        setOnboardModal(true);
+      }
+    }
     if (ref.current) {
-      ref.current = false
+      ref.current = false;
       authUser();
     }
   }, []);
@@ -138,6 +147,26 @@ const Index: FC<LayoutProps> = ({ children }) => {
           <ServerStatus />
         </Box>
       </Box>
+
+      <CustomModal
+        isOpen={onboardModal}
+        onClose={() => setOnboardModal(false)}
+        title={"You are not onboarded!"}
+        hideFooter={true}
+      >
+        <Box>
+          <Text>Please follow these steps to start using our services:</Text>{" "}
+          <br />
+          <Text>1. Complete your profile</Text>
+          <Text>
+            2. Click on "Onboard" button from sidebar (or click here for{" "}
+            <Link href={`/member/dashboard/onboard`} style={{ color: "blue" }}>
+              Onboard Page
+            </Link>
+            )
+          </Text>
+        </Box>
+      </CustomModal>
     </>
   );
 };

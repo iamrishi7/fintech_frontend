@@ -49,7 +49,7 @@ const page = () => {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      getData();
+      getData("", {});
     }
   }, []);
 

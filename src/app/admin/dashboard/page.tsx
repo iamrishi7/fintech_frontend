@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   HStack,
   VStack,
@@ -85,7 +85,6 @@ const Dashboard = () => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
-  const [duration, setDuration] = useState("today");
   const [overviewData, setOverviewData] = useState([
     {
       id: 1,
@@ -131,17 +130,25 @@ const Dashboard = () => {
     },
   ]);
 
-  async function fetchOverviewData() {
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      fetchOverviewData("today");
+    }
+  }, []);
+
+  async function fetchOverviewData(duration: string) {
     try {
       const res = await API.adminOverview(duration);
-      const existingData = overviewData
-      const newData = res?.data[0]
-      existingData[0].score = `₹${newData?.pending_fund_requests}`
-      existingData[1].score = `₹${newData?.approved_fund_requests}`
-      existingData[2].score = `₹${newData?.total_payouts}`
-      existingData[3].score = `₹${newData?.fund_transfers}`
-      existingData[4].score = `₹${newData?.volume}`
-      existingData[5].score = `₹${newData?.retailers}`
+      const existingData = overviewData;
+      const newData = res?.data[0];
+      existingData[0].score = `₹${newData?.pending_fund_requests}`;
+      existingData[1].score = `₹${newData?.approved_fund_requests}`;
+      existingData[2].score = `₹${newData?.total_payouts}`;
+      existingData[3].score = `₹${newData?.fund_transfers}`;
+      existingData[4].score = `₹${newData?.volume}`;
+      existingData[5].score = `₹${newData?.retailers}`;
+      setOverviewData(existingData)
     } catch (error) {
       handleError({
         title: "Err while fetching overview data",
@@ -164,7 +171,7 @@ const Dashboard = () => {
         </Text>
         <CustomTabs
           tabList={tabList}
-          onChange={(value) => setDuration(value)}
+          onChange={(value) => fetchOverviewData(value)}
           size={["sm", "sm"]}
         />
       </Stack>
@@ -173,7 +180,7 @@ const Dashboard = () => {
         flexWrap={"wrap"}
         alignItems={"center"}
         justifyContent={"flex-start"}
-        spacing={5}
+        gap={5}
         mb={4}
       >
         {overviewData.map((data, index) => (

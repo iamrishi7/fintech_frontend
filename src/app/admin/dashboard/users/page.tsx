@@ -434,9 +434,7 @@ const page = () => {
                           <MenuItem>
                             <HStack w={"full"} justifyContent={"space-between"}>
                               <Text>
-                                {Boolean(item?.deleted_at)
-                                  ? "Allow Onboarding"
-                                  : "Block Onboarding"}
+                                {"Onboarding"}
                               </Text>
                               <Switch
                                 isChecked={Boolean(item?.active)}

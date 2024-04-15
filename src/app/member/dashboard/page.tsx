@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   HStack,
   VStack,
@@ -50,68 +50,95 @@ const tabList = [
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const ref = useRef(true);
   const { handleError } = useErrorHandler();
 
-  const [statData, setStatData] = useState<StatData[]>([
+  const [overviewData, setOverviewData] = useState([
     {
       id: 1,
-      label: "Fund Requests",
+      label: "Pending Fund Requests",
       score: "₹0",
       icon: FaWallet,
-      percentage: "0%",
+      percentage: "10%",
     },
     {
       id: 2,
-      label: "Payouts",
+      label: "Approved Fund Requests",
       score: "₹0",
-      icon: MdOutlineAttachMoney,
-      percentage: "0%",
+      icon: FaWallet,
+      percentage: "10%",
     },
     {
       id: 3,
-      label: "Cashflow",
+      label: "Total Payouts",
       score: "₹0",
-      icon: FaMoneyBillTransfer,
-      percentage: "0%",
+      icon: MdOutlineAttachMoney,
+      percentage: "30%",
     },
     {
       id: 4,
-      label: "Wallet Transfers",
+      label: "Fund Transfers",
       score: "₹0",
-      icon: BiTransferAlt,
-      percentage: "0%",
+      icon: FaMoneyBillTransfer,
+      percentage: "30%",
     },
   ]);
 
-  async function getData(duration: string) {
+  useEffect(() => {
+    if (ref.current) {
+      ref.current = false;
+      fetchOverviewData("today");
+    }
+  }, []);
+
+  async function fetchOverviewData(duration: string) {
     try {
-      const res = await API.overview(duration)
-      console.log("Overview data")
-      console.log(res)
+      const res = await API.overview(duration);
+      const existingData = overviewData;
+      const newData = res?.data[0];
+      existingData[0].score = `₹${newData?.pending_fund_requests}`;
+      existingData[1].score = `₹${newData?.approved_fund_requests}`;
+      existingData[2].score = `₹${newData?.total_payouts}`;
+      existingData[3].score = `₹${newData?.fund_transfers}`;
+      setOverviewData(existingData);
     } catch (error) {
-      handleError({ title: "Error while getting overview data", error: error });
+      handleError({
+        title: "Err while fetching overview data",
+        error: error,
+      });
     }
   }
 
   return (
     <>
-      <Stack direction={['column', 'row']} alignItems={"center"} justifyContent={"space-between"}>
+      <Stack
+        direction={["column", "row"]}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
         <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
           Hello,{" "}
           {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
         </Text>
         <CustomTabs
           tabList={tabList}
-          onChange={(value) => getData(`${value}`)}
+          onChange={(value) => fetchOverviewData(`${value}`)}
           size={["sm", "sm"]}
         />
       </Stack>
       <br />
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={5} mb={4}>
-        {statData.map((data, index) => (
+      <Stack
+        direction={["column", "row"]}
+        flexWrap={"wrap"}
+        alignItems={"center"}
+        justifyContent={"flex-start"}
+        gap={5}
+        mb={4}
+      >
+        {overviewData.map((data, index) => (
           <Card key={index} data={data} />
         ))}
-      </SimpleGrid>
+      </Stack>
       <Stack direction={["column", "row"]} gap={6}>
         <Box flex={4} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>
