@@ -24,7 +24,7 @@ const useErrorHandler = () => {
     Toast({
       title: title,
       description:
-        description || error?.message || "Error while processing request",
+        description || error?.response?.data?.message || error?.response?.message || error?.message || "Error while processing request",
     });
   };
 
