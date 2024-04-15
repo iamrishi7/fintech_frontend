@@ -16,9 +16,9 @@ const useErrorHandler = () => {
     if (error?.status == 401) {
       handleLogout();
     }
-    if (error?.status == 403) {
-      authUser();
-    }
+    // if (error?.status == 403) {
+    //   authUser();
+    // }
     console.log(error)
     console.log("Error Status ", error?.status)
     Toast({
