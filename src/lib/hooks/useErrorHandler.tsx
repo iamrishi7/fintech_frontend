@@ -13,9 +13,9 @@ const useErrorHandler = () => {
   const { handleLogout, authUser } = useAuth();
 
   const handleError = ({ title, description, error }: HandleErrorParams) => {
-    if (error?.status == 401) {
-      handleLogout();
-    }
+    // if (error?.status == 401) {
+    //   handleLogout();
+    // }
     // if (error?.status == 403) {
     //   authUser();
     // }
