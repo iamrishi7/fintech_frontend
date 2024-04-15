@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   HStack,
   VStack,
@@ -20,9 +20,11 @@ import { BiTransferAlt } from "react-icons/bi";
 import RecentFundRequests from "@/components/dashboard/main/RecentFundRequests";
 import RecentTransactions from "@/components/dashboard/main/RecentTransactions";
 import CustomTabs from "@/components/misc/CustomTabs";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { FaMoneyBillTransfer, FaUsers } from "react-icons/fa6";
 import useAuth from "@/lib/hooks/useAuth";
 import PendingFundRequests from "@/components/dashboard/main/admin/PendingFundRequests";
+import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API } from "@/lib/api";
 
 interface StatData {
   id: number;
@@ -80,6 +82,74 @@ const tabList = [
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const ref = useRef(true);
+  const { handleError } = useErrorHandler();
+
+  const [duration, setDuration] = useState("today");
+  const [overviewData, setOverviewData] = useState([
+    {
+      id: 1,
+      label: "Pending Fund Requests",
+      score: "₹0",
+      icon: FaWallet,
+      percentage: "10%",
+    },
+    {
+      id: 2,
+      label: "Approved Fund Requests",
+      score: "₹0",
+      icon: FaWallet,
+      percentage: "10%",
+    },
+    {
+      id: 3,
+      label: "Total Payouts",
+      score: "₹0",
+      icon: MdOutlineAttachMoney,
+      percentage: "30%",
+    },
+    {
+      id: 4,
+      label: "Fund Transfers",
+      score: "₹0",
+      icon: FaMoneyBillTransfer,
+      percentage: "30%",
+    },
+    {
+      id: 5,
+      label: "Wallet Balance",
+      score: "₹0",
+      icon: BiTransferAlt,
+      percentage: "30%",
+    },
+    {
+      id: 6,
+      label: "Retailers",
+      score: "0",
+      icon: FaUsers,
+      percentage: "30%",
+    },
+  ]);
+
+  async function fetchOverviewData() {
+    try {
+      const res = await API.adminOverview(duration);
+      const existingData = overviewData
+      const newData = res?.data[0]
+      existingData[0].score = `₹${newData?.pending_fund_requests}`
+      existingData[1].score = `₹${newData?.approved_fund_requests}`
+      existingData[2].score = `₹${newData?.total_payouts}`
+      existingData[3].score = `₹${newData?.fund_transfers}`
+      existingData[4].score = `₹${newData?.volume}`
+      existingData[5].score = `₹${newData?.retailers}`
+    } catch (error) {
+      handleError({
+        title: "Err while fetching overview data",
+        error: error,
+      });
+    }
+  }
+
   return (
     <>
       <Stack
@@ -89,20 +159,27 @@ const Dashboard = () => {
         mb={8}
       >
         <Text fontSize={["sm", "md"]} fontWeight={"medium"} color={"gray.700"}>
-          Good afternoon,{" "}
+          Welcome back,{" "}
           {user?.name ? user?.name?.toUpperCase() : user?.roles?.toUpperCase()}!
         </Text>
         <CustomTabs
           tabList={tabList}
-          onChange={(value) => console.log(value)}
+          onChange={(value) => setDuration(value)}
           size={["sm", "sm"]}
         />
       </Stack>
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={5} mb={4}>
-        {statData.map((data, index) => (
+      <Stack
+        direction={["column", "row"]}
+        flexWrap={"wrap"}
+        alignItems={"center"}
+        justifyContent={"flex-start"}
+        spacing={5}
+        mb={4}
+      >
+        {overviewData.map((data, index) => (
           <Card key={index} data={data} />
         ))}
-      </SimpleGrid>
+      </Stack>
       <Stack direction={["column", "row"]} gap={6}>
         <Box flex={4} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>

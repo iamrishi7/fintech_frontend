@@ -220,7 +220,7 @@ const page = () => {
             middle_name: "",
             last_name: "",
             email: "",
-            phone: "",
+            phone_number: "",
             role: "",
             minimum_balance: "",
             aadhaar_front: null,
@@ -267,7 +267,7 @@ const page = () => {
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="phone"
+                    name="phone_number"
                     type="tel"
                     maxLength={10}
                     placeholder=" "
