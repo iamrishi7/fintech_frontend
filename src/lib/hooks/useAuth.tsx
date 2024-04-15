@@ -30,7 +30,9 @@ const useAuth = () => {
     } finally {
       localStorage.clear();
       setUser(null);
-      window.location.replace("/auth/login");
+      setTimeout(() => {
+        window.location.replace("/auth/login");
+      }, 2000);
     }
   };
 
