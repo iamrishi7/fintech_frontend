@@ -47,7 +47,7 @@ const page = () => {
   const [adminRemarks, setAdminRemarks] = useState("");
   const [selectedDates, setSelectedDates] = useState<Date[]>([
     new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    new Date(),
+    new Date(new Date().setDate(new Date().getDate() + 1)),
   ]);
   const [formData, setFormData] = useState({});
 
