@@ -48,11 +48,6 @@ export const API = {
       body: data ? JSON.stringify(data) : null,
     });
 
-    if (res.status == 401) {
-      await fetch(`/api/logout`);
-      window.location.replace("/auth/login");
-    }
-
     return Promise.all([
       res.status,
       res.status != 204 ? res.json() : {},
