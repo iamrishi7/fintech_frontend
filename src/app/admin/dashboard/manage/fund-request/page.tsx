@@ -11,6 +11,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -201,24 +202,24 @@ const page = () => {
                   <Td borderBottom={0} textAlign={"center"}>
                     {item?.status == "pending" ? (
                       <HStack gap={4} w={"full"} justifyContent={"center"}>
-                        <IconButton
+                        <Button
                           aria-label="approve"
                           size={"xs"}
                           rounded={"full"}
-                          icon={<FaCheck />}
+                          leftIcon={<FaCheck />}
                           colorScheme="whatsapp"
                           onClick={() => approveRequest(item?.id)}
                           isLoading={isLoading}
-                        />
-                        <IconButton
+                        >Approve</Button>
+                        <Button
                           aria-label="reject"
                           size={"xs"}
                           rounded={"full"}
-                          icon={<FaXmark />}
+                          leftIcon={<FaXmark />}
                           colorScheme="red"
                           onClick={() => setTargetRequestId(item?.id)}
                           isLoading={isLoading}
-                        />
+                        >Reject</Button>
                       </HStack>
                     ) : null}
                     <br />

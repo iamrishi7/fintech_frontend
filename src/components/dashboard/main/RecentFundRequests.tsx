@@ -7,6 +7,7 @@ import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API_BASE_URL } from "@/lib/utils/constants";
 import {
   Avatar,
+  Button,
   HStack,
   IconButton,
   Input,
@@ -102,29 +103,35 @@ const RecentFundRequests = ({
                 <Td borderBottom={0}>
                   <HStack gap={4} w={"full"} justifyContent={"center"}>
                     {item?.status == "approved" ? (
-                      <IconButton
+                      <Button
                         aria-label="approved"
                         size={"xs"}
                         rounded={"full"}
-                        icon={<FaCheck />}
+                        leftIcon={<FaCheck />}
                         colorScheme="whatsapp"
-                      />
+                      >
+                        Approved
+                      </Button>
                     ) : item?.status == "rejected" ? (
-                      <IconButton
+                      <Button
                         aria-label="rejected"
                         size={"xs"}
                         rounded={"full"}
-                        icon={<FaXmark />}
+                        leftIcon={<FaXmark />}
                         colorScheme="red"
-                      />
+                      >
+                        Rejected
+                      </Button>
                     ) : item?.status == "pending" ? (
-                      <IconButton
+                      <Button
                         aria-label="pending"
                         size={"xs"}
                         rounded={"full"}
-                        icon={<FaClock />}
+                        leftIcon={<FaClock />}
                         colorScheme="twitter"
-                      />
+                      >
+                        Pending
+                      </Button>
                     ) : null}
                     <br />
                     <IconButton

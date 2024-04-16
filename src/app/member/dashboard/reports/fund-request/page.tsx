@@ -7,6 +7,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -195,31 +196,37 @@ const page = () => {
                   </Td>
                   <Td borderBottom={0} textAlign={'center'}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
-                      {item?.status == "approved" ? (
-                        <IconButton
-                          aria-label="approved"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaCheck />}
-                          colorScheme="whatsapp"
-                        />
-                      ) : item?.status == "rejected" ? (
-                        <IconButton
-                          aria-label="rejected"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaXmark />}
-                          colorScheme="red"
-                        />
-                      ) : item?.status == "pending" ? (
-                        <IconButton
-                          aria-label="pending"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaClock />}
-                          colorScheme="twitter"
-                        />
-                      ) : null}
+                    {item?.status == "approved" ? (
+                      <Button
+                        aria-label="approved"
+                        size={"xs"}
+                        rounded={"full"}
+                        leftIcon={<FaCheck />}
+                        colorScheme="whatsapp"
+                      >
+                        Approved
+                      </Button>
+                    ) : item?.status == "rejected" ? (
+                      <Button
+                        aria-label="rejected"
+                        size={"xs"}
+                        rounded={"full"}
+                        leftIcon={<FaXmark />}
+                        colorScheme="red"
+                      >
+                        Rejected
+                      </Button>
+                    ) : item?.status == "pending" ? (
+                      <Button
+                        aria-label="pending"
+                        size={"xs"}
+                        rounded={"full"}
+                        leftIcon={<FaClock />}
+                        colorScheme="twitter"
+                      >
+                        Pending
+                      </Button>
+                    ) : null}
                     </HStack>
                     <br />
                     <IconButton
