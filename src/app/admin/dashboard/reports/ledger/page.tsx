@@ -173,7 +173,7 @@ const page = () => {
               {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.reference_id}</Td>
-                  <Td borderBottom={0}>{item?.user?.name}</Td>
+                  <Td borderBottom={0}>{item?.beneficiary?.name}</Td>
                   <Td borderBottom={0} isNumeric>
                     <Badge colorScheme="red" minW={16}>
                       ₹
