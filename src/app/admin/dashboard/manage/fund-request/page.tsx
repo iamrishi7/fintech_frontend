@@ -222,6 +222,7 @@ const page = () => {
                         />
                       </HStack>
                     ) : null}
+                    <br />
                     <IconButton
                       aria-label="view-receipt"
                       size={"xs"}
@@ -230,7 +231,7 @@ const page = () => {
                       colorScheme="twitter"
                       onClick={() =>
                         window.open(
-                          `${API_BASE_URL.replace("api", "storage")}+${
+                          `${API_BASE_URL.replace("api", "storage")}/${
                             item?.receipt
                           }`,
                           "_blank"

@@ -4,6 +4,7 @@ import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
 import useAuth from "@/lib/hooks/useAuth";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
+import { API_BASE_URL } from "@/lib/utils/constants";
 import {
   Avatar,
   HStack,
@@ -24,6 +25,7 @@ import { format } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { FaCheck, FaClock } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
+import { IoReceipt } from "react-icons/io5";
 
 interface RecentFundRequestsProps {
   showPagination?: boolean;
@@ -124,6 +126,22 @@ const RecentFundRequests = ({
                         colorScheme="twitter"
                       />
                     ) : null}
+                    <br />
+                    <IconButton
+                      aria-label="view-receipt"
+                      size={"xs"}
+                      rounded={"full"}
+                      icon={<IoReceipt />}
+                      colorScheme="twitter"
+                      onClick={() =>
+                        window.open(
+                          `${API_BASE_URL.replace("api", "storage")}/${
+                            item?.receipt
+                          }`,
+                          "_blank"
+                        )
+                      }
+                    />
                   </HStack>
                 </Td>
               </Tr>
