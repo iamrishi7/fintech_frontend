@@ -74,7 +74,7 @@ const page = () => {
         <Formik
           initialValues={{
             user_id: "",
-            admin_remarks: "",
+            remarks: "",
             amount: "",
             activity: ""
           }}
@@ -113,7 +113,7 @@ const page = () => {
               </Stack>
               <FormControl maxW={["full"]} variant={"floating"} mb={4}>
                 <Input
-                  name="admin_remarks"
+                  name="remarks"
                   type="text"
                   onChange={handleChange}
                   placeholder=" "
