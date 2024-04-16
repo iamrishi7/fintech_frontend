@@ -245,7 +245,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/ledger?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -265,7 +265,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/fund-requests?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -285,7 +285,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/ledger?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -305,7 +305,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/payout?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -325,7 +325,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/wallet-transfer?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -345,7 +345,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/fund-transfer?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -365,7 +365,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/user/report/daily-sales?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -392,7 +392,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/manage-user/users?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -616,7 +616,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/fund-requests?status=${"pending"}${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? `&` +
               Object.keys(query)
                 .map(
@@ -637,7 +637,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/fund-requests?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -657,7 +657,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/ledger?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -677,7 +677,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/payout?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -697,7 +697,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/wallet-transfer?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -717,7 +717,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/fund-transfer?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>
@@ -737,7 +737,7 @@ export const API = {
     let res = await API.execute(
       url ||
         `/admin/report/daily-sales?${
-          Object.keys(query).length > 0
+          typeof query == "object" && Object.keys(query).length > 0
             ? Object.keys(query)
                 .map(
                   (key) =>

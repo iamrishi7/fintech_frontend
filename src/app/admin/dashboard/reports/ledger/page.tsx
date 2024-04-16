@@ -161,6 +161,8 @@ const page = () => {
                 <Th color={"gray.600"}>User</Th>
                 <Th color={"gray.600"}>Debit Amount</Th>
                 <Th color={"gray.600"}>Credit Amount</Th>
+                <Th color={"gray.600"}>Opening Balance</Th>
+                <Th color={"gray.600"}>Closing Balance</Th>
                 <Th color={"gray.600"}>Service</Th>
                 <Th color={"gray.600"}>Description</Th>
                 <Th color={"gray.600"}>Created At</Th>
@@ -171,7 +173,7 @@ const page = () => {
               {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.reference_id}</Td>
-                  <Td borderBottom={0}>{item?.user?.name}</Td>
+                  <Td borderBottom={0}>{item?.beneficiary?.name}</Td>
                   <Td borderBottom={0} isNumeric>
                     <Badge colorScheme="red" minW={16}>
                       ₹
@@ -184,6 +186,16 @@ const page = () => {
                       {Number(item?.credit_amount)?.toLocaleString("en-IN") ??
                         0}
                     </Badge>
+                  </Td>
+                  <Td isNumeric>
+                    ₹
+                    {Number(item?.opening_balance)?.toLocaleString("en-IN") ??
+                      0}
+                  </Td>
+                  <Td isNumeric>
+                    ₹
+                    {Number(item?.closing_balance)?.toLocaleString("en-IN") ??
+                      0}
                   </Td>
                   <Td>
                     <HStack justifyContent={"center"}>

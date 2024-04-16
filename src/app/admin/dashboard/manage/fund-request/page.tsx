@@ -166,7 +166,6 @@ const page = () => {
                 <Th color={"gray.600"}>Trnxn ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
                 <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Updated By</Th>
                 <Th color={"gray.600"}>User</Th>
                 <Th color={"gray.600"}>Req. At</Th>
                 <Th color={"gray.600"}>Action</Th>
@@ -190,12 +189,12 @@ const page = () => {
                       </Text>
                     </HStack>
                   </Td>
-                  <Td>
+                  {/* <Td>
                     <HStack alignItems={"flex-start"}>
                       <Avatar size={"xs"} name={item?.reviewer?.name} />
                       <Text>{item?.reviewer?.name}</Text>
                     </HStack>
-                  </Td>
+                  </Td> */}
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
