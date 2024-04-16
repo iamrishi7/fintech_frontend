@@ -222,6 +222,7 @@ const page = () => {
             email: "",
             phone_number: "",
             role: "",
+            date_of_birth: "",
             minimum_balance: "",
             aadhaar_front: null,
             aadhaar_back: null,
@@ -261,6 +262,10 @@ const page = () => {
                 mb={8}
                 mt={4}
               >
+                <FormControl w={["full", "xs"]} variant={"floating"} isRequired>
+                  <Input name="date_of_birth" type="date" placeholder=" " onChange={handleChange} />
+                  <FormLabel>Date of Birth</FormLabel>
+                </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input name="email" type="email" placeholder=" " onChange={handleChange} />
                   <FormLabel>Email</FormLabel>
