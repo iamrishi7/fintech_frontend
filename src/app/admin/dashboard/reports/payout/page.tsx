@@ -6,6 +6,7 @@ import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Badge,
   Box,
+  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -255,14 +256,15 @@ const page = () => {
                       }}
                     />
 
-                    {item?.status == "pending" ? (
+                    {item?.status == "pending" || !item?.utr ? (
                       <Tooltip label={"Update transaction"}>
-                        <IconButton
+                        <Button
                           aria-label="update"
-                          icon={<IoRefresh />}
+                          leftIcon={<IoRefresh />}
                           isLoading={isLoading}
                           onClick={() => updateTransaction(item?.id)}
-                        />
+                          size={'xs'}
+                        >Check Status</Button>
                       </Tooltip>
                     ) : (
                       false

@@ -140,14 +140,14 @@ const Dashboard = () => {
   async function fetchOverviewData(duration: string) {
     try {
       const res = await API.adminOverview(duration);
-      const existingData = overviewData;
+      let existingData = overviewData;
       const newData = res?.data[0];
       existingData[0].score = `₹${newData?.pending_fund_requests}`;
       existingData[1].score = `₹${newData?.approved_fund_requests}`;
       existingData[2].score = `₹${newData?.total_payouts}`;
       existingData[3].score = `₹${newData?.fund_transfers}`;
       existingData[4].score = `₹${newData?.volume}`;
-      existingData[5].score = `₹${newData?.retailers}`;
+      existingData[5].score = `${newData?.retailers}`;
       setOverviewData(existingData)
     } catch (error) {
       handleError({

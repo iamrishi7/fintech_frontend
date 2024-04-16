@@ -94,7 +94,7 @@ const Dashboard = () => {
   async function fetchOverviewData(duration: string) {
     try {
       const res = await API.overview(duration);
-      const existingData = overviewData;
+      let existingData = overviewData;
       const newData = res?.data[0];
       existingData[0].score = `₹${newData?.pending_fund_requests}`;
       existingData[1].score = `₹${newData?.approved_fund_requests}`;
