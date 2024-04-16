@@ -241,7 +241,7 @@ const page = () => {
                   mt={4}
                   flexWrap={"wrap"}
                 >
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <FormControl w={["full", "xs"]} variant={"floating"} isRequired>
                     <Input
                       name="first_name"
                       type="text"
@@ -273,7 +273,7 @@ const page = () => {
                     <FormLabel>Last Name</FormLabel>
                   </FormControl>
 
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <FormControl w={["full", "xs"]} variant={"floating"} isRequired>
                     <Input
                       name="date_of_birth"
                       type="date"
@@ -295,7 +295,7 @@ const page = () => {
                     <FormLabel>Email</FormLabel>
                   </FormControl>
 
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                  <FormControl w={["full", "xs"]} variant={"floating"} isRequired>
                     <Input
                       name="phone_number"
                       type="tel"
