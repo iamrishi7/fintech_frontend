@@ -24,7 +24,7 @@ const RecentPayouts = () => {
 
   const [selectedDates, setSelectedDates] = useState([
     new Date(new Date().setMonth(new Date().getMonth() - 1)),
-    new Date(),
+    new Date(new Date().setDate(new Date().getDate() + 1)),
   ]);
   const [data, setData] = useState([]);
 

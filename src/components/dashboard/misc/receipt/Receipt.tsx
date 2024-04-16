@@ -11,6 +11,7 @@ import {
 import React, { FC } from "react";
 import Layout1 from "./Layout1";
 import { ReceiptProps } from "@/lib/commons/types";
+import Layout2 from "./Layout2";
 
 
 
@@ -27,11 +28,11 @@ const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
         <ModalOverlay />
         <ModalContent bg={"transparent"} boxShadow={"none"}>
           <ModalBody p={0} boxShadow={"md"}>
-            <Layout1 data={data} />
+            <Layout2 data={data} />
           </ModalBody>
           <ModalFooter>
             <HStack w={"full"} justifyContent={"center"}>
-              <Button
+              {/* <Button
                 onClick={() => console.log("Download")}
                 bgColor={"brand.primary"}
                 _hover={{
@@ -42,7 +43,7 @@ const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
                 color={"#FFF"}
               >
                 Download
-              </Button>
+              </Button> */}
             </HStack>
           </ModalFooter>
         </ModalContent>

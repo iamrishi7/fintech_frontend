@@ -4,6 +4,8 @@ import { Box, HStack, Icon, Text, TextProps, VStack } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { BiSolidError } from "react-icons/bi";
 import { BsFillClockFill, BsFillPatchCheckFill } from "react-icons/bs";
+import { IoCheckmarkDoneSharp, IoWarningOutline } from "react-icons/io5";
+import { TbClockExclamation } from "react-icons/tb";
 
 interface ReceiptLayoutProps {
   hideLogo?: boolean;
@@ -54,7 +56,7 @@ const ReceiptEntry = ({ k, v, fontSize }: ReceiptEntryProps) => {
   );
 };
 
-const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
+const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
   const config = {
     fontSize: isLayout ? "6" : "10",
   };
@@ -64,40 +66,43 @@ const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
       <VStack
         minH={isLayout ? "xs" : "lg"}
         w={"full"}
-        p={isLayout ? 3 : 6}
+        p={0}
         bgColor={"#FFF"}
         gap={4}
         justifyContent={"space-between"}
       >
+        <Box
+          p={isLayout ? 2 : 4}
+          w={"full"}
+          bgColor={
+            data?.status == "success"
+              ? "whatsapp.500"
+              : data?.status == "pending"
+              ? "orange.500"
+              : "red.500"
+          }
+        ></Box>
         {/* Receipt Header */}
         <VStack>
-          <Text
-            fontSize={isLayout ? "md" : "3xl"}
-            fontWeight={"medium"}
-            color={"gray.700"}
-          >
-            ₹{Number(data?.amount ?? 0)?.toFixed(2)}
-          </Text>
           {data?.status == "success" ? (
             <Icon
-              as={BsFillPatchCheckFill}
+              as={IoCheckmarkDoneSharp}
               color={"whatsapp.500"}
               fontSize={isLayout ? "32" : "64"}
             />
           ) : data?.status == "pending" ? (
             <Icon
-              as={BsFillClockFill}
+              as={TbClockExclamation}
               color={"orange.500"}
               fontSize={isLayout ? "32" : "64"}
             />
           ) : data?.status == "failed" ? (
             <Icon
-              as={BiSolidError}
+              as={IoWarningOutline}
               color={"red.500"}
               fontSize={isLayout ? "36" : "72"}
             />
           ) : null}
-
           <Text
             fontWeight={"semibold"}
             color={
@@ -114,10 +119,17 @@ const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
           >
             {data?.status}
           </Text>
+          <Text
+            fontSize={isLayout ? "md" : "3xl"}
+            fontWeight={"medium"}
+            color={"gray.700"}
+          >
+            ₹{Number(data?.amount ?? 0)?.toFixed(2)}
+          </Text>
         </VStack>
 
         {/* Receipt Body */}
-        <Box w={"full"}>
+        <Box w={"full"} px={isLayout ? 3 : 6}>
           <ReceiptEntry
             k="Trnxn Type"
             v={data?.type}
@@ -162,9 +174,21 @@ const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
             </Text>
           </VStack>
         )}
+
+        <Box
+          p={isLayout ? 2 : 4}
+          w={"full"}
+          bgColor={
+            data?.status == "success"
+              ? "whatsapp.500"
+              : data?.status == "pending"
+              ? "orange.500"
+              : "red.500"
+          }
+        ></Box>
       </VStack>
     </>
   );
 };
 
-export default Layout1;
+export default Layout2;

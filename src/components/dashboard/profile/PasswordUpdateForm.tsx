@@ -18,18 +18,18 @@ import { API } from "@/lib/api";
 
 const PasswordUpdateForm = () => {
   const { handleError } = useErrorHandler();
-  const Toast = useToast()
+  const Toast = useToast();
 
   const [isLoading, setIsLoading] = useState(false);
 
   async function handlePasswordChange(values: object) {
     setIsLoading(true);
-    await API.changePassword(values)
-    Toast({
-      status: 'success',
-      description: 'Password updated successfully!'
-    })
     try {
+      await API.changePassword(values);
+      Toast({
+        status: "success",
+        description: "Password updated successfully!",
+      });
       setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);

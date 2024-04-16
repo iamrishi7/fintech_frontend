@@ -229,7 +229,7 @@ const Card = ({ data }: { data: StatData }) => {
       direction="column"
       rounded="8"
       boxShadow={"sm"}
-      w="100%"
+      w={["100%", "xs"]}
       textAlign="left"
       align="start"
       spacing={0}
