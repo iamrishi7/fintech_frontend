@@ -178,7 +178,7 @@ const page = () => {
             <Tbody fontSize={"xs"}>
               {data?.map((item: any, key) => (
                 <Tr key={key}>
-                  <Td borderBottom={0}>{item?.id}</Td>
+                  <Td borderBottom={0}>{item?.transaction_id}</Td>
                   <Td borderBottom={0}>
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
