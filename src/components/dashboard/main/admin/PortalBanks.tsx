@@ -146,7 +146,7 @@ const PortalBanks = () => {
         size={"3xl"}
         isOpen={isOpen}
         onClose={onClose}
-        hideFooter={false}
+        hideFooter={true}
       >
         <Formik
           initialValues={{

@@ -1,13 +1,17 @@
 "use client";
 import CustomButton from "@/components/misc/CustomButton";
 import CustomEditableInput from "@/components/misc/CustomEditableInput";
+import CustomModal from "@/components/misc/CustomModal";
 import DateFormatter from "@/components/misc/DateFormatter";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import {
   Badge,
   Button,
+  FormControl,
+  FormLabel,
   HStack,
+  Input,
   Switch,
   Table,
   TableContainer,
@@ -17,6 +21,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -30,8 +35,10 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
   const Toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [data, setData] = useState([]);
+  const [newPlanName, setNewPlanName] = useState("");
 
   useEffect(() => {
     if (ref.current) {
@@ -68,12 +75,29 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
     }
   }
 
+  async function deletePlan(id: any) {
+    try {
+      await API.adminDeletePlan(id);
+      Toast({
+        status: "success",
+        description: "Plan updated successfully",
+      });
+      fetchData();
+    } catch (error) {
+      handleError({
+        title: "Error while getting plans",
+        error: error,
+      });
+    }
+  }
+
   async function createPlan() {
     try {
       await API.adminCreatePlan({
-        name: "New Plan",
+        name: newPlanName || "New Plan",
         default: 0,
       });
+      onClose();
       Toast({
         status: "success",
         description: "Plan created successfully",
@@ -90,8 +114,13 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
   return (
     <>
       <HStack w={"full"} justifyContent={"flex-end"} mb={4}>
-        <CustomButton size={"sm"} rounded={"full"} leftIcon={<FaPlus />} onClick={createPlan}>
-          Create New
+        <CustomButton
+          size={"sm"}
+          rounded={"full"}
+          leftIcon={<FaPlus />}
+          onClick={onOpen}
+        >
+          Create New Package
         </CustomButton>
       </HStack>
       <TableContainer maxH={"sm"} overflowY={"scroll"}>
@@ -111,7 +140,10 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
               <Tr key={key}>
                 <Td>{key + 1}</Td>
                 <Td>
-                  <CustomEditableInput defaultValue={item?.name} />
+                  <CustomEditableInput
+                    defaultValue={item?.name}
+                    onSubmit={(value) => updatePlan(item?.id, { name: value })}
+                  />
                 </Td>
                 <Td textAlign={"center"}>
                   <Switch
@@ -145,6 +177,24 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
           </Tbody>
         </Table>
       </TableContainer>
+
+      <CustomModal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={"Create new package"}
+        hideFooter={false}
+        onSubmit={() => createPlan()}
+      >
+        <FormControl variant={"floating"}>
+          <Input
+            name="plan_name"
+            onChange={(e) => setNewPlanName(e.target.value)}
+            value={newPlanName}
+            placeholder=" "
+          />
+          <FormLabel>Enter plan name</FormLabel>
+        </FormControl>
+      </CustomModal>
     </>
   );
 };
