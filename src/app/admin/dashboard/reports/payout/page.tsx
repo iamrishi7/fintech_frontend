@@ -10,6 +10,7 @@ import {
   FormLabel,
   HStack,
   Heading,
+  IconButton,
   Input,
   Stack,
   Table,
@@ -19,6 +20,7 @@ import {
   Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
@@ -29,6 +31,7 @@ import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
 import ReceiptButton from "@/components/dashboard/misc/ReceiptButton";
 import { format } from "date-fns";
 import StatusBadge from "@/components/dashboard/reports/StatusBadge";
+import { IoRefresh } from "react-icons/io5";
 
 const page = () => {
   const ref = useRef(true);
@@ -68,6 +71,21 @@ const page = () => {
       setIsLoading(false);
       handleError({
         title: "Could not fetch data",
+        error: error,
+      });
+    }
+  }
+
+  async function updateTransaction(id?: any) {
+    try {
+      setIsLoading(true)
+      await API.adminUpdateTransaction(id);
+      await getData();
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      handleError({
+        title: "Err while updating transaction",
         error: error,
       });
     }
@@ -232,10 +250,23 @@ const page = () => {
                           beneficiary: item?.beneficiary_name,
                           account_no: item?.account_number,
                           IFSC: item?.ifsc_code?.toUpperCase(),
-                          UTR: item?.utr?.toUpperCase()
+                          UTR: item?.utr?.toUpperCase(),
                         },
                       }}
                     />
+
+                    {item?.status == "pending" ? (
+                      <Tooltip label={"Update transaction"}>
+                        <IconButton
+                          aria-label="update"
+                          icon={<IoRefresh />}
+                          isLoading={isLoading}
+                          onClick={() => updateTransaction(item?.id)}
+                        />
+                      </Tooltip>
+                    ) : (
+                      false
+                    )}
                   </Td>
                 </Tr>
               ))}
