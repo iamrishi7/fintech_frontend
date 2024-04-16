@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '@/components/main/Navbar'
 import HeroSection from '@/components/main/HeroSection'
 import HowItWorks from '@/components/main/HowItWorks'
@@ -8,6 +8,10 @@ import CTABanner from '@/components/main/CTABanner'
 import Footer from '@/components/main/Footer'
 
 const page = () => {
+  useEffect(() => {
+    window.location.href = "/auth/login"
+  }, [])
+
   return (
     <>
       <Navbar />
