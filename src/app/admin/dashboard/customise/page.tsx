@@ -17,12 +17,33 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import Layout2 from "@/components/dashboard/misc/receipt/Layout2";
 
 interface FormSubheadingProps {
   title: string;
   mt?: BoxProps["mt"];
   mb?: BoxProps["mb"];
 }
+
+const UsingBadge = () => {
+  return (
+    <Text
+      px={"8px"}
+      py={"2px"}
+      mt={2}
+      w={"max-content"}
+      bgColor={"twitter.500"}
+      color={"#FFF"}
+      fontSize={"10"}
+      rounded={"full"}
+      fontWeight={"semibold"}
+      textAlign={"center"}
+      mx={"auto"}
+    >
+      Using
+    </Text>
+  );
+};
 
 const FormSubheading = ({ title, mt, mb }: FormSubheadingProps) => {
   return (
@@ -101,12 +122,22 @@ const page = () => {
                 flexWrap={"wrap"}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="portal_name" type="text" value={'NXGENIUS'} placeholder=" " />
+                  <Input
+                    name="portal_name"
+                    type="text"
+                    value={"NXGENIUS"}
+                    placeholder=" "
+                  />
                   <FormLabel>Portal Name</FormLabel>
                 </FormControl>
 
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="company_name" type="text" value={'NXGENIUS'} placeholder=" " />
+                  <Input
+                    name="company_name"
+                    type="text"
+                    value={"NXGENIUS"}
+                    placeholder=" "
+                  />
                   <FormLabel>Company Name</FormLabel>
                 </FormControl>
 
@@ -123,10 +154,11 @@ const page = () => {
                     boxSize={"12"}
                     rounded={"full"}
                     bgColor={"#48BB78"}
-                    border={'2px solid'}
-                    borderColor={'black'}
+                    border={"2px solid"}
+                    borderColor={"black"}
                   ></Box>
                   <Text fontSize={"xs"}>Green</Text>
+                  <UsingBadge />
                 </VStack>
 
                 <VStack cursor={"pointer"}>
@@ -187,21 +219,21 @@ const page = () => {
                       }}
                     />
                   </Box>
-                  <Text
-                    px={"8px"}
-                    py={"2px"}
-                    mt={2}
-                    w={"max-content"}
-                    bgColor={"twitter.500"}
-                    color={"#FFF"}
-                    fontSize={"10"}
-                    rounded={"full"}
-                    fontWeight={"semibold"}
-                    textAlign={"center"}
-                    mx={"auto"}
-                  >
-                    Using
-                  </Text>
+                </Box>
+                <Box>
+                  <Box w={48} boxShadow={"base"}>
+                    <Layout2
+                      isLayout={true}
+                      data={{
+                        status: "success",
+                        type: "payout",
+                        timestamp: "2024-04-10T14:49:38.000000Z",
+                        amount: 1000,
+                        transaction_id: "REF12345678",
+                      }}
+                    />
+                  </Box>
+                  <UsingBadge />
                 </Box>
               </Stack>
 

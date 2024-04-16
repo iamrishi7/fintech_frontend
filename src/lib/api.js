@@ -147,7 +147,7 @@ export const API = {
   // Member APIs
 
   overview: async (duration) => {
-    let res = await API.execute(`/user/report/overview/?duration=${duration}`, "GET");
+    let res = await API.execute(`/user/report/overview?duration=${duration}`, "GET");
     return API.processResponse(res);
   },
 
@@ -384,7 +384,7 @@ export const API = {
   // Admin APIs
 
   adminOverview: async (duration) => {
-    let res = await API.execute(`/admin/report/overview/?duration=${duration}`, "GET");
+    let res = await API.execute(`/admin/report/overview?duration=${duration}`, "GET");
     return API.processResponse(res);
   },
 

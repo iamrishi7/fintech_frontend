@@ -13,6 +13,7 @@ import {
   Select,
   Stack,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { FC, useState } from "react";
@@ -24,18 +25,32 @@ interface FormProps {
 
 const FundRequestForm: FC<FormProps> = ({ onClose }) => {
   const { handleError } = useErrorHandler();
+  const Toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: object) {
     setIsLoading(true);
-    try {
-      await FormAxios.post("/user/fund-requests", values);
-      setIsLoading(false);
-      onClose();
-    } catch (error) {
-      setIsLoading(false);
-      handleError({ title: "Couldn't post your fund request", error: error });
-    }
+    FormAxios.post("/user/fund-requests", values)
+      .then((res) => {
+        onClose();
+        Toast({
+          status: "success",
+          description: "Fund request submitted",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        handleError({
+          title: "Couldn't post your fund request",
+          error: {
+            message: error?.response?.data?.message || error?.response?.message,
+          },
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    setIsLoading(false);
   }
 
   return (

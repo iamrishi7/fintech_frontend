@@ -32,6 +32,8 @@ import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
 import { format } from "date-fns";
 import { FaCheck, FaClock } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
+import { IoReceipt } from "react-icons/io5";
+import { API_BASE_URL } from "@/lib/utils/constants";
 
 const page = () => {
   const ref = useRef(true);
@@ -90,7 +92,7 @@ const page = () => {
         <Formik
           initialValues={{
             transaction_id: "",
-            status: ""
+            status: "",
           }}
           onSubmit={console.log}
         >
@@ -151,7 +153,11 @@ const page = () => {
           overflowX={"scroll"}
           className="hide-scrollbar"
         >
-          <ExportButtons fileName="FundRequests" service="fund-requests" query={formData} />
+          <ExportButtons
+            fileName="FundRequests"
+            service="fund-requests"
+            query={formData}
+          />
           <Pagination
             pages={pages}
             onClick={(value: string) => getData(value, {})}
@@ -159,68 +165,84 @@ const page = () => {
         </HStack>
 
         <TableContainer maxH={"sm"} overflowY={"scroll"}>
-        <Table size={"md"} variant={"striped"}>
-          <Thead>
-            <Tr>
-              <Th color={"gray.600"}>ID</Th>
-              <Th color={"gray.600"}>Amount</Th>
-              <Th color={"gray.600"}>Admin</Th>
-              <Th color={"gray.600"}>Req. At</Th>
-              <Th color={"gray.600"}>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody fontSize={"xs"}>
-            {data?.map((item: any, key) => (
-              <Tr key={key}>
-                <Td borderBottom={0}>{item?.id}</Td>
-                <Td borderBottom={0}>
-                  ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
-                </Td>
-                <Td>
-                  {item?.status != "pending" && item?.reviewer?.id ? (
-                    <HStack alignItems={"flex-start"}>
-                      <Avatar size={"xs"} name={item?.reviewer?.name} />
-                      <Text>{item?.reviewer?.name}</Text>
-                    </HStack>
-                  ) : null}
-                </Td>
-                <Td borderBottom={0}>
-                  {new Date(item?.created_at)?.toLocaleString("en-GB")}
-                </Td>
-                <Td borderBottom={0}>
-                  <HStack gap={4} w={"full"} justifyContent={"center"}>
-                    {item?.status == "approved" ? (
-                      <IconButton
-                        aria-label="approved"
-                        size={"xs"}
-                        rounded={"full"}
-                        icon={<FaCheck />}
-                        colorScheme="whatsapp"
-                      />
-                    ) : item?.status == "rejected" ? (
-                      <IconButton
-                        aria-label="rejected"
-                        size={"xs"}
-                        rounded={"full"}
-                        icon={<FaXmark />}
-                        colorScheme="red"
-                      />
-                    ) : item?.status == "pending" ? (
-                      <IconButton
-                        aria-label="pending"
-                        size={"xs"}
-                        rounded={"full"}
-                        icon={<FaClock />}
-                        colorScheme="twitter"
-                      />
-                    ) : null}
-                  </HStack>
-                </Td>
+          <Table size={"md"} variant={"striped"}>
+            <Thead>
+              <Tr>
+                <Th color={"gray.600"}>ID</Th>
+                <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Admin</Th>
+                <Th color={"gray.600"}>Req. At</Th>
+                <Th color={"gray.600"}>Status</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+            </Thead>
+            <Tbody fontSize={"xs"}>
+              {data?.map((item: any, key) => (
+                <Tr key={key}>
+                  <Td borderBottom={0}>{item?.id}</Td>
+                  <Td borderBottom={0}>
+                    ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
+                  </Td>
+                  <Td>
+                    {item?.status != "pending" && item?.reviewer?.id ? (
+                      <HStack alignItems={"flex-start"}>
+                        <Avatar size={"xs"} name={item?.reviewer?.name} />
+                        <Text>{item?.reviewer?.name}</Text>
+                      </HStack>
+                    ) : null}
+                  </Td>
+                  <Td borderBottom={0}>
+                    {new Date(item?.created_at)?.toLocaleString("en-GB")}
+                  </Td>
+                  <Td borderBottom={0}>
+                    <HStack gap={4} w={"full"} justifyContent={"center"}>
+                      {item?.status == "approved" ? (
+                        <IconButton
+                          aria-label="approved"
+                          size={"xs"}
+                          rounded={"full"}
+                          icon={<FaCheck />}
+                          colorScheme="whatsapp"
+                        />
+                      ) : item?.status == "rejected" ? (
+                        <IconButton
+                          aria-label="rejected"
+                          size={"xs"}
+                          rounded={"full"}
+                          icon={<FaXmark />}
+                          colorScheme="red"
+                        />
+                      ) : item?.status == "pending" ? (
+                        <IconButton
+                          aria-label="pending"
+                          size={"xs"}
+                          rounded={"full"}
+                          icon={<FaClock />}
+                          colorScheme="twitter"
+                        />
+                      ) : null}
+                    </HStack>
+                    <br />
+                    <IconButton
+                      aria-label="view-receipt"
+                      size={"xs"}
+                      rounded={"full"}
+                      icon={<IoReceipt />}
+                      colorScheme="twitter"
+                      onClick={() =>
+                        window.open(
+                          `${API_BASE_URL.replace("api", "storage")}/${
+                            item?.receipt
+                          }`,
+                          "_blank"
+                        )
+                      }
+                    />
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </Box>
     </>
   );
