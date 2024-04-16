@@ -193,7 +193,7 @@ const page = () => {
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td borderBottom={0}>
+                  <Td borderBottom={0} textAlign={'center'}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
                       {item?.status == "approved" ? (
                         <IconButton
