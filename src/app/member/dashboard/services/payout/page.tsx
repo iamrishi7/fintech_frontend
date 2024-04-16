@@ -30,7 +30,7 @@ const page = () => {
 
   const [formData, setFormData] = useState<any>(null);
   const [provider, setProvider] = useState<string | number | boolean>(
-    "razorpay"
+    "eko"
   );
   const [availableProviders, setAvailableProviders] = useState<any>([]);
 
