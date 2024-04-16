@@ -150,6 +150,8 @@ const page = () => {
                 <Th color={"gray.600"}>Trnxn ID</Th>
                 <Th color={"gray.600"}>Debit Amount</Th>
                 <Th color={"gray.600"}>Credit Amount</Th>
+                <Th color={"gray.600"}>Opening Balance</Th>
+                <Th color={"gray.600"}>Closing Balance</Th>
                 <Th color={"gray.600"}>Service</Th>
                 <Th color={"gray.600"}>Description</Th>
                 <Th color={"gray.600"}>Created At</Th>
@@ -173,6 +175,8 @@ const page = () => {
                         0}
                     </Badge>
                   </Td>
+                  <Td>₹{item?.opening_balance}</Td>
+                  <Td>₹{item?.closing_balance}</Td>
                   <Td>
                     <HStack justifyContent={"center"}>
                       <TransactionBadge>{item?.service}</TransactionBadge>
