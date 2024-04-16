@@ -62,7 +62,7 @@ const PasswordUpdateForm = () => {
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input
                     type="password"
-                    name="old_password"
+                    name="old_credential"
                     onChange={handleChange}
                     value={values?.old_password}
                     placeholder=" "
@@ -73,7 +73,7 @@ const PasswordUpdateForm = () => {
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input
                     type="password"
-                    name="new_password"
+                    name="new_credential"
                     onChange={handleChange}
                     value={values?.new_password}
                     placeholder=" "
@@ -83,7 +83,7 @@ const PasswordUpdateForm = () => {
 
                 <FormControl w={["full", "xs"]} variant={"floating"}>
                   <Input
-                    name="confirm_password"
+                    name="new_credential_confirmation"
                     onChange={handleChange}
                     value={values?.confirm_password}
                     placeholder=" "

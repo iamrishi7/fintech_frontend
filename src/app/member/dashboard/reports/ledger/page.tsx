@@ -175,8 +175,16 @@ const page = () => {
                         0}
                     </Badge>
                   </Td>
-                  <Td>₹{item?.opening_balance}</Td>
-                  <Td>₹{item?.closing_balance}</Td>
+                  <Td isNumeric>
+                    ₹
+                    {Number(item?.opening_balance)?.toLocaleString("en-IN") ??
+                      0}
+                  </Td>
+                  <Td isNumeric>
+                    ₹
+                    {Number(item?.closing_balance)?.toLocaleString("en-IN") ??
+                      0}
+                  </Td>
                   <Td>
                     <HStack justifyContent={"center"}>
                       <TransactionBadge>{item?.service}</TransactionBadge>
