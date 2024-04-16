@@ -110,7 +110,7 @@ const BusinessDetailsForm = ({ userId }: BusinessDetailsFormProps) => {
   return (
     <>
       <Heading as={"h1"} fontSize={"xl"} mb={8}>
-        Update Your Business Details
+        Update Your Business Details (required for onboarding)
       </Heading>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         {!isLoading && prefilData ? (

@@ -102,6 +102,7 @@ const PortalBanks = () => {
               <Tr>
                 <Th>#</Th>
                 <Th>Beneficiary</Th>
+                <Th>Account No.</Th>
                 <Th>Bank Name</Th>
                 <Th>IFSC</Th>
                 <Th textAlign={"center"}>Action</Th>
@@ -112,6 +113,7 @@ const PortalBanks = () => {
                 <Tr key={key}>
                   <Td>{item?.id}</Td>
                   <Td>{item?.beneficiary_name}</Td>
+                  <Td>{item?.account_number}</Td>
                   <Td>{item?.name}</Td>
                   <Td>{item?.ifsc_code}</Td>
                   <Td>

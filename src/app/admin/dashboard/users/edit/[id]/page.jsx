@@ -266,6 +266,7 @@ const page = ({ params }) => {
                 aadhaar_front: null,
                 aadhaar_back: null,
                 pan: null,
+                date_of_birth: user?.dob,
                 role: user?.roles[0]?.name,
               }}
               onSubmit={(values) => handleFormSubmit(values)}
@@ -341,6 +342,16 @@ const page = ({ params }) => {
                     mb={8}
                     mt={4}
                   >
+                  <FormControl w={["full", "xs"]} variant={"floating"}>
+                    <Input
+                      name="date_of_birth"
+                      type="date"
+                      placeholder=" "
+                      value={values?.date_of_birth}
+                      onChange={handleChange}
+                    />
+                    <FormLabel>Date of Birth</FormLabel>
+                  </FormControl>
                     <FormControl w={["full", "xs"]} variant={"floating"}>
                       <Input
                         name="email"

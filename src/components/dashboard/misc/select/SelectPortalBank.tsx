@@ -55,7 +55,7 @@ const SelectPortalBank = ({
         >
           {data?.map((item: any, key: number) => (
             <option value={item?.id} key={key}>
-              {item?.name} - {item?.account_number}
+              ({item?.name}) {item?.beneficiary_name} - {item?.account_number}
             </option>
           ))}
         </Select>
