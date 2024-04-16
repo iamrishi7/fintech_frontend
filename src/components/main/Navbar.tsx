@@ -77,7 +77,7 @@ export default function WithSubnavigation() {
             as={"a"}
             href="/"
           >
-            Pesa24
+            Zeropay
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -296,48 +296,48 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Services",
     children: [
-      {
-        label: "AePS Services",
-        subLabel: "Aadhaar based payment services",
-        href: "#",
-      },
-      {
-        label: "Bill Payment Services",
-        subLabel: "Pay utility bills on the go",
-        href: "#",
-      },
+      // {
+      //   label: "AePS Services",
+      //   subLabel: "Aadhaar based payment services",
+      //   href: "#",
+      // },
+      // {
+      //   label: "Bill Payment Services",
+      //   subLabel: "Pay utility bills on the go",
+      //   href: "#",
+      // },
       {
         label: "Payouts",
         subLabel: "Transfer payments pan India",
         href: "#",
       },
-      {
-        label: "PAN Card",
-        subLabel: "Apply for PAN Cards",
-        href: "#",
-      },
+      // {
+      //   label: "PAN Card",
+      //   subLabel: "Apply for PAN Cards",
+      //   href: "#",
+      // },
     ],
   },
-  {
-    label: "API Providers",
-    children: [
-      {
-        label: "Eko",
-        subLabel: "Learn more",
-        href: "#",
-      },
-      {
-        label: "Paysprint",
-        subLabel: "Learn more",
-        href: "#",
-      },
-      {
-        label: "Razorpay",
-        subLabel: "Learn more",
-        href: "#",
-      },
-    ],
-  },
+  // {
+  //   label: "API Providers",
+  //   children: [
+  //     {
+  //       label: "Eko",
+  //       subLabel: "Learn more",
+  //       href: "#",
+  //     },
+  //     {
+  //       label: "Paysprint",
+  //       subLabel: "Learn more",
+  //       href: "#",
+  //     },
+  //     {
+  //       label: "Razorpay",
+  //       subLabel: "Learn more",
+  //       href: "#",
+  //     },
+  //   ],
+  // },
   {
     label: "About Us",
     href: "#",

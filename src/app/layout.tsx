@@ -61,7 +61,7 @@ export default function RootLayout({
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      
+
       getSettings();
     }
   }, []);
@@ -99,7 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Pesa24</title>
+        <title>Zeropay</title>
       </head>
       <body>
         <ChakraProvider

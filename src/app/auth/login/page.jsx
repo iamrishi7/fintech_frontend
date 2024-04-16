@@ -182,8 +182,7 @@ const Login = () => {
           <br />
           <br />
           <Text fontSize={"xs"}>
-            &copy; Copyright {new Date().getFullYear()} - Pesa24 Technologies
-            Pvt. Ltd.
+            &copy; Copyright {new Date().getFullYear()} - Zeropay
           </Text>
         </Flex>
       </Stack>
