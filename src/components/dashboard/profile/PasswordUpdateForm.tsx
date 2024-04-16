@@ -44,9 +44,9 @@ const PasswordUpdateForm = () => {
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
           initialValues={{
-            old_password: "",
-            new_password: "",
-            confirm_password: "",
+            old_credential: "",
+            new_credential: "",
+            new_credential_confirmation: "",
           }}
           onSubmit={(values) => handlePasswordChange(values)}
         >
@@ -64,7 +64,7 @@ const PasswordUpdateForm = () => {
                     type="password"
                     name="old_credential"
                     onChange={handleChange}
-                    value={values?.old_password}
+                    value={values?.old_credential}
                     placeholder=" "
                   />
                   <FormLabel>Old Password</FormLabel>
@@ -75,7 +75,7 @@ const PasswordUpdateForm = () => {
                     type="password"
                     name="new_credential"
                     onChange={handleChange}
-                    value={values?.new_password}
+                    value={values?.new_credential}
                     placeholder=" "
                   />
                   <FormLabel>New Password</FormLabel>
@@ -85,7 +85,7 @@ const PasswordUpdateForm = () => {
                   <Input
                     name="new_credential_confirmation"
                     onChange={handleChange}
-                    value={values?.confirm_password}
+                    value={values?.new_credential_confirmation}
                     placeholder=" "
                   />
                   <FormLabel>Confirm New Password</FormLabel>
