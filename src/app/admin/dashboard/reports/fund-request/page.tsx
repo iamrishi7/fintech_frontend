@@ -331,6 +331,7 @@ const page = () => {
         onClose={() => setTargetRequestId(null)}
         onSubmit={() => rejectRequest()}
         isLoading={isLoading}
+        hideFooter={false}
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
       </CustomModal>
