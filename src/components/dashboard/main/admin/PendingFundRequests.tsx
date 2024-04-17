@@ -147,7 +147,7 @@ const PendingFundRequests = ({
                   <HStack alignItems={"flex-start"}>
                     <Avatar size={"xs"} name={item?.user?.name} />
                     <Text>
-                      {item?.user?.name} ({item?.user?.wallet_id})
+                      {item?.user?.name} ({item?.user?.phone_number})
                     </Text>
                   </HStack>
                 </Td>
@@ -194,6 +194,7 @@ const PendingFundRequests = ({
                       </Button>
                     </HStack>
                   ) : null}
+                  <br />
                   <IconButton
                     aria-label="view-receipt"
                     size={"xs"}

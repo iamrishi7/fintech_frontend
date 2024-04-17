@@ -193,21 +193,21 @@ const page = () => {
               {data?.map((item: any, key: number) => (
                 <Tr key={key}>
                   <Td>{item[0]?.user_name}</Td>
-                  <Td borderBottom={0}>
+                  <Td borderBottom={0} isNumeric>
                     ₹
                     {(
-                      item?.find((_) => _?.service == "payout")
+                      item?.find((_:any) => _?.service == "payout")
                         ?.total_debit_amount -
-                        item?.find((_) => _?.service == "payout")
+                        item?.find((_:any) => _?.service == "payout")
                           ?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
-                  <Td borderBottom={0}>
+                  <Td borderBottom={0} isNumeric>
                     ₹
                     {(
-                      item?.find((_) => _?.service == "payout_commission")
+                      item?.find((_:any) => _?.service == "payout_commission")
                         ?.total_debit_amount -
-                        item?.find((_) => _?.service == "payout_commission")
+                        item?.find((_:any) => _?.service == "payout_commission")
                           ?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
@@ -215,8 +215,8 @@ const page = () => {
               ))}
                 <Tr>
                   <Th>Total</Th>
-                  <Th>₹{Number(calculateSum(data, "payout"))?.toLocaleString("en-IN")}</Th>
-                  <Th>₹{Number(calculateSum(data, "payout_commission"))?.toLocaleString("en-IN")}</Th>
+                  <Th isNumeric>₹{Number(calculateSum(data, "payout"))?.toLocaleString("en-IN")}</Th>
+                  <Th isNumeric>₹{Number(calculateSum(data, "payout_commission"))?.toLocaleString("en-IN")}</Th>
                 </Tr>
             </Tbody>
           </Table>

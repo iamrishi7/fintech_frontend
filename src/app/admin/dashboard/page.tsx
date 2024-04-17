@@ -122,9 +122,50 @@ const Dashboard = () => {
       existingData[3].score = `₹${newData?.fund_transfers}`;
       existingData[4].score = `₹${newData?.volume}`;
       existingData[5].score = `${newData?.retailers}`;
-      setTimeout(() => {
-        setOverviewData(existingData);
-      }, 200);
+      setOverviewData([
+        {
+          id: 1,
+          label: "Pending Fund Requests",
+          score: `₹${newData?.pending_fund_requests}`,
+          icon: FaWallet,
+          percentage: "10%",
+        },
+        {
+          id: 2,
+          label: "Approved Fund Requests",
+          score: `₹${newData?.approved_fund_requests}`,
+          icon: FaWallet,
+          percentage: "10%",
+        },
+        {
+          id: 3,
+          label: "Total Payouts",
+          score: `₹${newData?.total_payouts}`,
+          icon: MdOutlineAttachMoney,
+          percentage: "30%",
+        },
+        {
+          id: 4,
+          label: "Fund Transfers",
+          score: `₹${newData?.fund_transfers}`,
+          icon: FaMoneyBillTransfer,
+          percentage: "30%",
+        },
+        {
+          id: 5,
+          label: "Wallet Balance",
+          score: `₹${newData?.volume}`,
+          icon: BiTransferAlt,
+          percentage: "30%",
+        },
+        {
+          id: 6,
+          label: "Retailers",
+          score: `${newData?.retailers}`,
+          icon: FaUsers,
+          percentage: "30%",
+        },
+      ]);
     } catch (error) {
       handleError({
         title: "Err while fetching overview data",
