@@ -234,17 +234,17 @@ const page = () => {
                 data?.find(
                   (item: any) =>
                     item?.provider == "portal" &&
-                    item?.name == "limit"
-                )?.status
+                    item?.name == "allow_fund_request"
+                )?.limit
               }
               onSubmit={(value) =>
                 handleStatusUpdate(
                   rawData?.find(
                     (item: any) =>
                       item?.provider == "portal" &&
-                      item?.name == "limit"
+                      item?.name == "allow_fund_request"
                   )?.id,
-                  { active: value }
+                  { limit: value }
                 )
               }
             />
