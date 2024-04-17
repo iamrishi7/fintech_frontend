@@ -20,8 +20,7 @@ const TransactionBadge: FC<TransactionBadgeProps> = ({ children }) => {
     if (children?.toLowerCase()?.includes("dmt")) setBgColor("pink.500");
     if (children?.toLowerCase()?.includes("payout")) setBgColor("twitter.500");
     if (children?.toLowerCase()?.includes("recharge")) setBgColor("#40679E");
-    if (children?.toLowerCase()?.includes("fund-request"))
-      setBgColor("brand.hover");
+    if (children?.toLowerCase()?.includes("fund-request")) setBgColor("whatsapp.500");
     if (children?.toLowerCase()?.includes("fund-transfer"))
       setBgColor("orange.500");
     if (children?.toLowerCase()?.includes("wallet-transfer"))
@@ -33,11 +32,11 @@ const TransactionBadge: FC<TransactionBadgeProps> = ({ children }) => {
       <Text
         fontSize={"10px"}
         px={3}
-        py={'2px'}
+        py={"2px"}
         rounded={4}
         color={"#FFF"}
         bgColor={bgColor}
-        fontWeight={'medium'}
+        fontWeight={"medium"}
       >
         {children?.replace(/-/g, " ")?.replace(/_/g, " ")?.toUpperCase()}
       </Text>
