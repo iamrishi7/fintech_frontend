@@ -113,7 +113,7 @@ const PendingFundRequests = ({
           />
         </HStack>
       ) : null}
-      <TableContainer maxH={maxH || "sm"} overflowY={"scroll"}>
+      <TableContainer maxH={maxH || "sm"}>
         <Table size={"md"} variant={"striped"}>
           <Thead>
             <Tr>
