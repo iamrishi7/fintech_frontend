@@ -7,6 +7,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   FormControl,
   FormLabel,
   HStack,
@@ -43,6 +44,12 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([]);
+
+
+  const [approveTargetRequest, setApproveTargetRequest] = useState({
+    id: null,
+    amount: null,
+  });
   const [targetRequestId, setTargetRequestId] = useState<any>("");
   const [adminRemarks, setAdminRemarks] = useState("");
   const [selectedDates, setSelectedDates] = useState<Date[]>([
@@ -264,25 +271,34 @@ const page = () => {
                   <Td borderBottom={0} textAlign={"center"}>
                     {item?.status == "pending" ? (
                       <HStack gap={4} w={"full"} justifyContent={"center"}>
-                        <IconButton
-                          aria-label="approve"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaCheck />}
-                          colorScheme="whatsapp"
-                          onClick={() => approveRequest(item?.id)}
-                          isLoading={isLoading}
-                        />
-                        <IconButton
-                          aria-label="reject"
-                          size={"xs"}
-                          rounded={"full"}
-                          icon={<FaXmark />}
-                          colorScheme="red"
-                          onClick={() => setTargetRequestId(item?.id)}
-                          isLoading={isLoading}
-                        />
-                      </HStack>
+                      <Button
+                        aria-label="approve"
+                        size={"xs"}
+                        rounded={"full"}
+                        leftIcon={<FaCheck />}
+                        colorScheme="whatsapp"
+                        onClick={() =>
+                          setApproveTargetRequest({
+                            id: item?.id,
+                            amount: item?.amount,
+                          })
+                        }
+                        isLoading={isLoading}
+                      >
+                        Approve
+                      </Button>
+                      <Button
+                        aria-label="reject"
+                        size={"xs"}
+                        rounded={"full"}
+                        leftIcon={<FaXmark />}
+                        colorScheme="red"
+                        onClick={() => setTargetRequestId(item?.id)}
+                        isLoading={isLoading}
+                      >
+                        Reject
+                      </Button>
+                    </HStack>
                     ) : null}
                     <br />
                     <IconButton
@@ -317,6 +333,18 @@ const page = () => {
         isLoading={isLoading}
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
+      </CustomModal>
+
+
+      <CustomModal
+        title={`Approve ₹${approveTargetRequest?.amount} request?`}
+        isOpen={Boolean(approveTargetRequest?.id)}
+        onClose={() => setApproveTargetRequest({ id: null, amount: null })}
+        onSubmit={() => approveRequest(approveTargetRequest?.id)}
+        isLoading={isLoading}
+        hideFooter={false}
+      >
+        <Text>Are you sure you want to approve this request?</Text>
       </CustomModal>
     </>
   );
