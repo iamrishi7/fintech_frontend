@@ -50,6 +50,7 @@ import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API } from "@/lib/api";
 import CustomModal from "@/components/misc/CustomModal";
 import Link from "next/link";
+import SidebarPortalBanks from "@/components/dashboard/misc/SidebarPortalBanks";
 
 interface LayoutProps {
   children: ReactNode;
@@ -471,6 +472,10 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
         >
           LIC
         </NavItem> */}
+        <br />
+        <br />
+
+        <SidebarPortalBanks />
 
         <br />
         <br />
