@@ -59,7 +59,10 @@ const CustomTabs: FC<CustomTabsProps> = ({
             _hover={{
               bgColor: activeTab == item?.id ? "brand.hover" : "gray.100",
             }}
-            onClick={() => onChange(item?.id)}
+            onClick={() => {
+              onChange(item?.id);
+              setActiveTab(item?.id);
+            }}
             size={size ?? "md"}
             isDisabled={item?.isDisabled}
             textTransform={"capitalize"}
