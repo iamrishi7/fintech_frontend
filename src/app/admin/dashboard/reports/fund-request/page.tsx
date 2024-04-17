@@ -255,10 +255,12 @@ const page = () => {
                     </HStack>
                   </Td>
                   <Td>
-                    <HStack alignItems={"flex-start"}>
-                      <Avatar size={"xs"} name={item?.reviewer?.name} />
-                      <Text>{item?.reviewer?.name}</Text>
-                    </HStack>
+                    {item?.status != "pending" ? (
+                      <HStack alignItems={"flex-start"}>
+                        <Avatar size={"xs"} name={item?.reviewer?.name} />
+                        <Text>{item?.reviewer?.name}</Text>
+                      </HStack>
+                    ) : null}
                   </Td>
                   <Td>{item?.user_remarks}</Td>
                   <Td borderBottom={0}>{item?.admin_remarks}</Td>
