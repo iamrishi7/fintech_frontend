@@ -171,8 +171,10 @@ const page = () => {
               <Tr>
                 <Th color={"gray.600"}>Trnxn ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Bank</Th>
                 <Th color={"gray.600"}>Status</Th>
                 <Th color={"gray.600"}>User</Th>
+                <Th color={"gray.600"}>User Remarks</Th>
                 <Th color={"gray.600"}>Req. At</Th>
                 <Th color={"gray.600"}>Action</Th>
               </Tr>
@@ -184,6 +186,7 @@ const page = () => {
                   <Td borderBottom={0}>
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
+                  <Td borderBottom={0}>{item?.bank?.name}</Td>
                   <Td>
                     <Badge textTransform={"uppercase"}>{item?.status}</Badge>
                   </Td>
@@ -195,6 +198,7 @@ const page = () => {
                       </Text>
                     </HStack>
                   </Td>
+                  <Td>{item?.user_remarks}</Td>
                   {/* <Td>
                     <HStack alignItems={"flex-start"}>
                       <Avatar size={"xs"} name={item?.reviewer?.name} />

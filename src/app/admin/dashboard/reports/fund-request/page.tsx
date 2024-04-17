@@ -45,7 +45,6 @@ const page = () => {
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([]);
 
-
   const [approveTargetRequest, setApproveTargetRequest] = useState({
     id: null,
     amount: null,
@@ -264,41 +263,39 @@ const page = () => {
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td borderBottom={0}>
-                    {item?.user_remarks}
-                    {item?.admin_remarks}
-                  </Td>
+                  <Td>{item?.user_remarks}</Td>
+                  <Td borderBottom={0}>{item?.admin_remarks}</Td>
                   <Td borderBottom={0} textAlign={"center"}>
                     {item?.status == "pending" ? (
                       <HStack gap={4} w={"full"} justifyContent={"center"}>
-                      <Button
-                        aria-label="approve"
-                        size={"xs"}
-                        rounded={"full"}
-                        leftIcon={<FaCheck />}
-                        colorScheme="whatsapp"
-                        onClick={() =>
-                          setApproveTargetRequest({
-                            id: item?.id,
-                            amount: item?.amount,
-                          })
-                        }
-                        isLoading={isLoading}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        aria-label="reject"
-                        size={"xs"}
-                        rounded={"full"}
-                        leftIcon={<FaXmark />}
-                        colorScheme="red"
-                        onClick={() => setTargetRequestId(item?.id)}
-                        isLoading={isLoading}
-                      >
-                        Reject
-                      </Button>
-                    </HStack>
+                        <Button
+                          aria-label="approve"
+                          size={"xs"}
+                          rounded={"full"}
+                          leftIcon={<FaCheck />}
+                          colorScheme="whatsapp"
+                          onClick={() =>
+                            setApproveTargetRequest({
+                              id: item?.id,
+                              amount: item?.amount,
+                            })
+                          }
+                          isLoading={isLoading}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          aria-label="reject"
+                          size={"xs"}
+                          rounded={"full"}
+                          leftIcon={<FaXmark />}
+                          colorScheme="red"
+                          onClick={() => setTargetRequestId(item?.id)}
+                          isLoading={isLoading}
+                        >
+                          Reject
+                        </Button>
+                      </HStack>
                     ) : null}
                     <br />
                     <IconButton
@@ -335,7 +332,6 @@ const page = () => {
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
       </CustomModal>
-
 
       <CustomModal
         title={`Approve ₹${approveTargetRequest?.amount} request?`}
