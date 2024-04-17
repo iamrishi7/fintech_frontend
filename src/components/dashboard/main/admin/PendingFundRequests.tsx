@@ -249,6 +249,7 @@ const PendingFundRequests = ({
         onSubmit={() => approveRequest(approveTargetRequest?.id)}
         isLoading={isLoading}
         hideFooter={false}
+        submitText="Approve"
       >
         <Text>Are you sure you want to approve this request?</Text>
       </CustomModal>

@@ -23,6 +23,7 @@ interface CustomModalProps {
   hideFooter?: boolean;
   closeOnBlur?: boolean;
   isLoading?: boolean;
+  submitText?: string
 }
 
 const CustomModal: FC<CustomModalProps> = ({
@@ -35,6 +36,7 @@ const CustomModal: FC<CustomModalProps> = ({
   hideFooter = true,
   closeOnBlur = false,
   isLoading = false,
+  submitText
 }) => {
   return (
     <>
@@ -65,7 +67,7 @@ const CustomModal: FC<CustomModalProps> = ({
                   color={"#FFF"}
                   isLoading={isLoading}
                 >
-                  Submit
+                  {submitText || "Submit"}
                 </Button>
               </HStack>
             </ModalFooter>
