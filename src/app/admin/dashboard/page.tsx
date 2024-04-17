@@ -225,7 +225,8 @@ const Dashboard = () => {
   );
 };
 
-const Card = ({ data }: { data: StatData }) => {
+const Card = ({ label, score, icon, id, percentage }: StatData) => {
+console.log(score)
   return (
     <Stack
       direction="column"
@@ -248,11 +249,11 @@ const Card = ({ data }: { data: StatData }) => {
       >
         <VStack spacing={0} align="start" maxW="lg" h="100%">
           <Text as="h3" fontSize="md" noOfLines={2} color="gray.400">
-            {data.label}
+            {label}
           </Text>
           <HStack spacing={2}>
             <Text as="h2" fontSize="lg" fontWeight="extrabold">
-              {data.score}
+              {score}
             </Text>
           </HStack>
         </VStack>
@@ -269,7 +270,7 @@ const Card = ({ data }: { data: StatData }) => {
           lineHeight={0}
           boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)"
         >
-          <Icon as={data.icon} w={6} h={6} color="white" />
+          <Icon as={icon} w={6} h={6} color="white" />
         </Flex>
       </HStack>
     </Stack>

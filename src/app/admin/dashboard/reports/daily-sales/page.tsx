@@ -68,7 +68,7 @@ const page = () => {
 
       // Sum up debit_amount and credit_amount for 'payout' services
       transactions.forEach((transaction: any) => {
-        if (transaction.service === "payout") {
+        if (transaction.service === transactionType) {
           const debitAmount = parseFloat(transaction.total_debit_amount);
           const creditAmount = parseFloat(transaction.total_credit_amount);
           totalDebit += debitAmount;
@@ -213,13 +213,11 @@ const page = () => {
                   </Td>
                 </Tr>
               ))}
-              <Tfoot>
                 <Tr>
                   <Th>Total</Th>
                   <Th>₹{calculateSum(data, "payout")}</Th>
                   <Th>₹{calculateSum(data, "payout_commission")}</Th>
                 </Tr>
-              </Tfoot>
             </Tbody>
           </Table>
         </TableContainer>
