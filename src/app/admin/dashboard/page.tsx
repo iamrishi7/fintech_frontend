@@ -212,7 +212,7 @@ const Dashboard = () => {
         ))}
       </Stack>
       <Stack direction={["column", "row"]} gap={6}>
-        <Box flex={4} p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
+        <Box p={6} bgColor={"#FFF"} rounded={8} boxShadow={"sm"}>
           <Text color={"gray.700"} fontWeight={"semibold"}>
             Pending Fund Requests
           </Text>
