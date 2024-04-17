@@ -148,6 +148,8 @@ const Dashboard = () => {
       existingData[3].score = `₹${newData?.fund_transfers}`;
       existingData[4].score = `₹${newData?.volume}`;
       existingData[5].score = `${newData?.retailers}`;
+
+      console.log(existingData)
       setOverviewData(existingData)
     } catch (error) {
       handleError({

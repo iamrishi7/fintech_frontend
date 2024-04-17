@@ -19,6 +19,7 @@ import {
   Tbody,
   Td,
   Text,
+  Tfoot,
   Th,
   Thead,
   Tr,
@@ -54,6 +55,33 @@ const page = () => {
     console.log(user?.id);
   }, [user]);
 
+  function calculateSum(
+    jsonData: any,
+    transactionType: "payout" | "payout_commission"
+  ) {
+    let totalDebit = 0;
+    let totalCredit = 0;
+
+    // Iterate over each user's transactions
+    for (const userId in jsonData) {
+      const transactions = jsonData[userId];
+
+      // Sum up debit_amount and credit_amount for 'payout' services
+      transactions.forEach((transaction: any) => {
+        if (transaction.service === "payout") {
+          const debitAmount = parseFloat(transaction.total_debit_amount);
+          const creditAmount = parseFloat(transaction.total_credit_amount);
+          totalDebit += debitAmount;
+          totalCredit += creditAmount;
+        }
+      });
+    }
+
+    // Calculate the net amount of all payouts
+    const netAmount = totalDebit - totalCredit;
+    return netAmount;
+  }
+
   async function getData(url?: string, query?: object) {
     setIsLoading(true);
     try {
@@ -66,7 +94,7 @@ const page = () => {
         to: to,
       });
 
-      if(Object?.entries(res?.data)?.map((item) => item[1])){
+      if (Object?.entries(res?.data)?.map((item) => item[1])) {
         setData(Object?.entries(res?.data)?.map((item) => item[1]));
         setPages(res?.meta?.links);
       }
@@ -151,7 +179,9 @@ const page = () => {
 
         <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
-            <TableCaption placement="top">Negative amount means the amount has been credited to the user</TableCaption>
+            <TableCaption placement="top">
+              Negative amount means the amount has been credited to the user
+            </TableCaption>
             <Thead>
               <Tr>
                 <Th color={"gray.600"}>User</Th>
@@ -166,19 +196,30 @@ const page = () => {
                   <Td borderBottom={0}>
                     ₹
                     {(
-                      item?.find(_ => _?.service == "payout")?.total_debit_amount -
-                        item?.find(_ => _?.service == "payout")?.total_credit_amount || 0
+                      item?.find((_) => _?.service == "payout")
+                        ?.total_debit_amount -
+                        item?.find((_) => _?.service == "payout")
+                          ?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
                   <Td borderBottom={0}>
                     ₹
                     {(
-                      item?.find(_ => _?.service == "payout_commission")?.total_debit_amount -
-                        item?.find(_ => _?.service == "payout_commission")?.total_credit_amount || 0
+                      item?.find((_) => _?.service == "payout_commission")
+                        ?.total_debit_amount -
+                        item?.find((_) => _?.service == "payout_commission")
+                          ?.total_credit_amount || 0
                     )?.toLocaleString("en-IN") || 0}
                   </Td>
                 </Tr>
               ))}
+              <Tfoot>
+                <Tr>
+                  <Th>Total</Th>
+                  <Th>₹{calculateSum(data, "payout")}</Th>
+                  <Th>₹{calculateSum(data, "payout_commission")}</Th>
+                </Tr>
+              </Tfoot>
             </Tbody>
           </Table>
         </TableContainer>

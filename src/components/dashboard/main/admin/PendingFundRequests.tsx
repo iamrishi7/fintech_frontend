@@ -50,6 +50,10 @@ const PendingFundRequests = ({
   const [targetRequestId, setTargetRequestId] = useState<
     string | number | null
   >("");
+  const [approveTargetRequest, setApproveTargetRequest] = useState({
+    id: null,
+    amount: null,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const PendingFundRequests = ({
         ...query,
       });
       setData(res?.data);
-      setPages(res?.meta?.links)
+      setPages(res?.meta?.links);
     } catch (error) {
       handleError({ title: "Couldn't fetch fund requests", error: error });
     }
@@ -76,6 +80,7 @@ const PendingFundRequests = ({
       setIsLoading(true);
       await API.adminApproveFundRequest(id);
       await getPendingRequests();
+      setApproveTargetRequest({id: null, amount: null})
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -164,9 +169,16 @@ const PendingFundRequests = ({
                         rounded={"full"}
                         leftIcon={<FaCheck />}
                         colorScheme="whatsapp"
-                        onClick={() => approveRequest(item?.id)}
+                        onClick={() =>
+                          setApproveTargetRequest({
+                            id: item?.id,
+                            amount: item?.amount,
+                          })
+                        }
                         isLoading={isLoading}
-                      >Approve</Button>
+                      >
+                        Approve
+                      </Button>
                       <Button
                         aria-label="reject"
                         size={"xs"}
@@ -175,7 +187,9 @@ const PendingFundRequests = ({
                         colorScheme="red"
                         onClick={() => setTargetRequestId(item?.id)}
                         isLoading={isLoading}
-                      >Reject</Button>
+                      >
+                        Reject
+                      </Button>
                     </HStack>
                   ) : null}
                   <IconButton
@@ -224,6 +238,16 @@ const PendingFundRequests = ({
         isLoading={isLoading}
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
+      </CustomModal>
+
+      <CustomModal
+        title={`Approve ₹${approveTargetRequest?.amount} request?`}
+        isOpen={Boolean(approveTargetRequest?.id)}
+        onClose={() => setApproveTargetRequest({ id: null, amount: null })}
+        onSubmit={() => approveRequest(approveTargetRequest?.id)}
+        isLoading={isLoading}
+      >
+        <Text>Are you sure you want to approve this request?</Text>
       </CustomModal>
     </>
   );

@@ -45,6 +45,10 @@ const page = () => {
   const [targetRequestId, setTargetRequestId] = useState<
     string | number | null
   >("");
+  const [approveTargetRequest, setApproveTargetRequest] = useState({
+    id: null,
+    amount: null,
+  });
   const [pages, setPages] = useState<any>([]);
 
   useEffect(() => {
@@ -72,6 +76,7 @@ const page = () => {
       setIsLoading(true);
       await API.adminApproveFundRequest(id);
       await getData();
+      setApproveTargetRequest({ id: null, amount: null });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -208,9 +213,16 @@ const page = () => {
                           rounded={"full"}
                           leftIcon={<FaCheck />}
                           colorScheme="whatsapp"
-                          onClick={() => approveRequest(item?.id)}
+                          onClick={() =>
+                            setApproveTargetRequest({
+                              id: item?.id,
+                              amount: item?.amount,
+                            })
+                          }
                           isLoading={isLoading}
-                        >Approve</Button>
+                        >
+                          Approve
+                        </Button>
                         <Button
                           aria-label="reject"
                           size={"xs"}
@@ -219,7 +231,9 @@ const page = () => {
                           colorScheme="red"
                           onClick={() => setTargetRequestId(item?.id)}
                           isLoading={isLoading}
-                        >Reject</Button>
+                        >
+                          Reject
+                        </Button>
                       </HStack>
                     ) : null}
                     <br />
@@ -256,6 +270,16 @@ const page = () => {
         hideFooter={false}
       >
         <Input onChange={(e) => setAdminRemarks(e.target.value)} />
+      </CustomModal>
+
+      <CustomModal
+        title={`Approve ₹${approveTargetRequest?.amount} request?`}
+        isOpen={Boolean(approveTargetRequest?.id)}
+        onClose={() => setApproveTargetRequest({ id: null, amount: null })}
+        onSubmit={() => approveRequest(approveTargetRequest?.id)}
+        isLoading={isLoading}
+      >
+        <Text>Are you sure you want to approve this request?</Text>
       </CustomModal>
     </>
   );
