@@ -22,15 +22,18 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { RangeDatepicker } from "chakra-dayzed-datepicker";
 import ExportButtons from "@/components/dashboard/misc/ExportButtons";
 import TransactionBadge from "@/components/dashboard/misc/TransactionBadge";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 
-const page = () => {
+const Ledger = () => {
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
+  const params = useSearchParams()
+  const userId = params.get("user_id")
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -44,7 +47,8 @@ const page = () => {
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      getData();
+      if(userId) getData("", {user_id: userId});
+      else getData()
     }
   }, []);
 
@@ -86,6 +90,7 @@ const page = () => {
           initialValues={{
             transaction_id: "",
             user_id: "",
+            account_number: ""
           }}
           onSubmit={console.log}
         >
@@ -121,6 +126,15 @@ const page = () => {
                     onChange={handleChange}
                   />
                   <FormLabel>User ID</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="account_number"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
+                  <FormLabel>Account No.</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"}>
@@ -173,7 +187,7 @@ const page = () => {
               {data?.map((item: any, key) => (
                 <Tr key={key}>
                   <Td borderBottom={0}>{item?.reference_id}</Td>
-                  <Td borderBottom={0}>{item?.beneficiary?.name}</Td>
+                  <Td borderBottom={0}>{item?.beneficiary?.name} ({item?.beneficiary?.phone_number})</Td>
                   <Td borderBottom={0} isNumeric>
                     <Badge colorScheme="red" minW={16}>
                       ₹
@@ -220,5 +234,13 @@ const page = () => {
     </>
   );
 };
+
+const page = () => {
+  return(
+    <Suspense>
+      <Ledger />
+    </Suspense>
+  )
+}
 
 export default page;

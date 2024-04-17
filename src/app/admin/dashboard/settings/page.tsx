@@ -2,6 +2,7 @@
 import ManageAdminPermissions from "@/components/dashboard/admin/ManageAdminPermissions";
 import ManageMemberPermissions from "@/components/dashboard/admin/ManageMemberPermissions";
 import PortalBanks from "@/components/dashboard/main/admin/PortalBanks";
+import CustomEditableInput from "@/components/misc/CustomEditableInput";
 import CustomTabs from "@/components/misc/CustomTabs";
 import { API } from "@/lib/api";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
@@ -221,6 +222,29 @@ const page = () => {
                       item?.name == "allow_chat_support"
                   )?.id,
                   { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Max. Fund Request</Text>
+            <CustomEditableInput
+              defaultValue={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" &&
+                    item?.name == "limit"
+                )?.status
+              }
+              onSubmit={(value) =>
+                handleStatusUpdate(
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" &&
+                      item?.name == "limit"
+                  )?.id,
+                  { active: value }
                 )
               }
             />

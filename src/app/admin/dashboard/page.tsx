@@ -141,7 +141,7 @@ const Dashboard = () => {
     try {
       const res = await API.adminOverview(duration);
       let existingData = overviewData;
-      const newData = res?.data[0];
+      const newData = res?.data;
       existingData[0].score = `₹${newData?.pending_fund_requests}`;
       existingData[1].score = `₹${newData?.approved_fund_requests}`;
       existingData[2].score = `₹${newData?.total_payouts}`;

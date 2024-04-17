@@ -39,6 +39,10 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
 
   const [data, setData] = useState([]);
   const [newPlanName, setNewPlanName] = useState("");
+  const [deleteTargetPlan, setDeleteTargetPlan] = useState({
+    id: "",
+    name: "",
+  });
 
   useEffect(() => {
     if (ref.current) {
@@ -77,10 +81,14 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
 
   async function deletePlan(id: any) {
     try {
-      await API.adminDeletePlan(id);
+      await API.adminDeletePlan(deleteTargetPlan?.id);
       Toast({
         status: "success",
         description: "Plan updated successfully",
+      });
+      setDeleteTargetPlan({
+        id: "",
+        name: "",
       });
       fetchData();
     } catch (error) {
@@ -170,6 +178,16 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
                     >
                       Edit Commission
                     </Button>
+                    <Button
+                      colorScheme="red"
+                      size={"xs"}
+                      rounded={"full"}
+                      onClick={() =>
+                        setDeleteTargetPlan({ id: item?.id, name: item?.name })
+                      }
+                    >
+                      Delete
+                    </Button>
                   </HStack>
                 </Td>
               </Tr>
@@ -194,6 +212,19 @@ const Packages = ({ onEditButtonClick }: PackagesProps) => {
           />
           <FormLabel>Enter plan name</FormLabel>
         </FormControl>
+      </CustomModal>
+
+      <CustomModal
+        isOpen={Boolean(deleteTargetPlan?.id)}
+        onClose={() => setDeleteTargetPlan({ id: "", name: "" })}
+        title={`Delete ${deleteTargetPlan?.name}?`}
+        hideFooter={false}
+        onSubmit={deletePlan}
+      >
+        <Text>
+          Are you sure you want to delete this plan? This action can not be
+          reversed.
+        </Text>
       </CustomModal>
     </>
   );

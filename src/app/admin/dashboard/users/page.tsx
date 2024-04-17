@@ -433,16 +433,14 @@ const page = () => {
                           </MenuItem>
                           <MenuItem>
                             <HStack w={"full"} justifyContent={"space-between"}>
-                              <Text>
-                                {"Onboarding"}
-                              </Text>
+                              <Text>{"Onboarding"}</Text>
                               <Switch
                                 isChecked={Boolean(item?.active)}
                                 onChange={async (e) => {
                                   if (e.target.checked) {
-                                    await updateUser(item?.id, {active: 1});
+                                    await updateUser(item?.id, { active: 1 });
                                   } else {
-                                    await updateUser(item?.id, {active: 0});
+                                    await updateUser(item?.id, { active: 0 });
                                   }
                                 }}
                               />
@@ -470,7 +468,16 @@ const page = () => {
                           >
                             Add Remarks
                           </MenuItem>
-                          <MenuItem>View Ledger</MenuItem>
+                          <MenuItem
+                            onClick={() =>
+                              window.open(
+                                `/admin/reports/ledger?user_id=${item?.phone_number}`,
+                                "_blank"
+                              )
+                            }
+                          >
+                            View Ledger
+                          </MenuItem>
                         </MenuList>
                       </Menu>
                     </HStack>
