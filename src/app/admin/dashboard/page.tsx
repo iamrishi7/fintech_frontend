@@ -149,8 +149,8 @@ const Dashboard = () => {
       existingData[4].score = `₹${newData?.volume}`;
       existingData[5].score = `${newData?.retailers}`;
 
-      console.log(existingData)
-      setOverviewData(existingData)
+      console.log(existingData);
+      setOverviewData(existingData);
     } catch (error) {
       handleError({
         title: "Err while fetching overview data",
@@ -225,8 +225,9 @@ const Dashboard = () => {
   );
 };
 
-const Card = ({ label, score, icon, id, percentage }: StatData) => {
-console.log(score)
+const Card = ({ data }) => {
+  const { label, score, icon, id, percentage } = data;
+  console.log(score);
   return (
     <Stack
       direction="column"
