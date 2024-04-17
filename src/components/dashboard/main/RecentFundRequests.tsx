@@ -78,6 +78,7 @@ const RecentFundRequests = ({
               <Th color={"gray.600"}>ID</Th>
               <Th color={"gray.600"}>Amount</Th>
               <Th color={"gray.600"}>Admin</Th>
+              <Th color={"gray.600"}>Bank</Th>
               <Th color={"gray.600"}>Req. At</Th>
               <Th color={"gray.600"}>Status</Th>
             </Tr>
@@ -97,6 +98,7 @@ const RecentFundRequests = ({
                     </HStack>
                   ) : null}
                 </Td>
+                <Td borderBottom={0}>{item?.bank?.name}</Td>
                 <Td borderBottom={0}>
                   {new Date(item?.created_at)?.toLocaleString("en-GB")}
                 </Td>

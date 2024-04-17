@@ -105,6 +105,7 @@ const PortalBanks = () => {
                 <Th>Account No.</Th>
                 <Th>Bank Name</Th>
                 <Th>IFSC</Th>
+                <Th>UPI ID</Th>
                 <Th textAlign={"center"}>Action</Th>
               </Tr>
             </Thead>
@@ -116,6 +117,7 @@ const PortalBanks = () => {
                   <Td>{item?.account_number}</Td>
                   <Td>{item?.name}</Td>
                   <Td>{item?.ifsc_code}</Td>
+                  <Td>{item?.upi_id}</Td>
                   <Td>
                     <HStack gap={8} justifyContent={"center"}>
                       <Switch
@@ -154,6 +156,7 @@ const PortalBanks = () => {
             beneficiary_name: "",
             account_number: "",
             ifsc_code: "",
+            upi_id: ""
           }}
           onSubmit={console.log}
         >
@@ -195,6 +198,15 @@ const PortalBanks = () => {
                     placeholder=" "
                   />
                   <FormLabel>Bank IFSC</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="upi_id"
+                    onChange={handleChange}
+                    value={values?.upi_id}
+                    placeholder=" "
+                  />
+                  <FormLabel>UPI ID</FormLabel>
                 </FormControl>
               </Stack>
               <HStack justifyContent={"flex-end"} mt={8} gap={4}>

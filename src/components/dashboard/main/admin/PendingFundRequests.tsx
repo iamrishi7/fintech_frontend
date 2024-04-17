@@ -119,6 +119,7 @@ const PendingFundRequests = ({
             <Tr>
               <Th color={"gray.600"}>Trnxn ID</Th>
               <Th color={"gray.600"}>Amount</Th>
+              <Th color={"gray.600"}>Bank</Th>
               <Th color={"gray.600"}>Status</Th>
               <Th color={"gray.600"}>Updated By</Th>
               <Th color={"gray.600"}>User</Th>
@@ -133,6 +134,7 @@ const PendingFundRequests = ({
                 <Td borderBottom={0}>
                   ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                 </Td>
+                <Td borderBottom={0}>{item?.bank?.name}</Td>
                 <Td>
                   <Badge textTransform={"uppercase"}>{item?.status}</Badge>
                 </Td>

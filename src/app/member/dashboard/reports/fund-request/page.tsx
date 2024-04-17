@@ -172,6 +172,7 @@ const page = () => {
                 <Th color={"gray.600"}>ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
                 <Th color={"gray.600"}>Admin</Th>
+                <Th color={"gray.600"}>Bank</Th>
                 <Th color={"gray.600"}>Req. At</Th>
                 <Th color={"gray.600"}>Status</Th>
               </Tr>
@@ -191,42 +192,43 @@ const page = () => {
                       </HStack>
                     ) : null}
                   </Td>
+                  <Td borderBottom={0}>{item?.bank?.name}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td borderBottom={0} textAlign={'center'}>
+                  <Td borderBottom={0} textAlign={"center"}>
                     <HStack gap={4} w={"full"} justifyContent={"center"}>
-                    {item?.status == "approved" ? (
-                      <Button
-                        aria-label="approved"
-                        size={"xs"}
-                        rounded={"full"}
-                        leftIcon={<FaCheck />}
-                        colorScheme="whatsapp"
-                      >
-                        Approved
-                      </Button>
-                    ) : item?.status == "rejected" ? (
-                      <Button
-                        aria-label="rejected"
-                        size={"xs"}
-                        rounded={"full"}
-                        leftIcon={<FaXmark />}
-                        colorScheme="red"
-                      >
-                        Rejected
-                      </Button>
-                    ) : item?.status == "pending" ? (
-                      <Button
-                        aria-label="pending"
-                        size={"xs"}
-                        rounded={"full"}
-                        leftIcon={<FaClock />}
-                        colorScheme="twitter"
-                      >
-                        Pending
-                      </Button>
-                    ) : null}
+                      {item?.status == "approved" ? (
+                        <Button
+                          aria-label="approved"
+                          size={"xs"}
+                          rounded={"full"}
+                          leftIcon={<FaCheck />}
+                          colorScheme="whatsapp"
+                        >
+                          Approved
+                        </Button>
+                      ) : item?.status == "rejected" ? (
+                        <Button
+                          aria-label="rejected"
+                          size={"xs"}
+                          rounded={"full"}
+                          leftIcon={<FaXmark />}
+                          colorScheme="red"
+                        >
+                          Rejected
+                        </Button>
+                      ) : item?.status == "pending" ? (
+                        <Button
+                          aria-label="pending"
+                          size={"xs"}
+                          rounded={"full"}
+                          leftIcon={<FaClock />}
+                          colorScheme="twitter"
+                        >
+                          Pending
+                        </Button>
+                      ) : null}
                     </HStack>
                     <br />
                     <IconButton

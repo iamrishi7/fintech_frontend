@@ -43,7 +43,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [pages, setPages] = useState([]);
-  const [targetRequestId, setTargetRequestId] = useState<any>("")
+  const [targetRequestId, setTargetRequestId] = useState<any>("");
   const [adminRemarks, setAdminRemarks] = useState("");
   const [selectedDates, setSelectedDates] = useState<Date[]>([
     new Date(new Date().setMonth(new Date().getMonth() - 1)),
@@ -109,7 +109,6 @@ const page = () => {
       handleError({ title: "Couldn't update fund request", error: error });
     }
   }
-
 
   return (
     <>
@@ -209,9 +208,12 @@ const page = () => {
               <Tr>
                 <Th color={"gray.600"}>Trnxn ID</Th>
                 <Th color={"gray.600"}>Amount</Th>
+                <Th color={"gray.600"}>Bank</Th>
                 <Th color={"gray.600"}>Status</Th>
-                <Th color={"gray.600"}>Updated By</Th>
                 <Th color={"gray.600"}>User</Th>
+                <Th color={"gray.600"}>Updated By</Th>
+                <Th color={"gray.600"}>User Remarks</Th>
+                <Th color={"gray.600"}>Admin Remarks</Th>
                 <Th color={"gray.600"}>Req. At</Th>
                 <Th color={"gray.600"}>Action</Th>
               </Tr>
@@ -223,14 +225,26 @@ const page = () => {
                   <Td borderBottom={0}>
                     ₹{Number(item?.amount)?.toLocaleString("en-IN") ?? 0}
                   </Td>
+                  <Td borderBottom={0}>{item?.bank?.name}</Td>
                   <Td>
-                    <Badge textTransform={"uppercase"}>{item?.status}</Badge>
+                    <Badge
+                      textTransform={"uppercase"}
+                      colorScheme={
+                        item?.status == "approved"
+                          ? "whatsapp"
+                          : item?.status == "rejected"
+                          ? "red"
+                          : "twitter"
+                      }
+                    >
+                      {item?.status}
+                    </Badge>
                   </Td>
                   <Td>
                     <HStack alignItems={"flex-start"}>
                       <Avatar size={"xs"} name={item?.user?.name} />
                       <Text>
-                        {item?.user?.name} ({item?.user?.wallet_id})
+                        {item?.user?.name} ({item?.user?.phone_number})
                       </Text>
                     </HStack>
                   </Td>
@@ -242,6 +256,10 @@ const page = () => {
                   </Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
+                  </Td>
+                  <Td borderBottom={0}>
+                    {item?.user_remarks}
+                    {item?.admin_remarks}
                   </Td>
                   <Td borderBottom={0} textAlign={"center"}>
                     {item?.status == "pending" ? (
@@ -290,7 +308,6 @@ const page = () => {
           </Table>
         </TableContainer>
       </Box>
-
 
       <CustomModal
         title={"Enter Remarks"}

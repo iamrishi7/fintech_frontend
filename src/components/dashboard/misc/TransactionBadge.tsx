@@ -20,10 +20,10 @@ const TransactionBadge: FC<TransactionBadgeProps> = ({ children }) => {
     if (children?.toLowerCase()?.includes("dmt")) setBgColor("pink.500");
     if (children?.toLowerCase()?.includes("payout")) setBgColor("twitter.500");
     if (children?.toLowerCase()?.includes("recharge")) setBgColor("#40679E");
-    if (children?.toLowerCase()?.includes("fund-request")) setBgColor("whatsapp.500");
-    if (children?.toLowerCase()?.includes("fund-transfer"))
+    if (children?.toLowerCase()?.includes("fund_request")) setBgColor("whatsapp.500");
+    if (children?.toLowerCase()?.includes("fund_transfer"))
       setBgColor("orange.500");
-    if (children?.toLowerCase()?.includes("wallet-transfer"))
+    if (children?.toLowerCase()?.includes("wallet_transfer"))
       setBgColor("facebook.500");
   }, [children]);
 
