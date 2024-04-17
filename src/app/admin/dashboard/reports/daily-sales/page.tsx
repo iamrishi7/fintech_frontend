@@ -215,8 +215,8 @@ const page = () => {
               ))}
                 <Tr>
                   <Th>Total</Th>
-                  <Th>₹{calculateSum(data, "payout")}</Th>
-                  <Th>₹{calculateSum(data, "payout_commission")}</Th>
+                  <Th>₹{Number(calculateSum(data, "payout"))?.toLocaleString("en-IN")}</Th>
+                  <Th>₹{Number(calculateSum(data, "payout_commission"))?.toLocaleString("en-IN")}</Th>
                 </Tr>
             </Tbody>
           </Table>
