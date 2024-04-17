@@ -34,37 +34,6 @@ interface StatData {
   percentage: string;
 }
 
-const statData: StatData[] = [
-  {
-    id: 1,
-    label: "Fund Requests",
-    score: "₹1730",
-    icon: FaWallet,
-    percentage: "10%",
-  },
-  {
-    id: 2,
-    label: "Payouts",
-    score: "₹3245",
-    icon: MdOutlineAttachMoney,
-    percentage: "30%",
-  },
-  {
-    id: 3,
-    label: "Cashflow",
-    score: "₹100",
-    icon: FaMoneyBillTransfer,
-    percentage: "30%",
-  },
-  {
-    id: 4,
-    label: "Wallet Transfers",
-    score: "₹100",
-    icon: BiTransferAlt,
-    percentage: "30%",
-  },
-];
-
 const tabList = [
   {
     id: "today",
@@ -80,55 +49,56 @@ const tabList = [
   },
 ];
 
+const statData = [
+  {
+    id: 1,
+    label: "Pending Fund Requests",
+    score: "₹0",
+    icon: FaWallet,
+    percentage: "10%",
+  },
+  {
+    id: 2,
+    label: "Approved Fund Requests",
+    score: "₹0",
+    icon: FaWallet,
+    percentage: "10%",
+  },
+  {
+    id: 3,
+    label: "Total Payouts",
+    score: "₹0",
+    icon: MdOutlineAttachMoney,
+    percentage: "30%",
+  },
+  {
+    id: 4,
+    label: "Fund Transfers",
+    score: "₹0",
+    icon: FaMoneyBillTransfer,
+    percentage: "30%",
+  },
+  {
+    id: 5,
+    label: "Wallet Balance",
+    score: "₹0",
+    icon: BiTransferAlt,
+    percentage: "30%",
+  },
+  {
+    id: 6,
+    label: "Retailers",
+    score: "0",
+    icon: FaUsers,
+    percentage: "30%",
+  },
+];
+
 const Dashboard = () => {
   const { user } = useAuth();
   const ref = useRef(true);
   const { handleError } = useErrorHandler();
-
-  const [overviewData, setOverviewData] = useState([
-    {
-      id: 1,
-      label: "Pending Fund Requests",
-      score: "₹0",
-      icon: FaWallet,
-      percentage: "10%",
-    },
-    {
-      id: 2,
-      label: "Approved Fund Requests",
-      score: "₹0",
-      icon: FaWallet,
-      percentage: "10%",
-    },
-    {
-      id: 3,
-      label: "Total Payouts",
-      score: "₹0",
-      icon: MdOutlineAttachMoney,
-      percentage: "30%",
-    },
-    {
-      id: 4,
-      label: "Fund Transfers",
-      score: "₹0",
-      icon: FaMoneyBillTransfer,
-      percentage: "30%",
-    },
-    {
-      id: 5,
-      label: "Wallet Balance",
-      score: "₹0",
-      icon: BiTransferAlt,
-      percentage: "30%",
-    },
-    {
-      id: 6,
-      label: "Retailers",
-      score: "0",
-      icon: FaUsers,
-      percentage: "30%",
-    },
-  ]);
+  const [overviewData, setOverviewData] = useState(statData);
 
   useEffect(() => {
     if (ref.current) {
@@ -144,7 +114,7 @@ const Dashboard = () => {
   async function fetchOverviewData(duration: string) {
     try {
       const res = await API.adminOverview(duration);
-      let existingData = overviewData;
+      let existingData = statData;
       const newData = res?.data;
       existingData[0].score = `₹${newData?.pending_fund_requests}`;
       existingData[1].score = `₹${newData?.approved_fund_requests}`;
@@ -152,8 +122,9 @@ const Dashboard = () => {
       existingData[3].score = `₹${newData?.fund_transfers}`;
       existingData[4].score = `₹${newData?.volume}`;
       existingData[5].score = `${newData?.retailers}`;
-
-      setOverviewData(existingData);
+      setTimeout(() => {
+        setOverviewData(existingData);
+      }, 200);
     } catch (error) {
       handleError({
         title: "Err while fetching overview data",
