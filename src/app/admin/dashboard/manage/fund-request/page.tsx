@@ -191,7 +191,7 @@ const page = () => {
                     <HStack alignItems={"flex-start"}>
                       <Avatar size={"xs"} name={item?.user?.name} />
                       <Text>
-                        {item?.user?.name} ({item?.user?.wallet_id})
+                        {item?.user?.name} ({item?.user?.phone_number})
                       </Text>
                     </HStack>
                   </Td>
