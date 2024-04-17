@@ -167,7 +167,7 @@ const Ledger = () => {
           />
         </HStack>
 
-        <TableContainer maxH={"sm"} overflowY={"scroll"} overflowX={"scroll"}>
+        <TableContainer maxH={"xl"} overflowY={"scroll"} overflowX={"scroll"}>
           <Table size={"md"} variant={"striped"}>
             <Thead>
               <Tr>
