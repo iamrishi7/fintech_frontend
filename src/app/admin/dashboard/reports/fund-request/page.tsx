@@ -260,11 +260,11 @@ const page = () => {
                       <Text>{item?.reviewer?.name}</Text>
                     </HStack>
                   </Td>
+                  <Td>{item?.user_remarks}</Td>
+                  <Td borderBottom={0}>{item?.admin_remarks}</Td>
                   <Td borderBottom={0}>
                     {new Date(item?.created_at)?.toLocaleString("en-GB")}
                   </Td>
-                  <Td>{item?.user_remarks}</Td>
-                  <Td borderBottom={0}>{item?.admin_remarks}</Td>
                   <Td borderBottom={0} textAlign={"center"}>
                     {item?.status == "pending" ? (
                       <HStack gap={4} w={"full"} justifyContent={"center"}>
