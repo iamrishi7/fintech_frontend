@@ -80,7 +80,7 @@ const PendingFundRequests = ({
       setIsLoading(true);
       await API.adminApproveFundRequest(id);
       await getPendingRequests();
-      setApproveTargetRequest({id: null, amount: null})
+      setApproveTargetRequest({ id: null, amount: null });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -126,8 +126,8 @@ const PendingFundRequests = ({
               <Th color={"gray.600"}>Amount</Th>
               <Th color={"gray.600"}>Bank</Th>
               <Th color={"gray.600"}>Status</Th>
-              <Th color={"gray.600"}>Updated By</Th>
               <Th color={"gray.600"}>User</Th>
+              <Th color={"gray.600"}>Updated By</Th>
               <Th color={"gray.600"}>Req. At</Th>
               <Th color={"gray.600"}>Action</Th>
             </Tr>
@@ -152,10 +152,12 @@ const PendingFundRequests = ({
                   </HStack>
                 </Td>
                 <Td>
-                  <HStack alignItems={"flex-start"}>
-                    <Avatar size={"xs"} name={item?.reviewer?.name} />
-                    <Text>{item?.reviewer?.name}</Text>
-                  </HStack>
+                  {item?.status != "pending" ? (
+                    <HStack alignItems={"flex-start"}>
+                      <Avatar size={"xs"} name={item?.reviewer?.name} />
+                      <Text>{item?.reviewer?.name}</Text>
+                    </HStack>
+                  ) : null}
                 </Td>
                 <Td borderBottom={0}>
                   {new Date(item?.created_at)?.toLocaleString("en-GB")}

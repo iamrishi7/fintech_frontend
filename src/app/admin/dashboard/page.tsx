@@ -137,6 +137,10 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(overviewData);
+  }, [overviewData]);
+
   async function fetchOverviewData(duration: string) {
     try {
       const res = await API.adminOverview(duration);
@@ -149,7 +153,6 @@ const Dashboard = () => {
       existingData[4].score = `₹${newData?.volume}`;
       existingData[5].score = `${newData?.retailers}`;
 
-      console.log(existingData);
       setOverviewData(existingData);
     } catch (error) {
       handleError({
@@ -185,8 +188,15 @@ const Dashboard = () => {
         gap={5}
         mb={4}
       >
-        {overviewData.map((data, index) => (
-          <Card key={index} data={data} />
+        {overviewData.map((item, index) => (
+          <Card
+            key={index}
+            icon={item?.icon}
+            label={item?.label}
+            score={item?.score}
+            id={item?.id}
+            percentage="0"
+          />
         ))}
       </Stack>
       <Stack direction={["column", "row"]} gap={6}>
@@ -225,8 +235,8 @@ const Dashboard = () => {
   );
 };
 
-const Card = ({ data }) => {
-  const { label, score, icon, id, percentage } = data;
+const Card = ({ label, score, icon, id, percentage }: StatData) => {
+  // const { label, score, icon, id, percentage } = data;
   console.log(score);
   return (
     <Stack
