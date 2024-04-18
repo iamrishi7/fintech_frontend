@@ -168,7 +168,7 @@ const AdminSidebarContent = ({ ...props }: BoxProps) => {
           color={useColorModeValue("brand.500", "white")}
           fontWeight="semibold"
         >
-          ZEROPAY
+          JANPAY
         </Text>
       </Flex>
       <Flex
