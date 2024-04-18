@@ -28,7 +28,7 @@ const Receipt: FC<ReceiptModalProps> = ({ isOpen, onClose, data }) => {
         <ModalOverlay />
         <ModalContent bg={"transparent"} boxShadow={"none"}>
           <ModalBody p={0} boxShadow={"md"}>
-            <Layout2 data={data} />
+            <Layout1 data={data} />
           </ModalBody>
           <ModalFooter>
             <HStack w={"full"} justifyContent={"center"}>

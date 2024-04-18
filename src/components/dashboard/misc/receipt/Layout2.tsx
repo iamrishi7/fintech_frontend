@@ -158,7 +158,7 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
         {/* Receipt Footer */}
         {data?.hideFooter ? null : (
           <VStack gap={1}>
-            {data?.hideLogo ? null : (
+            {/* {data?.hideLogo ? null : (
               <HStack w={"full"} justifyContent={"center"}>
                 <Text
                   fontSize={isLayout ? "2xs" : "md"}
@@ -167,7 +167,7 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
                   JANPAY
                 </Text>
               </HStack>
-            )}
+            )} */}
             <Text fontSize={isLayout ? 6 : 10} textAlign={"center"}>
               {data?.footerMessage ||
                 "This is a computer generated receipt and does not require physical signature."}
