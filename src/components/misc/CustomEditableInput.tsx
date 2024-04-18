@@ -19,7 +19,7 @@ const CustomEditableInput: FC<CustomEditableInputProps> = ({
 }) => {
   return (
     <>
-      <Editable defaultValue={defaultValue} w={width || 'auto'} onSubmit={onSubmit}>
+      <Editable defaultValue={defaultValue} w={width || 'auto'} onSubmit={onSubmit} placeholder={placeholder} >
         <EditablePreview w={'full'} />
         <EditableInput placeholder={placeholder} />
       </Editable>

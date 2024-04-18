@@ -231,27 +231,32 @@ const page = () => {
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Max. Fund Request</Text>
-            <CustomEditableInput
-              placeholder="Enter amount"
-              defaultValue={
-                data?.find(
-                  (item: any) =>
-                    item?.provider == "portal" &&
-                    item?.name == "allow_fund_request"
-                )?.limit || 0
-              }
-              onSubmit={(value) =>
-                handleStatusUpdate(
+            {data?.find(
+              (item: any) =>
+                item?.provider == "portal" && item?.name == "allow_fund_request"
+            )?.id ? (
+              <CustomEditableInput
+                placeholder="Enter amount"
+                defaultValue={
                   data?.find(
                     (item: any) =>
                       item?.provider == "portal" &&
                       item?.name == "allow_fund_request"
-                  )?.id,
-                  { limit: value }
-                )
-              }
-              width={"xs"}
-            />
+                  )?.limit || 0
+                }
+                onSubmit={(value) =>
+                  handleStatusUpdate(
+                    data?.find(
+                      (item: any) =>
+                        item?.provider == "portal" &&
+                        item?.name == "allow_fund_request"
+                    )?.service_id,
+                    { limit: value }
+                  )
+                }
+                width={"xs"}
+              />
+            ) : null}
           </HStack>
         </VStack>
       </Box>
