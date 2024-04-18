@@ -99,7 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Zeropay</title>
+        <title>JANPAY</title>
       </head>
       <body>
         <ChakraProvider
