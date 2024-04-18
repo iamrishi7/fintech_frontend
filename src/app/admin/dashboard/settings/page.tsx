@@ -66,6 +66,7 @@ const page = () => {
         provider: string;
         status: boolean;
         service_id: number | string;
+        limit?: number | string;
       }[] = [];
       const res = await API.getServices();
       setRawData(res.data);
@@ -76,6 +77,7 @@ const page = () => {
             status: Boolean(item?.active),
             provider: item?.provider,
             service_id: item?.id,
+            limit: item?.limit,
           });
         });
       }
@@ -240,7 +242,7 @@ const page = () => {
               }
               onSubmit={(value) =>
                 handleStatusUpdate(
-                  rawData?.find(
+                  data?.find(
                     (item: any) =>
                       item?.provider == "portal" &&
                       item?.name == "allow_fund_request"
