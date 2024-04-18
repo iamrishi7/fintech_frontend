@@ -1,13 +1,19 @@
 "use client";
-import { Editable, EditableInput, EditablePreview, InputProps } from "@chakra-ui/react";
+import {
+  Editable,
+  EditableInput,
+  EditablePreview,
+  InputProps,
+} from "@chakra-ui/react";
 import React, { FC } from "react";
 
 interface CustomEditableInputProps {
   defaultValue?: string;
   onSubmit?: (value: any) => void;
   onChange?: (value: string) => void;
-  width?: InputProps['width'];
-  placeholder?:  string;
+  width?: InputProps["width"];
+  placeholder?: string;
+  hasBorder?: boolean;
 }
 
 const CustomEditableInput: FC<CustomEditableInputProps> = ({
@@ -15,12 +21,19 @@ const CustomEditableInput: FC<CustomEditableInputProps> = ({
   onSubmit,
   onChange,
   placeholder,
-  width
+  width,
+  hasBorder = false,
 }) => {
   return (
     <>
-      <Editable defaultValue={defaultValue} w={width || 'auto'} onSubmit={onSubmit} placeholder={placeholder} >
-        <EditablePreview w={'full'} />
+      <Editable
+        defaultValue={defaultValue}
+        w={width || "auto"}
+        onSubmit={onSubmit}
+        placeholder={placeholder}
+        border={hasBorder ? "1px solid" : "none"}
+      >
+        <EditablePreview w={"full"} />
         <EditableInput placeholder={placeholder} />
       </Editable>
     </>

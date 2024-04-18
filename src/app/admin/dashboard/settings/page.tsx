@@ -234,7 +234,7 @@ const page = () => {
             {data?.find(
               (item: any) =>
                 item?.provider == "portal" && item?.name == "allow_fund_request"
-            )?.id ? (
+            )?.service_id ? (
               <CustomEditableInput
                 placeholder="Enter amount"
                 defaultValue={
