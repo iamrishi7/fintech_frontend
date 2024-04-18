@@ -79,12 +79,12 @@ const page = () => {
 
   async function updateTransaction(id?: any) {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       await API.adminUpdateTransaction(id);
       await getData();
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
       handleError({
         title: "Err while updating transaction",
         error: error,
@@ -244,9 +244,7 @@ const page = () => {
                         transaction_id: item?.reference_id?.toUpperCase(),
                         amount: item?.amount,
                         status: item?.status,
-                        timestamp: new Date(item?.created_at)?.toLocaleString(
-                          "en-GB"
-                        ),
+                        timestamp: item?.created_at,
                         miscData: {
                           beneficiary: item?.beneficiary_name,
                           account_no: item?.account_number,
@@ -263,8 +261,10 @@ const page = () => {
                           leftIcon={<IoRefresh />}
                           isLoading={isLoading}
                           onClick={() => updateTransaction(item?.id)}
-                          size={'xs'}
-                        >Check Status</Button>
+                          size={"xs"}
+                        >
+                          Check Status
+                        </Button>
                       </Tooltip>
                     ) : (
                       false

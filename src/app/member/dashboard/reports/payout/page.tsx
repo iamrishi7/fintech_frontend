@@ -213,9 +213,7 @@ const page = () => {
                         transaction_id: item?.reference_id?.toUpperCase(),
                         amount: item?.amount,
                         status: item?.status,
-                        timestamp: new Date(item?.created_at)?.toLocaleString(
-                          "en-GB"
-                        ),
+                        timestamp: item?.created_at,
                         miscData: {
                           beneficiary: item?.beneficiary_name,
                           account_no: item?.account_number,
