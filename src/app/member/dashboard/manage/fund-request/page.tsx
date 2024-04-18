@@ -26,6 +26,14 @@ const page = () => {
   const { handleError } = useErrorHandler();
   const Toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [availableProviders, setAvailableProviders] = useState<any>([]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("services"));
+    if (data) {
+      setAvailableProviders(data);
+    }
+  }, []);
 
   async function onSubmit(values: object) {
     setIsLoading(true);
@@ -76,7 +84,13 @@ const page = () => {
                   <NumberInput>
                     <NumberInputField
                       min={10}
-                      max={500000}
+                      max={
+                        availableProviders?.find(
+                          (item: any) =>
+                            item?.provider == "portal" &&
+                            item?.name == "allow_fund_request"
+                        )?.limit || 200000
+                      }
                       name="amount"
                       onChange={handleChange}
                       placeholder="₹"

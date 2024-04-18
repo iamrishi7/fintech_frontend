@@ -230,12 +230,13 @@ const page = () => {
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Max. Fund Request</Text>
             <CustomEditableInput
+              placeholder="Enter amount"
               defaultValue={
                 data?.find(
                   (item: any) =>
                     item?.provider == "portal" &&
                     item?.name == "allow_fund_request"
-                )?.limit
+                )?.limit || 0
               }
               onSubmit={(value) =>
                 handleStatusUpdate(
@@ -247,6 +248,7 @@ const page = () => {
                   { limit: value }
                 )
               }
+              width={"xs"}
             />
           </HStack>
         </VStack>
@@ -356,7 +358,8 @@ const page = () => {
             <Switch
               isChecked={
                 data?.find(
-                  (item: any) => item?.provider == "eko" && item?.name == "payout"
+                  (item: any) =>
+                    item?.provider == "eko" && item?.name == "payout"
                 )?.status
               }
               name="eko_payout"
