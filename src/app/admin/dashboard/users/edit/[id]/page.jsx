@@ -108,36 +108,36 @@ const page = ({ params }) => {
   }
 
   async function handleFormSubmit(data) {
-    setIsLoading(true);
-    if (aadhaarFront) {
-      await adminUploadMedia({
-        file: aadhaarFront,
-        type: "aadhaar_front",
-        userId: id,
-      });
-    }
-    if (aadhaarBack) {
-      await adminUploadMedia({
-        file: aadhaarBack,
-        type: "aadhaar_back",
-        userId: id,
-      });
-    }
-    if (panCard) {
-      await adminUploadMedia({
-        file: panCard,
-        type: "pan",
-        userId: id,
-      });
-    }
-    if (avatar) {
-      await adminUploadMedia({
-        file: avatar,
-        type: "avatar",
-        userId: id,
-      });
-    }
     try {
+      setIsLoading(true);
+      if (aadhaarFront) {
+        await adminUploadMedia({
+          file: aadhaarFront,
+          type: "aadhaar_front",
+          userId: id,
+        });
+      }
+      if (aadhaarBack) {
+        await adminUploadMedia({
+          file: aadhaarBack,
+          type: "aadhaar_back",
+          userId: id,
+        });
+      }
+      if (panCard) {
+        await adminUploadMedia({
+          file: panCard,
+          type: "pan",
+          userId: id,
+        });
+      }
+      if (avatar) {
+        await adminUploadMedia({
+          file: avatar,
+          type: "avatar",
+          userId: id,
+        });
+      }
       await API.adminUpdateUser(id, data);
       setIsLoading(false);
       Toast({
@@ -342,16 +342,16 @@ const page = ({ params }) => {
                     mb={8}
                     mt={4}
                   >
-                  <FormControl w={["full", "xs"]} variant={"floating"}>
-                    <Input
-                      name="date_of_birth"
-                      type="date"
-                      placeholder=" "
-                      value={values?.date_of_birth}
-                      onChange={handleChange}
-                    />
-                    <FormLabel>Date of Birth</FormLabel>
-                  </FormControl>
+                    <FormControl w={["full", "xs"]} variant={"floating"}>
+                      <Input
+                        name="date_of_birth"
+                        type="date"
+                        placeholder=" "
+                        value={values?.date_of_birth}
+                        onChange={handleChange}
+                      />
+                      <FormLabel>Date of Birth</FormLabel>
+                    </FormControl>
                     <FormControl w={["full", "xs"]} variant={"floating"}>
                       <Input
                         name="email"
