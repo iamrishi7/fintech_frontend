@@ -471,7 +471,7 @@ const page = () => {
                           <MenuItem
                             onClick={() =>
                               window.open(
-                                `/admin/reports/ledger?user_id=${item?.phone_number}`,
+                                `/admin/dashboard/reports/ledger?user_id=${item?.phone_number}`,
                                 "_blank"
                               )
                             }
