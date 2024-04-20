@@ -81,7 +81,15 @@ const page = () => {
             <Form onSubmit={handleSubmit}>
               <Stack direction={["column", "row"]} gap={8} mb={8}>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <NumberInput>
+                  <NumberInput
+                    max={
+                      availableProviders?.find(
+                        (item: any) =>
+                          item?.provider == "portal" &&
+                          item?.name == "allow_fund_request"
+                      )?.limit || 200000
+                    }
+                  >
                     <NumberInputField
                       min={10}
                       max={
