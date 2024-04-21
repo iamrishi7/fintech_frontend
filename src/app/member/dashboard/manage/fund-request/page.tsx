@@ -87,7 +87,7 @@ const page = () => {
                         (item: any) =>
                           item?.provider == "portal" &&
                           item?.name == "allow_fund_request"
-                      )?.limit || 200000
+                      )?.limit || 1000000
                     }
                   >
                     <NumberInputField
@@ -97,7 +97,7 @@ const page = () => {
                           (item: any) =>
                             item?.provider == "portal" &&
                             item?.name == "allow_fund_request"
-                        )?.limit || 200000
+                        )?.limit || 1000000
                       }
                       name="amount"
                       onChange={handleChange}
