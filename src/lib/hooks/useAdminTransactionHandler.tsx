@@ -19,6 +19,7 @@ import {
   PinInput,
   PinInputField,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState, useRef } from "react";
 import { API } from "../api";
@@ -45,6 +46,7 @@ interface TransactionHandlerParams {
 
 const useAdminTransactionHandler = () => {
   const { handleError } = useErrorHandler();
+  const Toast = useToast();
 
   const [pin, setPin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +62,10 @@ const useAdminTransactionHandler = () => {
       try {
         const res = await API.adminDoFundTransfer({ ...formData, pin: pin });
         setIsLoading(false);
-
+        Toast({
+          status: "success",
+          title: "Fund transferred successfully!",
+        });
       } catch (error) {
         setIsLoading(false);
         handleError({
