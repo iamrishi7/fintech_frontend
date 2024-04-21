@@ -97,7 +97,7 @@ const page = () => {
                     name="amount"
                     onChange={(value) => setFieldValue("amount", value)}
                     min={1}
-                    max={Number(maxAmount) || 50000}
+                    max={Number(maxAmount) || 500000}
                   >
                     <NumberInputField placeholder="₹" />
                     <FormLabel>Amount</FormLabel>
