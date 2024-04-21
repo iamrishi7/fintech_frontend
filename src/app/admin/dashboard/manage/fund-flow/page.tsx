@@ -28,7 +28,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [beneficiary, setBeneficiary] = useState<any>({});
   const [formData, setFormData] = useState<any>({});
-  const [maxAmount, setMaxAmount] = useState(50000);
+  const [maxAmount, setMaxAmount] = useState(500000);
   const [availableProviders, setAvailableProviders] = useState([]);
 
   useEffect(() => {
