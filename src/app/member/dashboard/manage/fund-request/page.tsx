@@ -27,6 +27,15 @@ const page = () => {
   const Toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [availableProviders, setAvailableProviders] = useState([]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("services"));
+    if (data) {
+      setAvailableProviders(data);
+    }
+  }, []);
+
   async function onSubmit(values: object) {
     setIsLoading(true);
     FormAxios.post("/user/fund-requests", values)
@@ -73,10 +82,17 @@ const page = () => {
             <Form onSubmit={handleSubmit}>
               <Stack direction={["column", "row"]} gap={8} mb={8}>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
-                  <NumberInput>
+                  <NumberInput
+                    min={10}
+                    max={
+                      availableProviders?.find(
+                        (item: any) =>
+                          item?.provider == "portal" &&
+                          item?.name == "allow_fund_request"
+                      )?.limit || 5000000
+                    }
+                  >
                     <NumberInputField
-                      min={10}
-                      max={500000}
                       name="amount"
                       onChange={handleChange}
                       placeholder="₹"

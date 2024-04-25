@@ -235,7 +235,7 @@ const page = () => {
                   (item: any) =>
                     item?.provider == "portal" &&
                     item?.name == "allow_fund_request"
-                )?.limit
+                )?.limit || 0
               }
               onSubmit={(value) =>
                 handleStatusUpdate(
