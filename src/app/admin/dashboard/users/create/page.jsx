@@ -75,41 +75,41 @@ const page = () => {
   };
 
   async function handleFormSubmit(values) {
-    setIsLoading(true);
-    const res = await API.adminCreateUser(values);
-    if (avatar) {
-      await adminUploadMedia({
-        file: avatar,
-        type: "avatar",
-        userId: res?.data?.id,
-      });
-    }
-    if (values?.aadhaar_front) {
-      await adminUploadMedia({
-        file: values?.aadhaar_front,
-        type: "aadhaar_front",
-        userId: res?.data?.id,
-      });
-    }
-    if (values?.aadhaar_back) {
-      await adminUploadMedia({
-        file: values?.aadhaar_back,
-        type: "aadhaar_back",
-        userId: res?.data?.id,
-      });
-    }
-    if (values?.pan) {
-      await adminUploadMedia({
-        file: values?.pan,
-        type: "pan",
-        userId: res?.data?.id,
-      });
-    }
-    Toast({
-      status: "success",
-      description: "User was created successfully!",
-    });
     try {
+      setIsLoading(true);
+      const res = await API.adminCreateUser(values);
+      if (avatar) {
+        await adminUploadMedia({
+          file: avatar,
+          type: "avatar",
+          userId: res?.data?.id,
+        });
+      }
+      if (values?.aadhaar_front) {
+        await adminUploadMedia({
+          file: values?.aadhaar_front,
+          type: "aadhaar_front",
+          userId: res?.data?.id,
+        });
+      }
+      if (values?.aadhaar_back) {
+        await adminUploadMedia({
+          file: values?.aadhaar_back,
+          type: "aadhaar_back",
+          userId: res?.data?.id,
+        });
+      }
+      if (values?.pan) {
+        await adminUploadMedia({
+          file: values?.pan,
+          type: "pan",
+          userId: res?.data?.id,
+        });
+      }
+      Toast({
+        status: "success",
+        description: "User was created successfully!",
+      });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -242,15 +242,30 @@ const page = () => {
               >
                 <SelectRole name="role" onChange={handleChange} />
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="first_name" type="text" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="first_name"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>First Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="middle_name" type="text" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="middle_name"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Middle Name</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="last_name" type="text" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="last_name"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Last Name</FormLabel>
                 </FormControl>
               </Stack>
@@ -263,11 +278,21 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"} isRequired>
-                  <Input name="date_of_birth" type="date" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="date_of_birth"
+                    type="date"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Date of Birth</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="email" type="email" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="email"
+                    type="email"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Email</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
@@ -291,11 +316,21 @@ const page = () => {
                 mt={4}
               >
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="aadhaar_number" type="text" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="aadhaar_number"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>Aadhaar No.</FormLabel>
                 </FormControl>
                 <FormControl w={["full", "xs"]} variant={"floating"}>
-                  <Input name="pan" type="text" placeholder=" " onChange={handleChange} />
+                  <Input
+                    name="pan"
+                    type="text"
+                    placeholder=" "
+                    onChange={handleChange}
+                  />
                   <FormLabel>PAN</FormLabel>
                 </FormControl>
               </Stack>
