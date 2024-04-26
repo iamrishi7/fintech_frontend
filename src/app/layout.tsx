@@ -73,6 +73,7 @@ export default function RootLayout({
         provider: string;
         status: boolean;
         id: number | string;
+        limit: string | number;
       }[] = [];
       const res = await API.getServices();
 
@@ -82,7 +83,8 @@ export default function RootLayout({
             name: item?.name,
             status: Boolean(item?.active),
             provider: item?.provider,
-            id: item?.id
+            id: item?.id,
+            limit: item?.limit,
           });
         });
       }
