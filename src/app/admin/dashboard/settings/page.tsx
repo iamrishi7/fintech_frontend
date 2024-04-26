@@ -66,6 +66,7 @@ const page = () => {
         provider: string;
         status: boolean;
         service_id: number | string;
+        limit: string | number
       }[] = [];
       const res = await API.getServices();
       setRawData(res.data);
@@ -76,6 +77,7 @@ const page = () => {
             status: Boolean(item?.active),
             provider: item?.provider,
             service_id: item?.id,
+            limit: item?.limit
           });
         });
       }
