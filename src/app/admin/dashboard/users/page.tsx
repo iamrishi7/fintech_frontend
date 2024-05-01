@@ -416,8 +416,8 @@ const page = () => {
                             <HStack w={"full"} justifyContent={"space-between"}>
                               <Text>
                                 {Boolean(item?.deleted_at)
-                                  ? "Un-block User"
-                                  : "Block User"}
+                                  ? "User is Blocked"
+                                  : "User is Active"}
                               </Text>
                               <Switch
                                 isChecked={!Boolean(item?.deleted_at)}
