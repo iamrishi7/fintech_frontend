@@ -66,7 +66,7 @@ const page = () => {
         provider: string;
         status: boolean;
         service_id: number | string;
-        limit: string | number
+        limit: string | number;
       }[] = [];
       const res = await API.getServices();
       setRawData(res.data);
@@ -367,8 +367,6 @@ const page = () => {
                 data?.find(
                   (item: any) =>
                     item?.provider == "eko" && item?.name == "payout"
-                  (item: any) =>
-                    item?.provider == "eko" && item?.name == "payout"
                 )?.status
               }
               name="eko_payout"
@@ -652,7 +650,7 @@ const page = () => {
         Default Admin Permissions
       </Heading>
       <ManageAdminPermissions
-        roleId={roles?.filter((role: any) => role?.name == "admin")?.id}
+        roleId={roles?.find((role: any) => role?.name == "admin")?.id}
       />
 
       <br />
