@@ -66,7 +66,7 @@ const page = () => {
         provider: string;
         status: boolean;
         service_id: number | string;
-        limit?: number | string;
+        limit: string | number
       }[] = [];
       const res = await API.getServices();
       setRawData(res.data);
@@ -365,6 +365,8 @@ const page = () => {
             <Switch
               isChecked={
                 data?.find(
+                  (item: any) =>
+                    item?.provider == "eko" && item?.name == "payout"
                   (item: any) =>
                     item?.provider == "eko" && item?.name == "payout"
                 )?.status

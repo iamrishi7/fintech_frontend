@@ -77,7 +77,7 @@ export default function WithSubnavigation() {
             as={"a"}
             href="/"
           >
-            JANPAY
+            ZEROPAY
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>

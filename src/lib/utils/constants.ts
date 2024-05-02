@@ -4,11 +4,11 @@ export const TOKEN_MAX_AGE = 60 * 60 * 24 * 30; // 30 Days
 export const CLIENT_BASE_URL =
   process.env.NODE_ENV == "development"
     ? "http://localhost:3000"
-    : "https://janpay.online";
+    : "https://zeropay.info";
 export const API_BASE_URL =
   process.env.NODE_ENV == "development"
     ? "http://localhost:8000/api"
-    : "https://backend.janpay.online/api";
+    : "https://backend.zeropay.info/api";
 
 export const STATES = [
   {
