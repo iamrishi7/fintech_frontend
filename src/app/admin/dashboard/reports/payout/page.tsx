@@ -13,6 +13,7 @@ import {
   Heading,
   IconButton,
   Input,
+  Select,
   Stack,
   Table,
   TableContainer,
@@ -105,6 +106,7 @@ const page = () => {
             user_id: "",
             account_number: "",
             utr: "",
+            status: ""
           }}
           onSubmit={console.log}
         >
@@ -123,6 +125,15 @@ const page = () => {
                     selectedDates={selectedDates}
                     onDateChange={setSelectedDates}
                   />
+                </FormControl>
+                <FormControl maxW={["full", "xs"]}>
+                  <FormLabel>Status</FormLabel>
+                  <Select name="status" value={values.status} onChange={handleChange}>
+                    <option value="">All Payouts</option>
+                    <option value="pending">Pending</option>
+                    <option value="success">Success</option>
+                    <option value="failed">Failed</option>
+                  </Select>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
