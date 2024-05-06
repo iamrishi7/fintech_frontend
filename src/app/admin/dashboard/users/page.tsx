@@ -7,6 +7,7 @@ import CustomModal from "@/components/misc/CustomModal";
 import CustomTabs from "@/components/misc/CustomTabs";
 import Pagination from "@/components/misc/Pagination";
 import { API } from "@/lib/api";
+import useApiHandler from "@/lib/hooks/useApiHandler";
 import useErrorHandler from "@/lib/hooks/useErrorHandler";
 import { API_BASE_URL } from "@/lib/utils/constants";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -46,6 +47,7 @@ import { FaPlus } from "react-icons/fa";
 
 const page = () => {
   const { handleError } = useErrorHandler();
+  const { adminDownloadMedia } = useApiHandler();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const ref = useRef(true);
   const Toast = useToast();
@@ -345,6 +347,23 @@ const page = () => {
                           size={"xs"}
                           rounded={"full"}
                           colorScheme="twitter"
+                          onClick={() =>
+                            adminDownloadMedia({
+                              url: item?.documents?.find(
+                                (doc: any) =>
+                                  doc?.document_type == "aadhaar_front"
+                              )?.address,
+                              filename: `${item?.documents
+                                ?.find(
+                                  (doc: any) =>
+                                    doc?.document_type == "aadhaar_front"
+                                )
+                                ?.address?.replace(
+                                  "users/aadhaar_front/",
+                                  ""
+                                )}`,
+                            })
+                          }
                         >
                           Front
                         </Button>
@@ -356,6 +375,20 @@ const page = () => {
                           size={"xs"}
                           rounded={"full"}
                           colorScheme="twitter"
+                          onClick={() =>
+                            adminDownloadMedia({
+                              url: item?.documents?.find(
+                                (doc: any) =>
+                                  doc?.document_type == "aadhaar_back"
+                              )?.address,
+                              filename: `${item?.documents
+                                ?.find(
+                                  (doc: any) =>
+                                    doc?.document_type == "aadhaar_back"
+                                )
+                                ?.address?.replace("users/aadhaar_back/", "")}`,
+                            })
+                          }
                         >
                           Back
                         </Button>
@@ -371,8 +404,18 @@ const page = () => {
                         size={"xs"}
                         rounded={"full"}
                         colorScheme="twitter"
+                        onClick={() =>
+                          adminDownloadMedia({
+                            url: item?.documents?.find(
+                              (doc: any) => doc?.document_type == "pan"
+                            )?.address,
+                            filename: `${item?.documents
+                              ?.find((doc: any) => doc?.document_type == "pan")
+                              ?.address?.replace("users/pan/", "")}`,
+                          })
+                        }
                       >
-                        Back
+                        PAN Card
                       </Button>
                     ) : null}
                   </Td>

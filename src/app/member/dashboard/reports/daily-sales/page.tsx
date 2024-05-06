@@ -31,7 +31,7 @@ const page = () => {
   const { user, authUser } = useAuth();
 
   const [selectedDates, setSelectedDates] = useState([
-    new Date(new Date().setDate(new Date().getDate() - 1)),
+    new Date(new Date().setDate(new Date().getDate())),
     new Date(new Date().setDate(new Date().getDate() + 1)),
   ]);
   const [isLoading, setIsLoading] = useState(false);
