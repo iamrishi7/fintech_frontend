@@ -185,8 +185,8 @@ const page = () => {
             <Thead>
               <Tr>
                 <Th color={"gray.600"}>User</Th>
-                <Th color={"gray.600"}>Payout</Th>
-                <Th color={"gray.600"}>Payout Fees</Th>
+                <Th color={"gray.600"} isNumeric>Payout</Th>
+                <Th color={"gray.600"} isNumeric>Payout Fees</Th>
               </Tr>
             </Thead>
             <Tbody fontSize={"xs"}>
