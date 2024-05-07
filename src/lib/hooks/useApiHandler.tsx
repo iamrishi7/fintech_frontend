@@ -55,7 +55,7 @@ const useApiHandler = () => {
   };
 
   const adminDownloadMedia = async ({ url, filename }: DownloadMediaProps) => {
-    BackendAxios.get(`/admin/document/${url}`, {
+    BackendAxios.get(`/admin/document?path=${url}`, {
       responseType: "blob",
     })
       .then((res) => {
