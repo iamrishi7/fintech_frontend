@@ -60,12 +60,17 @@ const page = () => {
     try {
       const from = format(selectedDates[0], "yyyy-MM-dd");
       const to = format(selectedDates[1], "yyyy-MM-dd");
-      setFormData({ ...query, from: from, to: to, status: query?.status });
+      setFormData({
+        ...query,
+        from: from,
+        to: to,
+        ...(query && query?.status && { status: query?.status }),
+      });
       const res = await API.adminReportPayouts(url, {
         ...query,
         from: from,
         to: to,
-        status: formData?.status
+        status: formData?.status,
       });
       setData(res?.data);
       setPages(res?.meta?.links);
@@ -107,7 +112,7 @@ const page = () => {
             user_id: "",
             account_number: "",
             utr: "",
-            status: ""
+            status: "",
           }}
           onSubmit={console.log}
         >
@@ -129,7 +134,11 @@ const page = () => {
                 </FormControl>
                 <FormControl maxW={["full", "xs"]}>
                   <FormLabel>Status</FormLabel>
-                  <Select name="status" value={values.status} onChange={handleChange}>
+                  <Select
+                    name="status"
+                    value={values.status}
+                    onChange={handleChange}
+                  >
                     <option value="">All Payouts</option>
                     <option value="pending">Pending</option>
                     <option value="success">Success</option>
