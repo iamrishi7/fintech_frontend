@@ -60,11 +60,12 @@ const page = () => {
     try {
       const from = format(selectedDates[0], "yyyy-MM-dd");
       const to = format(selectedDates[1], "yyyy-MM-dd");
-      setFormData({ ...query, from: from, to: to });
+      setFormData({ ...query, from: from, to: to, status: query?.status });
       const res = await API.adminReportPayouts(url, {
         ...query,
         from: from,
         to: to,
+        status: formData?.status
       });
       setData(res?.data);
       setPages(res?.meta?.links);
@@ -142,7 +143,7 @@ const page = () => {
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Transaction ID</FormLabel>
+                  <FormLabel>User ID</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
