@@ -70,7 +70,7 @@ const page = () => {
         ...query,
         from: from,
         to: to,
-        status: formData?.status || "",
+        ...(formData?.status && { status: formData?.status }),
       });
       setData(res?.data);
       setPages(res?.meta?.links);
