@@ -131,7 +131,7 @@ const page = () => {
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <FormLabel>Transaction ID</FormLabel>
+                  <FormLabel>User ID</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <Input
