@@ -106,6 +106,14 @@ const page = () => {
               )?.status,
             },
             {
+              id: "waayupay",
+              label: "waayupay",
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "waayupay" && item?.name == "payout"
+              )?.status,
+            },
+            {
               id: "paydeer",
               label: "paydeer",
               isDisabled: !availableProviders?.find(

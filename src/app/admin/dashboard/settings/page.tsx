@@ -641,6 +641,29 @@ const page = () => {
               }
             />
           </HStack>
+
+
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>WaayuPay Payout Status</Text>
+            <Switch
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "waayupay" && item?.name == "payout"
+                )?.status
+              }
+              name="waayupay_payout"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "waayupay" && item?.name == "payout"
+                  )?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
         </VStack>
       </Box>
 
