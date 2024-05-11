@@ -26,19 +26,20 @@ import useErrorHandler from "./useErrorHandler";
 import Receipt from "@/components/dashboard/misc/receipt/Receipt";
 import Loader from "@/components/global/Loader";
 import { ReceiptProps } from "../commons/types";
+import { DefaultAxios } from "../utils/axios";
 
 interface TransactionHandlerParams {
   type:
-  | "payout"
-  | "cw"
-  | "ms"
-  | "be"
-  | "bbps"
-  | "cms"
-  | "dmt"
-  | "lic"
-  | "matm"
-  | "wallet-transfer";
+    | "payout"
+    | "cw"
+    | "ms"
+    | "be"
+    | "bbps"
+    | "cms"
+    | "dmt"
+    | "lic"
+    | "matm"
+    | "wallet-transfer";
   formData?: object | null;
 }
 
@@ -57,7 +58,18 @@ const useTransactionHandler = () => {
     setIsLoading(true);
     if (type == "payout") {
       try {
-        const res = await API.doPayout({ ...formData, pin: pin });
+        let bankName = "";
+        await DefaultAxios.get(`https://ifsc.razorpay.com/${formData?.ifsc_code}`)
+          .then((res) => {
+            bankName = res?.data["BANK"];
+          })
+          .catch((err) => {
+            setIsLoading(false);
+            handleError({
+              title: "Invalid IFSC",
+            });
+          });
+        const res = await API.doPayout({ ...formData, pin: pin, bankName: bankName });
         setIsLoading(false);
         setReceiptData({
           type: "payout",
@@ -69,8 +81,8 @@ const useTransactionHandler = () => {
             account_no: res?.data?.account_number,
             beneficiary_name: res?.data?.beneficiary_name,
             IFSC: res?.data?.ifsc_code,
-            UTR: res?.data?.utr
-          }
+            UTR: res?.data?.utr,
+          },
         });
       } catch (error) {
         setIsLoading(false);
