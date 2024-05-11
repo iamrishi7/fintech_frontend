@@ -26,6 +26,7 @@ import useErrorHandler from "./useErrorHandler";
 import Receipt from "@/components/dashboard/misc/receipt/Receipt";
 import Loader from "@/components/global/Loader";
 import { ReceiptProps } from "../commons/types";
+import { DefaultAxios } from "../utils/axios";
 
 interface TransactionHandlerParams {
   type:
@@ -57,6 +58,20 @@ const useTransactionHandler = () => {
     setIsLoading(true);
     if (type == "payout") {
       try {
+        let bankName = "";
+        await DefaultAxios.get(
+          `https://ifsc.razorpay.com/${formData?.ifsc_code}`
+        )
+          .then((res) => {
+            bankName = res?.data["BANK"];
+          })
+          .catch((err) => {
+            handleError({
+              title: "Invalid IFSC",
+              description: "The provided IFSC is invalid"
+            });
+            // throw new Error("Please enter a valid IFSC");
+          });
         const res = await API.doPayout({ ...formData, pin: pin });
         setIsLoading(false);
         setReceiptData({
