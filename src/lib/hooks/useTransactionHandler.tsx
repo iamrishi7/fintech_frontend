@@ -66,6 +66,7 @@ const useTransactionHandler = () => {
           .catch((err) => {
             handleError({
               title: "Invalid IFSC",
+              description: "The provided IFSC is invalid"
             });
           });
         const res = await API.doPayout({ ...formData, pin: pin, bank_name: bankName });
