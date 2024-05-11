@@ -64,7 +64,6 @@ const useTransactionHandler = () => {
             bankName = res?.data["BANK"];
           })
           .catch((err) => {
-            setIsLoading(false);
             handleError({
               title: "Invalid IFSC",
             });
