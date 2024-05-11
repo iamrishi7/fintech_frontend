@@ -66,11 +66,11 @@ const useTransactionHandler = () => {
             bankName = res?.data["BANK"];
           })
           .catch((err) => {
-            // handleError({
-            //   title: "Invalid IFSC",
-            //   description: "The provided IFSC is invalid"
-            // });
-            throw new Error("Please enter a valid IFSC");
+            handleError({
+              title: "Invalid IFSC",
+              description: "The provided IFSC is invalid"
+            });
+            // throw new Error("Please enter a valid IFSC");
           });
         const res = await API.doPayout({
           ...formData,
