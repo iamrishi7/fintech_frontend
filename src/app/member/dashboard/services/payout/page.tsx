@@ -30,7 +30,7 @@ const page = () => {
 
   const [formData, setFormData] = useState<any>(null);
   const [provider, setProvider] = useState<string | number | boolean>(
-    "eko"
+    "waayupay"
   );
   const [availableProviders, setAvailableProviders] = useState<any>([]);
 
