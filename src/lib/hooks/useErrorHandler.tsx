@@ -19,12 +19,14 @@ const useErrorHandler = () => {
     if (error?.status == 403) {
       authUser();
     }
-    console.log(error)
-    console.log("Error Status ", error?.status)
+    console.log(error);
+    console.log("Error Status ", error?.status);
     Toast({
       title: title,
       description:
-        description || error[1]?.message || error?.message || "Error while processing request",
+        description || error?.length
+          ? error[1]?.message
+          : error?.message || "Error while processing request",
     });
   };
 

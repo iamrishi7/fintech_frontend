@@ -59,17 +59,24 @@ const useTransactionHandler = () => {
     if (type == "payout") {
       try {
         let bankName = "";
-        await DefaultAxios.get(`https://ifsc.razorpay.com/${formData?.ifsc_code}`)
+        await DefaultAxios.get(
+          `https://ifsc.razorpay.com/${formData?.ifsc_code}`
+        )
           .then((res) => {
             bankName = res?.data["BANK"];
           })
           .catch((err) => {
-            handleError({
-              title: "Invalid IFSC",
-              description: "The provided IFSC is invalid"
-            });
+            // handleError({
+            //   title: "Invalid IFSC",
+            //   description: "The provided IFSC is invalid"
+            // });
+            throw new Error("Please enter a valid IFSC");
           });
-        const res = await API.doPayout({ ...formData, pin: pin, bank_name: bankName });
+        const res = await API.doPayout({
+          ...formData,
+          pin: pin,
+          bank_name: bankName,
+        });
         setIsLoading(false);
         setReceiptData({
           type: "payout",
