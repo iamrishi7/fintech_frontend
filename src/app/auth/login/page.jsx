@@ -44,7 +44,7 @@ const Login = () => {
       setServices(data);
       setIsOtpRequired(
         data?.find(
-          (item) => item?.service == "otp" && item?.provider == "portal"
+          (item) => item?.name == "otp" && item?.provider == "portal"
         )?.status
       );
     }
@@ -205,11 +205,6 @@ const Login = () => {
                 <br />
                 {isOtpRequired ? (
                   <Button
-                    bg="brand.primary"
-                    color="white"
-                    _hover={{
-                      bg: "brand.hover",
-                    }}
                     mt={4}
                     rounded="md"
                     w="100%"

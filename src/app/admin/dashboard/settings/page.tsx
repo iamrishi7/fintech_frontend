@@ -134,6 +134,28 @@ const page = () => {
           </HStack>
 
           <HStack w={["full", "sm"]} justifyContent={"space-between"}>
+            <Text>Login OTP Required</Text>
+            <Switch
+              isChecked={
+                data?.find(
+                  (item: any) =>
+                    item?.provider == "portal" && item?.name == "otp"
+                )?.status
+              }
+              name="otp"
+              onChange={(e) =>
+                handleStatusUpdate(
+                  rawData?.find(
+                    (item: any) =>
+                      item?.provider == "portal" && item?.name == "otp"
+                  )?.id,
+                  { active: e.target.checked }
+                )
+              }
+            />
+          </HStack>
+
+          <HStack w={["full", "sm"]} justifyContent={"space-between"}>
             <Text>Allow Fund Requests</Text>
             <Switch
               isChecked={
