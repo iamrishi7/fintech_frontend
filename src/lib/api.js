@@ -81,6 +81,11 @@ export const API = {
     return API.processResponse(res);
   },
 
+  sendOtp: async (data) => {
+    let res = await API.execute(`/otp`, "POST", data);
+    return API.processResponse(res);
+  },
+
   login: async (data) => {
     let res = await API.execute(`/login`, "POST", data);
     return API.processResponse(res);

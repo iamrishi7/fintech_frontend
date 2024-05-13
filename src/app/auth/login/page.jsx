@@ -18,6 +18,9 @@ import {
   InputGroup,
   InputRightAddon,
   InputRightElement,
+  HStack,
+  PinInput,
+  Box,
 } from "@chakra-ui/react";
 import Navbar from "@/components/main/Navbar";
 import { API } from "@/lib/api";
@@ -31,14 +34,42 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [services, setServices] = useState([]);
 
+  const [isOtpRequired, setIsOtpRequired] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
+
   useEffect(() => {
-    const data = JSON.parse(
-      localStorage.getItem("services")
-    );
+    const data = JSON.parse(localStorage.getItem("services"));
     if (data) {
       setServices(data);
+      setIsOtpRequired(
+        data?.find(
+          (item) => item?.service == "otp" && item?.provider == "portal"
+        )?.status
+      );
     }
   }, []);
+
+  async function sendOtp() {
+    setIsLoading(true);
+    try {
+      await API.sendOtp({ email: email });
+      Toast({
+        status: "success",
+        description: "OTP sent to Email",
+      });
+      setIsLoading(false);
+      setIsOtpSent(true);
+    } catch (error) {
+      setIsLoading(false);
+      Toast({
+        status: "error",
+        title: "Error while sending OTP",
+        description: error?.message,
+      });
+      console.log(error);
+    }
+  }
 
   async function login() {
     setIsLoading(true);
@@ -50,7 +81,11 @@ const Login = () => {
         });
         return;
       }
-      const res = await API.login({ email: email, password: password });
+      const res = await API.login({
+        email: email,
+        password: password,
+        otp: otp,
+      });
 
       if (res?.original?.access_token?.user) {
         const role = res?.original?.access_token?.user?.roles[0]?.name;
@@ -151,22 +186,77 @@ const Login = () => {
                     Forgot password?
                   </Link>
                 </Stack>
-                <Button
-                  bg="brand.primary"
-                  color="white"
-                  _hover={{
-                    bg: "brand.hover",
-                  }}
-                  mt={4}
-                  rounded="md"
-                  w="100%"
-                  onClick={login}
-                  isLoading={isLoading}
-                >
-                  Sign in
-                </Button>
                 <br />
-                {services && services?.find(
+                {isOtpSent ? (
+                  <Box>
+                    <FormLabel>Enter OTP</FormLabel>
+                    <HStack>
+                      <PinInput onComplete={(value) => setOtp(value)}>
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                        <PinInputField />
+                      </PinInput>
+                    </HStack>
+                  </Box>
+                ) : null}
+                <br />
+                {isOtpRequired ? (
+                  <Button
+                    bg="brand.primary"
+                    color="white"
+                    _hover={{
+                      bg: "brand.hover",
+                    }}
+                    mt={4}
+                    rounded="md"
+                    w="100%"
+                    onClick={sendOtp}
+                    isLoading={isLoading}
+                    variant={"outline"}
+                  >
+                    {isOtpSent ? "Resend OTP" : "Send OTP"}
+                  </Button>
+                ) : (
+                  <Button
+                    bg="brand.primary"
+                    color="white"
+                    _hover={{
+                      bg: "brand.hover",
+                    }}
+                    mt={4}
+                    rounded="md"
+                    w="100%"
+                    onClick={login}
+                    isLoading={isLoading}
+                  >
+                    Sign in
+                  </Button>
+                )}
+                <br />
+                {isOtpSent ? (
+                  <Button
+                    bg="brand.primary"
+                    color="white"
+                    _hover={{
+                      bg: "brand.hover",
+                    }}
+                    mt={4}
+                    rounded="md"
+                    w="100%"
+                    onClick={login}
+                    isLoading={isLoading}
+                  >
+                    Sign in
+                  </Button>
+                ) : (
+                  false
+                )}
+                <br />
+                {services &&
+                services?.find(
                   (item) =>
                     item?.provider == "portal" && item?.name == "allow_signup"
                 )?.status ? (
