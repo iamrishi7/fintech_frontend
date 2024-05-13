@@ -21,6 +21,7 @@ import {
   HStack,
   PinInput,
   Box,
+  PinInputField,
 } from "@chakra-ui/react";
 import Navbar from "@/components/main/Navbar";
 import { API } from "@/lib/api";
