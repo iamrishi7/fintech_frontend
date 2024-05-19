@@ -1,4 +1,6 @@
 "use client";
+import EkoBbpsForm from "@/components/dashboard/services/bbps/EkoBbpsForm";
+import PaysprintBbpsForm from "@/components/dashboard/services/bbps/PaysprintBbpsForm";
 import CustomTabs from "@/components/misc/CustomTabs";
 import { Heading, Stack } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -6,16 +8,14 @@ import React, { useEffect, useRef, useState } from "react";
 const page = () => {
   const ref = useRef(true);
   const [provider, setProvider] = useState<string | number | boolean>(
-    "paysprint"
+    "eko"
   );
   const [availableProviders, setAvailableProviders] = useState<any>(null);
 
   useEffect(() => {
     if (ref.current) {
       ref.current = false;
-      const data = JSON.parse(
-        localStorage.getItem("services")
-      );
+      const data = JSON.parse(localStorage.getItem("services"));
       if (data) {
         setAvailableProviders(data);
       }
@@ -55,6 +55,15 @@ const page = () => {
           onChange={(value) => setProvider(value)}
         />
       </Stack>
+
+      <br />
+      <br />
+
+      {provider == "eko" ? (
+        <EkoBbpsForm />
+      ) : provider == "paysprint" ? (
+        <PaysprintBbpsForm />
+      ) : null}
     </>
   );
 };

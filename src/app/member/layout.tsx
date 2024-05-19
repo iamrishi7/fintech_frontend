@@ -269,7 +269,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/services/aeps"}
         >
           AePS
-        </NavItem>
+        </NavItem> */}
         <NavItem
           icon={FaSatelliteDish}
           isActive={
@@ -279,7 +279,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           link={"/member/dashboard/services/bill-pay"}
         >
           Bill Pay
-        </NavItem> */}
+        </NavItem>
         <NavItem
           icon={SiRazorpay}
           isActive={

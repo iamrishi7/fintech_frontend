@@ -211,9 +211,9 @@ export const API = {
   },
 
   // BBPS APIs
-  fetchBbpsServices: async ({ provider }) => {
+  fetchBbpsCategories: async ({ provider }) => {
     let res = await API.execute(
-      `/user/services/${provider?.toLowerCase()}/bbps/services`,
+      `/user/services/bbps/categories?service_id=${provider}`,
       "GET"
     );
     return API.processResponse(res);
@@ -221,7 +221,7 @@ export const API = {
 
   fetchBbpsOperators: async ({ provider }) => {
     let res = await API.execute(
-      `/user/services/${provider?.toLowerCase()}/bbps/operators`,
+      `/user/services/${provider}/bbps/operators`,
       "GET"
     );
     return API.processResponse(res);
