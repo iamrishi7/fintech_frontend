@@ -224,7 +224,7 @@ const Signup = () => {
           <br />
           <br />
           <Text fontSize={"xs"}>
-            &copy; Copyright {new Date().getFullYear()} - ZEROPAY
+            &copy; Copyright {new Date().getFullYear()} - ADMPAY
           </Text>
         </Flex>
       </Stack>
