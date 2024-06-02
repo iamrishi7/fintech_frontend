@@ -66,7 +66,7 @@ const HeroSection = () => {
             fontWeight="400"
             color="gray.500"
           >
-            Pesa24 is the one stop solution to all of your payment needs. Join
+            ADM Pay is the one stop solution to all of your payment needs. Join
             us and enjoy amazing benefits!
           </Text>
           <HStack

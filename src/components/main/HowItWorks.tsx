@@ -1,21 +1,21 @@
 import { chakra, Container, Stack, HStack, VStack, Flex, Text, Image, Box } from '@chakra-ui/react';
 
 const overviewList = [
-  { id: 1, label: 'Login once per day', subLabel: 'The process should be quick.' },
+  { id: 1, label: 'Make Payouts', subLabel: 'Send payouts to any bank account throughout India' },
   {
     id: 2,
-    label: 'Do your reviews',
-    subLabel: 'Reviews come from previous flashcards that you chose.'
+    label: 'Wallet Transfers',
+    subLabel: 'Transfer your wallet amount to any other merchant'
   },
   {
     id: 3,
-    label: 'Streak increase',
-    subLabel: 'Your streak increases once per day as long as you finish your reviews.'
+    label: 'No double payments',
+    subLabel: 'Our system prevents double clicks everywhere'
   },
   {
     id: 4,
-    label: 'Choose your lesson',
-    subLabel: 'This will add 5 new flashcards to your reviews.'
+    label: 'Secure Transactions',
+    subLabel: 'Every transaction is secured by your 4 digit secret PIN'
   }
 ];
 

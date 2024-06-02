@@ -36,7 +36,7 @@ const Footer = () => {
       direction={{ base: 'column', md: 'row' }}
     >
       <Link href="https://templateskart.com" isExternal>
-        <Image w="100px" src="/assets/images/layouts/hero_image.png" alt="Pesa24" />
+        <Image w="100px" src="/assets/images/layouts/hero_image.png" alt="ADM Pay" />
       </Link>
 
       {/* Desktop Screen */}
