@@ -5,19 +5,19 @@ import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 const links = ['Careers', 'Sign up', 'Terms & Conditions', 'Privacy policy'];
 const accounts = [
   {
-    url: 'https://github.com/MA-Ahmad/templateskart',
+    url: '#',
     label: 'Github Account',
     type: 'gray',
     icon: <FaGithub />
   },
   {
-    url: 'https://twitter.com/muhammad_ahmaad',
+    url: '#',
     label: 'Twitter Account',
     type: 'twitter',
     icon: <FaTwitter />
   },
   {
-    url: 'https://linkedin.com/in/muhammad-ahmad20',
+    url: '#',
     label: 'LinkedIn Account',
     type: 'linkedin',
     icon: <FaLinkedin />
@@ -35,7 +35,7 @@ const Footer = () => {
       alignItems="center"
       direction={{ base: 'column', md: 'row' }}
     >
-      <Link href="https://templateskart.com" isExternal>
+      <Link href="#" isExternal>
         <Image w="100px" src="/assets/images/layouts/hero_image.png" alt="ADM Pay" />
       </Link>
 

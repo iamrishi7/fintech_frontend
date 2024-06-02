@@ -41,7 +41,7 @@ const Banner = () => {
       >
         <Button
           as={Link}
-          href="#"
+          href="/auth/login"
           color="white"
           variant="solid"
           size="lg"

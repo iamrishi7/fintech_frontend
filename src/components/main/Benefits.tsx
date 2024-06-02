@@ -19,7 +19,7 @@ export default function Home() {
           borderBottom="1px solid"
           borderColor="gray.300"
         >
-          Traveling with AirBnb
+          Send money with ADM Pay
         </Heading>
         <Flex
           as="section"
@@ -66,7 +66,7 @@ export const featuresList = [
   {
     id: 1,
     title: '24/7 customer support',
-    desc: `Day or night, we’re here for you. Talk to our support team from anywhere in the world,
+    desc: `Day or night, we’re here for you. Talk to our support team from anywhere in India,
     any hour of day.`,
     icon: (
       <svg
@@ -91,9 +91,8 @@ export const featuresList = [
   },
   {
     id: 2,
-    title: 'Global hospitality standards',
-    desc: `Guests review their hosts after each stay. All hosts must maintain a minimum rating
-    and our hospitality standards to be on Airbnb.`,
+    title: 'Global safety standards',
+    desc: `Our software is safe and secure to protect your every transaction.`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}
@@ -112,9 +111,8 @@ export const featuresList = [
   },
   {
     id: 3,
-    title: ' 5-star hosts',
-    desc: `From fresh-pressed sheets to tips on where to get the best brunch, our hosts are full
-    of local hospitality.`,
+    title: '5-star performance',
+    desc: `Make payments faster and safer with ADM Pay`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}
