@@ -1,27 +1,35 @@
-import { Stack, HStack, Link, Divider, Image, IconButton, LinkProps } from '@chakra-ui/react';
+import {
+  Stack,
+  HStack,
+  Link,
+  Divider,
+  Image,
+  IconButton,
+  LinkProps,
+} from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
-const links = ['Careers', 'Sign up', 'Terms & Conditions', 'Privacy policy'];
+const links = ["Sign up", "Terms & Conditions", "Privacy policy"];
 const accounts = [
   {
-    url: '#',
-    label: 'Github Account',
-    type: 'gray',
-    icon: <FaGithub />
+    url: "#",
+    label: "Github Account",
+    type: "gray",
+    icon: <FaGithub />,
   },
   {
-    url: '#',
-    label: 'Twitter Account',
-    type: 'twitter',
-    icon: <FaTwitter />
+    url: "#",
+    label: "Twitter Account",
+    type: "twitter",
+    icon: <FaTwitter />,
   },
   {
-    url: '#',
-    label: 'LinkedIn Account',
-    type: 'linkedin',
-    icon: <FaLinkedin />
-  }
+    url: "#",
+    label: "LinkedIn Account",
+    type: "linkedin",
+    icon: <FaLinkedin />,
+  },
 ];
 
 const Footer = () => {
@@ -33,33 +41,44 @@ const Footer = () => {
       spacing={{ base: 8, md: 0 }}
       justifyContent="space-between"
       alignItems="center"
-      direction={{ base: 'column', md: 'row' }}
+      direction={{ base: "column", md: "row" }}
     >
       <Link href="#" isExternal>
-        <Image w="100px" src="/assets/images/layouts/hero_image.png" alt="ADM Pay" />
+        <Image w="100px" src="/assets/images/logo.png" alt="ADM Pay" />
       </Link>
 
       {/* Desktop Screen */}
-      <HStack spacing={4} alignItems="center" display={{ base: 'none', md: 'flex' }}>
-        {links.map((link, index) => (
-          <CustomLink key={index}>{link}</CustomLink>
-        ))}
+      <HStack
+        spacing={4}
+        alignItems="center"
+        display={{ base: "none", md: "flex" }}
+      >
+        <CustomLink href="/auth/login">Sign up</CustomLink>
+        <CustomLink href="/cms/terms-and-conditions">
+          Terms & Conditions
+        </CustomLink>
+        <CustomLink href="/cms/privacy-policy">Privacy policy</CustomLink>
       </HStack>
 
       {/* Mobile and Tablet Screens */}
-      <Stack display={{ base: 'flex', md: 'none' }} alignItems="center">
+      <Stack display={{ base: "flex", md: "none" }} alignItems="center">
         <HStack alignItems="center">
-          <CustomLink>Sign up</CustomLink>
-          <Divider h="1rem" orientation="vertical" />
-          <CustomLink>Career</CustomLink>
+          <CustomLink href="/auth/login">Sign up</CustomLink>
         </HStack>
         <HStack alignItems="center">
-          <CustomLink>Terms & Conditions</CustomLink>
+          <CustomLink href="/cms/terms-and-conditions">
+            Terms & Conditions
+          </CustomLink>
         </HStack>
-        <CustomLink>Privacy policy</CustomLink>
+        <CustomLink href="/cms/privacy-policy">Privacy policy</CustomLink>
       </Stack>
 
-      <Stack direction="row" spacing={5} pt={{ base: 4, md: 0 }} alignItems="center">
+      <Stack
+        direction="row"
+        spacing={5}
+        pt={{ base: 4, md: 0 }}
+        alignItems="center"
+      >
         {accounts.map((sc, index) => (
           <IconButton
             key={index}
@@ -79,7 +98,12 @@ const Footer = () => {
 
 const CustomLink = ({ children, ...props }: LinkProps) => {
   return (
-    <Link href="#" fontSize="sm" _hover={{ textDecoration: 'underline' }} {...props}>
+    <Link
+      fontSize="sm"
+      _hover={{ textDecoration: "underline" }}
+      href={props?.href}
+      {...props}
+    >
       {children}
     </Link>
   );
