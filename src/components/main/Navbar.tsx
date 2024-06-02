@@ -309,7 +309,7 @@ const NAV_ITEMS: Array<NavItem> = [
       {
         label: "Payouts",
         subLabel: "Transfer payments pan India",
-        href: "/services#payouts",
+        href: "#",
       },
       // {
       //   label: "PAN Card",
