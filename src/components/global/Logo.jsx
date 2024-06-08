@@ -1,7 +1,7 @@
 import { HStack, Text } from "@chakra-ui/react";
 import React from "react";
 export const Logo = () => (
-  <HStack>
+  <HStack gap={0}>
     <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
       <path
         clipRule="evenodd"
