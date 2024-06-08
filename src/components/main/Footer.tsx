@@ -1,112 +1,116 @@
 import {
-  Stack,
+  Box,
+  chakra,
+  Container,
   HStack,
   Link,
-  Divider,
-  Image,
-  IconButton,
-  LinkProps,
+  Stack,
+  Text,
+  useColorModeValue,
+  VisuallyHidden,
 } from "@chakra-ui/react";
-// Here we have used react-icons package for the icons
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { ReactNode } from "react";
+import { Logo } from "../global/Logo";
+import { FaLocationDot } from "react-icons/fa6";
 
-const links = ["Sign up", "Terms & Conditions", "Privacy policy"];
-const accounts = [
-  {
-    url: "#",
-    label: "Github Account",
-    type: "gray",
-    icon: <FaGithub />,
-  },
-  {
-    url: "#",
-    label: "Twitter Account",
-    type: "twitter",
-    icon: <FaTwitter />,
-  },
-  {
-    url: "#",
-    label: "LinkedIn Account",
-    type: "linkedin",
-    icon: <FaLinkedin />,
-  },
-];
-
-const Footer = () => {
+const SocialButton = ({
+  children,
+  label,
+  href,
+}: {
+  children: ReactNode;
+  label: string;
+  href: string;
+}) => {
   return (
-    <Stack
-      maxW="5xl"
-      marginInline="auto"
-      p={8}
-      spacing={{ base: 8, md: 0 }}
-      justifyContent="space-between"
-      alignItems="center"
-      direction={{ base: "column", md: "row" }}
+    <chakra.button
+      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      rounded={"full"}
+      w={8}
+      h={8}
+      cursor={"pointer"}
+      as={"a"}
+      href={href}
+      display={"inline-flex"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      transition={"background 0.3s ease"}
+      _hover={{
+        bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+      }}
     >
-      <Link href="#" isExternal>
-        <Image w="100px" src="/assets/images/logo.png" alt="ADM Pay" />
-      </Link>
-
-      {/* Desktop Screen */}
-      <HStack
-        spacing={4}
-        alignItems="center"
-        display={{ base: "none", md: "flex" }}
-      >
-        <CustomLink href="/auth/login">Sign up</CustomLink>
-        <CustomLink href="/cms/terms-and-conditions">
-          Terms & Conditions
-        </CustomLink>
-        <CustomLink href="/cms/privacy-policy">Privacy policy</CustomLink>
-      </HStack>
-
-      {/* Mobile and Tablet Screens */}
-      <Stack display={{ base: "flex", md: "none" }} alignItems="center">
-        <HStack alignItems="center">
-          <CustomLink href="/auth/login">Sign up</CustomLink>
-        </HStack>
-        <HStack alignItems="center">
-          <CustomLink href="/cms/terms-and-conditions">
-            Terms & Conditions
-          </CustomLink>
-        </HStack>
-        <CustomLink href="/cms/privacy-policy">Privacy policy</CustomLink>
-      </Stack>
-
-      <Stack
-        direction="row"
-        spacing={5}
-        pt={{ base: 4, md: 0 }}
-        alignItems="center"
-      >
-        {accounts.map((sc, index) => (
-          <IconButton
-            key={index}
-            as={Link}
-            isExternal
-            href={sc.url}
-            aria-label={sc.label}
-            colorScheme={sc.type}
-            icon={sc.icon}
-            rounded="md"
-          />
-        ))}
-      </Stack>
-    </Stack>
-  );
-};
-
-const CustomLink = ({ children, ...props }: LinkProps) => {
-  return (
-    <Link
-      fontSize="sm"
-      _hover={{ textDecoration: "underline" }}
-      href={props?.href}
-      {...props}
-    >
+      <VisuallyHidden>{label}</VisuallyHidden>
       {children}
-    </Link>
+    </chakra.button>
   );
 };
 
-export default Footer;
+export default function SmallCentered() {
+  return (
+    <Box
+      bg={useColorModeValue("gray.50", "gray.900")}
+      color={useColorModeValue("gray.700", "gray.200")}
+    >
+      <Container
+        as={Stack}
+        maxW={["full", "6xl"]}
+        py={4}
+        spacing={4}
+        justify={"center"}
+        align={"center"}
+      >
+        <Logo />
+        <Stack
+          w={"full"}
+          direction={["column", "row"]}
+          alignItems={["flex-start", "center"]}
+          justifyContent={["flex-start", "center"]}
+          spacing={[4, 6]} fontSize={'sm'} fontWeight={'medium'}
+        >
+          <Link href={"/cms/about"}>About</Link>
+          <Link href={"/cms/terms-and-conditions"}>Terms & Conditions</Link>
+          <Link href={"/cms/privacy-policy"}>Privacy Policy</Link>
+          <Link href={"/cms/refund-policy"}>Refund Policy</Link>
+          <Link href={"/cms/fraud-complaint"}>Fraud Complaint</Link>
+          <Link href={"/cms/contact"}>Contact Us</Link>
+        </Stack>
+      </Container>
+
+      <Box
+        borderTopWidth={1}
+        borderStyle={"solid"}
+        borderColor={useColorModeValue("gray.200", "gray.700")}
+      >
+        <Container
+          as={Stack}
+          maxW={"6xl"}
+          py={4}
+          direction={{ base: "column", md: "row" }}
+          spacing={4}
+          justify={{ base: "center", md: "space-between" }}
+          align={{ base: "center", md: "center" }}
+        >
+          <HStack>
+            <FaLocationDot />
+            <Text fontSize={"sm"}>
+              Aditya Digital Money Pvt. Ltd. Iglas, Aligarh, Uttar Pradesh,
+              202124
+            </Text>
+          </HStack>
+          <Stack direction={"row"} spacing={6}>
+            <SocialButton label={"Twitter"} href={"#"}>
+              <FaTwitter />
+            </SocialButton>
+            <SocialButton label={"YouTube"} href={"#"}>
+              <FaYoutube />
+            </SocialButton>
+            <SocialButton label={"Instagram"} href={"#"}>
+              <FaInstagram />
+            </SocialButton>
+          </Stack>
+        </Container>
+      </Box>
+    </Box>
+  );
+}

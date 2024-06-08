@@ -23,6 +23,8 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
+import { Logo } from "../global/Logo";
+import Link from "next/link";
 
 interface NavbarProps {
   allowSignup?: boolean;
@@ -33,9 +35,7 @@ export default function WithSubnavigation() {
   const [services, setServices] = useState<any>([]);
 
   useEffect(() => {
-    const data = JSON.parse(
-      localStorage.getItem("services")
-    );
+    const data = JSON.parse(localStorage.getItem("services"));
     if (data) {
       setServices(data);
     }
@@ -69,16 +69,9 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            fontWeight={"semibold"}
-            color={useColorModeValue("gray.800", "white")}
-            as={"a"}
-            href="/"
-          >
-            ADMPAY
-          </Text>
+          <Link href={"/"}>
+            <Logo />
+          </Link>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -101,7 +94,8 @@ export default function WithSubnavigation() {
           >
             Sign In
           </Button>
-          {services && services?.find(
+          {services &&
+          services?.find(
             (item: any) =>
               item?.provider == "portal" && item?.name == "allow_signup"
           )?.status ? (
@@ -136,7 +130,7 @@ const DesktopNav = () => {
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack direction={"row"} alignItems={'center'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
@@ -294,6 +288,10 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Services",
     children: [
       // {
@@ -345,5 +343,9 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Contact",
     href: "/cms/contact",
+  },
+  {
+    label: "Sign In",
+    href: "/auth/login",
   },
 ];
