@@ -36,7 +36,7 @@ const page = () => {
 
   const [selectedDates, setSelectedDates] = useState([
     new Date(new Date().setDate(new Date().getDate())),
-    new Date(new Date().setDate(new Date().getDate() + 1)),
+    new Date(new Date().setDate(new Date().getDate())),
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>([]);
