@@ -64,7 +64,7 @@ const page = () => {
     <>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Heading as={"h1"} fontSize={"xl"} mb={8}>
-          Fund Request
+          Fund Reques
         </Heading>
         <Formik
           initialValues={{
