@@ -31,18 +31,6 @@ const page = () => {
   const [maxAmount, setMaxAmount] = useState(1000000);
   const [availableProviders, setAvailableProviders] = useState([]);
 
-  useEffect(() => {
-    if (beneficiary?.id) {
-      onOpen();
-    }
-  }, [beneficiary?.id]);
-
-  useEffect(() => {
-    if(!isOpen){
-      setBeneficiary(null)
-    }
-  },[ isOpen])
-
   async function verifyBeneficiary(values: any) {
     try {
       console.log(values);
@@ -61,6 +49,7 @@ const page = () => {
         receiver_id: res?.data?.id,
       });
       setBeneficiary(res?.data);
+      onOpen()
     } catch (error) {
       setIsLoading(false);
       handleError({
