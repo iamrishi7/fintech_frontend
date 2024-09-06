@@ -7,7 +7,7 @@ export const CLIENT_BASE_URL =
     : "https://zeropay.info";
 export const API_BASE_URL =
   process.env.NODE_ENV == "development"
-    ? "https://backend.zeropay.info/api"
+    ? "http://localhost:8000/api"
     : "https://backend.zeropay.info/api";
 
 export const STATES = [

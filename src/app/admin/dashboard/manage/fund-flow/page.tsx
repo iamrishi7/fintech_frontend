@@ -142,7 +142,7 @@ const page = () => {
       <br />
       <br />
 
-      <AdminPinModal
+      <PinModal
         isOpen={isOpen}
         onClose={onClose}
         type="fund-transfer"

@@ -55,7 +55,7 @@ const AdminPinModal = ({
   description,
 }: PinInputParams) => {
   const { processTransaction, isLoading, setPin, receiptData } =
-    useAdminTransactionHandler();
+    useTransactionHandler();
 
   const [receiptStatus, setReceiptStatus] = useState(false);
 
