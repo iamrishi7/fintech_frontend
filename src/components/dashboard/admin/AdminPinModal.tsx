@@ -1,3 +1,4 @@
+'use client'
 import Loader from "@/components/global/Loader";
 import CustomButton from "@/components/misc/CustomButton";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
@@ -20,7 +21,6 @@ import {
   PinInput,
   PinInputField,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Receipt from "../misc/receipt/Receipt";
@@ -57,7 +57,6 @@ const AdminPinModal = ({
   const { processTransaction, isLoading, setPin, receiptData } =
     useAdminTransactionHandler();
 
-    const toast = useToast()
   const [receiptStatus, setReceiptStatus] = useState(false);
 
   useEffect(() => {
@@ -65,14 +64,10 @@ const AdminPinModal = ({
   }, [receiptData, isLoading]);
 
   useEffect(() => {
-    if (Boolean(receiptData?.transaction_id)) {
+    if (receiptData?.transaction_id) {
+      console.log("Trying to show receipt")
+      console.log(receiptData)
       setReceiptStatus(true);
-      if(type == "fund-transfer"){
-        toast({
-          status: "success",
-          description: "Transfer successful!"
-        })
-      }
     }
   }, [receiptData]);
 

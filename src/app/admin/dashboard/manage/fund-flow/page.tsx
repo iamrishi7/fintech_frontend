@@ -37,6 +37,12 @@ const page = () => {
     }
   }, [beneficiary?.id]);
 
+  useEffect(() => {
+    if(!isOpen){
+      setBeneficiary(null)
+    }
+  },[ isOpen])
+
   async function verifyBeneficiary(values: any) {
     try {
       console.log(values);
@@ -138,10 +144,7 @@ const page = () => {
 
       <AdminPinModal
         isOpen={isOpen}
-        onClose={() => {
-          onClose();
-          setBeneficiary(null);
-        }}
+        onClose={onClose}
         type="fund-transfer"
         formData={formData}
         title={`${formData?.activity_type == "transfer" ? "Credit" : "Debit"} ₹${formData?.amount} ${formData?.activity_type == "transfer" ? "to" : "from"} ${beneficiary?.name}?`}

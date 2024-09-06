@@ -1,3 +1,4 @@
+'use client'
 import Loader from "@/components/global/Loader";
 import CustomButton from "@/components/misc/CustomButton";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
