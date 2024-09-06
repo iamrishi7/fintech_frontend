@@ -28,7 +28,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [beneficiary, setBeneficiary] = useState<any>({});
   const [formData, setFormData] = useState<any>({});
-  const [maxAmount, setMaxAmount] = useState(50000);
+  const [maxAmount, setMaxAmount] = useState(1000000);
   const [availableProviders, setAvailableProviders] = useState([]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const page = () => {
                     name="amount"
                     onChange={(value) => setFieldValue("amount", value)}
                     min={1}
-                    max={Number(maxAmount) || 50000}
+                    max={Number(maxAmount) || 1000000}
                   >
                     <NumberInputField placeholder="₹" />
                     <FormLabel>Amount</FormLabel>
