@@ -20,6 +20,7 @@ import {
   PinInput,
   PinInputField,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Receipt from "../misc/receipt/Receipt";
@@ -36,7 +37,8 @@ interface PinInputParams {
     | "dmt"
     | "lic"
     | "matm"
-    | "wallet-transfer" | "fund-transfer";
+    | "wallet-transfer"
+    | "fund-transfer";
   formData?: object | null;
   isOpen: boolean;
   onClose: () => void;
@@ -55,6 +57,7 @@ const AdminPinModal = ({
   const { processTransaction, isLoading, setPin, receiptData } =
     useAdminTransactionHandler();
 
+    const toast = useToast()
   const [receiptStatus, setReceiptStatus] = useState(false);
 
   useEffect(() => {
@@ -62,8 +65,16 @@ const AdminPinModal = ({
   }, [receiptData, isLoading]);
 
   useEffect(() => {
-    if(receiptData?.transaction_id) setReceiptStatus(true)
-  }, [receiptData])
+    if (Boolean(receiptData?.transaction_id)) {
+      setReceiptStatus(true);
+      if(type == "fund-transfer"){
+        toast({
+          status: "success",
+          description: "Transfer successful!"
+        })
+      }
+    }
+  }, [receiptData]);
 
   return (
     <>
