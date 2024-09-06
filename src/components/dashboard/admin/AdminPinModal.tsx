@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Loader from "@/components/global/Loader";
 import CustomButton from "@/components/misc/CustomButton";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
@@ -65,8 +65,8 @@ const AdminPinModal = ({
 
   useEffect(() => {
     if (receiptData?.transaction_id) {
-      console.log("Trying to show receipt")
-      console.log(receiptData)
+      console.log("Trying to show receipt");
+      console.log(receiptData);
       setReceiptStatus(true);
     }
   }, [receiptData]);
