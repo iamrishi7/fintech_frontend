@@ -136,7 +136,7 @@ const PinModal = ({
       <Receipt
         isOpen={receiptStatus}
         onClose={() => setReceiptStatus(false)}
-        data={{ ...receiptData }}
+        data={{ ...receiptData, hideFooter: true, hideLogo: true }}
       />
     </>
   );

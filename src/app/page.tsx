@@ -9,7 +9,7 @@ import Footer from '@/components/main/Footer'
 
 const page = () => {
   useEffect(() => {
-    window.location.href = "/auth/login"
+    window.location.href = "/auth/xckvnalo"
   }, [])
 
   return (

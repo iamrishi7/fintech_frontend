@@ -56,7 +56,7 @@ const page = ({ params }) => {
         description: "Password reset successfully!",
       });
       setIsLoading(false);
-      window.location.replace("/auth/login");
+      window.location.replace("/auth/xckvnalo");
     } catch (error) {
       setIsLoading(false);
       handleError({ title: "Couldn't reset password", error: error });
