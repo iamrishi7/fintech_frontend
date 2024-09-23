@@ -8,9 +8,9 @@ import CTABanner from '@/components/main/CTABanner'
 import Footer from '@/components/main/Footer'
 
 const page = () => {
-  useEffect(() => {
-    window.location.href = "/auth/xckvnalo"
-  }, [])
+  // useEffect(() => {
+  //   window.location.href = "/auth/xckvnalo"
+  // }, [])
 
   return (
     <>

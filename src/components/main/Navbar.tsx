@@ -97,7 +97,7 @@ export default function WithSubnavigation() {
             fontWeight={"semibold"}
             color={"gray.600"}
             variant={"link"}
-            href={"/auth/xckvnalo"}
+            href={"/auth/login"}
           >
             Sign In
           </Button>
