@@ -19,7 +19,7 @@ export default function Home() {
           borderBottom="1px solid"
           borderColor="gray.300"
         >
-          Traveling with AirBnb
+          Why Dainypay?
         </Heading>
         <Flex
           as="section"
@@ -91,9 +91,8 @@ export const featuresList = [
   },
   {
     id: 2,
-    title: 'Global hospitality standards',
-    desc: `Guests review their hosts after each stay. All hosts must maintain a minimum rating
-    and our hospitality standards to be on Airbnb.`,
+    title: 'Secure',
+    desc: `To make online payments simple,seamless & secure we practice best and standard security measures.`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}
@@ -112,9 +111,8 @@ export const featuresList = [
   },
   {
     id: 3,
-    title: ' 5-star hosts',
-    desc: `From fresh-pressed sheets to tips on where to get the best brunch, our hosts are full
-    of local hospitality.`,
+    title: 'Best service',
+    desc: `We make sure that our clients are getting served best in class software services.`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}
