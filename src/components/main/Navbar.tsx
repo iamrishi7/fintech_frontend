@@ -338,12 +338,12 @@ const NAV_ITEMS: Array<NavItem> = [
   //     },
   //   ],
   // },
-  {
-    label: "About Us",
-    href: "#",
-  },
-  {
-    label: "Contact",
-    href: "#",
-  },
+  // {
+  //   label: "About Us",
+  //   href: "#",
+  // },
+  // {
+  //   label: "Contact",
+  //   href: "#",
+  // },
 ];

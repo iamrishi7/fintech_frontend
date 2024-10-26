@@ -11,8 +11,8 @@ import {
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const links = [
-  { label: "Careers", url: "#" },
-  { label: "Sign Up", url: "#" },
+  // { label: "Careers", url: "#" },
+  // { label: "Sign Up", url: "#" },
   { label: "Terms & Conditions", url: "/tnc" },
   { label: "Privacy Policy", url: "/privacy-policy" }
 ];
