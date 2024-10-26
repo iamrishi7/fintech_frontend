@@ -84,7 +84,7 @@ const SplitWithImage = () => {
           <br />
           <br />
           <Text fontSize={"xs"}>
-            &copy; Copyright {new Date().getFullYear()} - Pesa24 Technologies
+            &copy; Copyright {new Date().getFullYear()} - Dainypay Technologies
             Pvt. Ltd.
           </Text>
         </Flex>
