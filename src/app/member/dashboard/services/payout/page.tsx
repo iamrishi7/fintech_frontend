@@ -121,6 +121,14 @@ const page = () => {
                   item?.provider == "paydeer" && item?.name == "payout"
               )?.status,
             },
+            {
+              id: "safexpay",
+              label: "safexpay",
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "safexpay" && item?.name == "payout"
+              )?.status,
+            },
           ]}
           onChange={(value) => setProvider(value)}
         />
