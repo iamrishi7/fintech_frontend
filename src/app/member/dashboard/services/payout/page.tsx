@@ -87,7 +87,7 @@ const page = () => {
           Payout
         </Heading>
 
-        <CustomTabs
+        {/* <CustomTabs
           defaultValue={provider}
           tabList={[
             {
@@ -131,7 +131,7 @@ const page = () => {
             },
           ]}
           onChange={(value) => setProvider(value)}
-        />
+        /> */}
       </Stack>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
