@@ -19,7 +19,7 @@ export default function Home() {
           borderBottom="1px solid"
           borderColor="gray.300"
         >
-          Send money with ADM Pay
+          Why Dainypay?
         </Heading>
         <Flex
           as="section"
@@ -91,8 +91,8 @@ export const featuresList = [
   },
   {
     id: 2,
-    title: 'Global safety standards',
-    desc: `Our software is safe and secure to protect your every transaction.`,
+    title: 'Secure',
+    desc: `To make online payments simple,seamless & secure we practice best and standard security measures.`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}
@@ -111,8 +111,8 @@ export const featuresList = [
   },
   {
     id: 3,
-    title: '5-star performance',
-    desc: `Make payments faster and safer with ADM Pay`,
+    title: 'Best service',
+    desc: `We make sure that our clients are getting served best in class software services.`,
     icon: (
       <svg
         style={{ width: '2rem', height: '2rem' }}

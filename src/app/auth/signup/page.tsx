@@ -77,7 +77,7 @@ const Signup = () => {
       });
       setLoading(false);
       setTimeout(() => {
-        push(`/auth/login?email=${values?.email}`);
+        push(`/auth/xckvnalo?email=${values?.email}`);
       }, 500);
     } catch (error) {
       setLoading(false);
@@ -210,7 +210,7 @@ const Signup = () => {
                         Register
                       </Button>
                       <br />
-                      <Text as={"a"} href={"/auth/login"} color={"twitter.700"}>
+                      <Text as={"a"} href={"/auth/xckvnalo"} color={"twitter.700"}>
                         Already have an account? Login here!
                       </Text>
                     </VStack>

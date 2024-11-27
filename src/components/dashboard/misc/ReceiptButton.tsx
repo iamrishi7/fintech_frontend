@@ -26,7 +26,7 @@ const ReceiptButton: FC<ReceiptButtonProps> = ({ size, data }) => {
       <Receipt
         isOpen={isOpen}
         onClose={onClose}
-        data={{ ...data, hideFooter: false, hideLogo: false }}
+        data={{ ...data, hideFooter: true, hideLogo: true }}
       />
     </>
   );

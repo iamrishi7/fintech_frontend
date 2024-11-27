@@ -28,14 +28,8 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [beneficiary, setBeneficiary] = useState<any>({});
   const [formData, setFormData] = useState<any>({});
-  const [maxAmount, setMaxAmount] = useState(50000);
+  const [maxAmount, setMaxAmount] = useState(1000000);
   const [availableProviders, setAvailableProviders] = useState([]);
-
-  useEffect(() => {
-    if (beneficiary?.id) {
-      onOpen();
-    }
-  }, [beneficiary?.id]);
 
   async function verifyBeneficiary(values: any) {
     try {
@@ -55,6 +49,7 @@ const page = () => {
         receiver_id: res?.data?.id,
       });
       setBeneficiary(res?.data);
+      onOpen()
     } catch (error) {
       setIsLoading(false);
       handleError({
@@ -97,7 +92,7 @@ const page = () => {
                     name="amount"
                     onChange={(value) => setFieldValue("amount", value)}
                     min={1}
-                    max={Number(maxAmount) || 50000}
+                    max={Number(maxAmount) || 1000000}
                   >
                     <NumberInputField placeholder="₹" />
                     <FormLabel>Amount</FormLabel>
@@ -136,12 +131,9 @@ const page = () => {
       <br />
       <br />
 
-      <AdminPinModal
+      <PinModal
         isOpen={isOpen}
-        onClose={() => {
-          onClose();
-          setBeneficiary(null);
-        }}
+        onClose={onClose}
         type="fund-transfer"
         formData={formData}
         title={`${formData?.activity_type == "transfer" ? "Credit" : "Debit"} ₹${formData?.amount} ${formData?.activity_type == "transfer" ? "to" : "from"} ${beneficiary?.name}?`}

@@ -69,9 +69,16 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Link href={"/"}>
-            <Logo />
-          </Link>
+          <Text
+            textAlign={useBreakpointValue({ base: "center", md: "left" })}
+            fontFamily={"heading"}
+            fontWeight={"semibold"}
+            color={useColorModeValue("gray.800", "white")}
+            as={"a"}
+            href="/"
+          >
+            DAINYPAY
+          </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -338,14 +345,10 @@ const NAV_ITEMS: Array<NavItem> = [
   // },
   {
     label: "About Us",
-    href: "/cms/about",
+    href: "#",
   },
   {
     label: "Contact",
-    href: "/cms/contact",
-  },
-  {
-    label: "Sign In",
-    href: "/auth/login",
+    href: "#",
   },
 ];

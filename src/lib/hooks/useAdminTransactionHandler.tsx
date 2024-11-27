@@ -60,6 +60,13 @@ const useAdminTransactionHandler = () => {
       try {
         const res = await API.adminDoFundTransfer({ ...formData, pin: pin });
         setIsLoading(false);
+        setReceiptData({
+          type: "fund-transfer",
+          amount: res?.data?.amount,
+          status: res?.data?.status,
+          transaction_id: res?.data?.reference_id,
+          timestamp: res?.data?.created_at
+        })
 
       } catch (error) {
         setIsLoading(false);

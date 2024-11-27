@@ -1,3 +1,4 @@
+"use client";
 import Loader from "@/components/global/Loader";
 import CustomButton from "@/components/misc/CustomButton";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
@@ -35,6 +36,7 @@ interface PinInputParams {
     | "dmt"
     | "lic"
     | "matm"
+    | "fund-transfer"
     | "wallet-transfer";
   formData?: object | null;
   isOpen: boolean;
@@ -61,8 +63,8 @@ const PinModal = ({
   }, [receiptData, isLoading]);
 
   useEffect(() => {
-    if(receiptData?.transaction_id) setReceiptStatus(true)
-  }, [receiptData])
+    if (receiptData?.transaction_id) setReceiptStatus(true);
+  }, [receiptData]);
 
   return (
     <>
@@ -134,7 +136,7 @@ const PinModal = ({
       <Receipt
         isOpen={receiptStatus}
         onClose={() => setReceiptStatus(false)}
-        data={{ ...receiptData }}
+        data={{ ...receiptData, hideFooter: true, hideLogo: true }}
       />
     </>
   );

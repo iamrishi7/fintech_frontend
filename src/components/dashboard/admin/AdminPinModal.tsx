@@ -1,3 +1,4 @@
+"use client";
 import Loader from "@/components/global/Loader";
 import CustomButton from "@/components/misc/CustomButton";
 import useTransactionHandler from "@/lib/hooks/useTransactionHandler";
@@ -36,7 +37,8 @@ interface PinInputParams {
     | "dmt"
     | "lic"
     | "matm"
-    | "wallet-transfer" | "fund-transfer";
+    | "wallet-transfer"
+    | "fund-transfer";
   formData?: object | null;
   isOpen: boolean;
   onClose: () => void;
@@ -53,7 +55,7 @@ const AdminPinModal = ({
   description,
 }: PinInputParams) => {
   const { processTransaction, isLoading, setPin, receiptData } =
-    useAdminTransactionHandler();
+    useTransactionHandler();
 
   const [receiptStatus, setReceiptStatus] = useState(false);
 
@@ -62,8 +64,12 @@ const AdminPinModal = ({
   }, [receiptData, isLoading]);
 
   useEffect(() => {
-    if(receiptData?.transaction_id) setReceiptStatus(true)
-  }, [receiptData])
+    if (receiptData?.transaction_id) {
+      console.log("Trying to show receipt");
+      console.log(receiptData);
+      setReceiptStatus(true);
+    }
+  }, [receiptData]);
 
   return (
     <>
@@ -135,7 +141,7 @@ const AdminPinModal = ({
       <Receipt
         isOpen={receiptStatus}
         onClose={() => setReceiptStatus(false)}
-        data={{ ...receiptData }}
+        data={{ ...receiptData, hideFooter: true, hideLogo: true }}
       />
     </>
   );

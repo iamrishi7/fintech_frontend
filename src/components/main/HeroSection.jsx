@@ -86,12 +86,12 @@ const HeroSection = () => {
             >
               Contact Us
             </Button>
-            <Button
+            {/* <Button
               variant={'outline'}
               boxShadow={'md'}
             >
               Watch Video
-            </Button>
+            </Button> */}
           </HStack>
         </Stack>
         <Box ml={{ base: 0, md: 5 }} pos="relative">

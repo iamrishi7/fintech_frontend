@@ -30,16 +30,17 @@ import { DefaultAxios } from "../utils/axios";
 
 interface TransactionHandlerParams {
   type:
-  | "payout"
-  | "cw"
-  | "ms"
-  | "be"
-  | "bbps"
-  | "cms"
-  | "dmt"
-  | "lic"
-  | "matm"
-  | "wallet-transfer";
+    | "payout"
+    | "cw"
+    | "ms"
+    | "be"
+    | "bbps"
+    | "cms"
+    | "dmt"
+    | "lic"
+    | "matm"
+    | "fund-transfer"
+    | "wallet-transfer";
   formData?: object | null;
 }
 
@@ -68,11 +69,15 @@ const useTransactionHandler = () => {
           .catch((err) => {
             handleError({
               title: "Invalid IFSC",
-              description: "The provided IFSC is invalid"
+              description: "The provided IFSC is invalid",
             });
             // throw new Error("Please enter a valid IFSC");
           });
-        const res = await API.doPayout({ ...formData, pin: pin, bank_name: bankName });
+        const res = await API.doPayout({
+          ...formData,
+          pin: pin,
+          bank_name: bankName,
+        });
         setIsLoading(false);
         setReceiptData({
           type: "payout",
@@ -84,8 +89,8 @@ const useTransactionHandler = () => {
             account_no: res?.data?.account_number,
             beneficiary_name: res?.data?.beneficiary_name,
             IFSC: res?.data?.ifsc_code,
-            UTR: res?.data?.utr
-          }
+            UTR: res?.data?.utr,
+          },
         });
       } catch (error) {
         setIsLoading(false);
@@ -101,6 +106,25 @@ const useTransactionHandler = () => {
         setIsLoading(false);
         setReceiptData({
           type: "wallet-transfer",
+          amount: res?.data?.amount,
+          status: res?.data?.status,
+          transaction_id: res?.data?.reference_id,
+          timestamp: res?.data?.created_at,
+        });
+      } catch (error) {
+        setIsLoading(false);
+        handleError({
+          title: "Error while transferring amount",
+          error: error,
+        });
+      }
+    }
+    if (type == "fund-transfer") {
+      try {
+        const res = await API.adminDoFundTransfer({ ...formData, pin: pin });
+        setIsLoading(false);
+        setReceiptData({
+          type: "fund-transfer",
           amount: res?.data?.amount,
           status: res?.data?.status,
           transaction_id: res?.data?.reference_id,

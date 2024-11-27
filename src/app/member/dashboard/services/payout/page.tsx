@@ -30,7 +30,7 @@ const page = () => {
 
   const [formData, setFormData] = useState<any>(null);
   const [provider, setProvider] = useState<string | number | boolean>(
-    "waayupay"
+    "safexpay"
   );
   const [availableProviders, setAvailableProviders] = useState<any>([]);
 
@@ -87,7 +87,7 @@ const page = () => {
           Payout
         </Heading>
 
-        <CustomTabs
+        {/* <CustomTabs
           defaultValue={provider}
           tabList={[
             {
@@ -121,9 +121,17 @@ const page = () => {
                   item?.provider == "paydeer" && item?.name == "payout"
               )?.status,
             },
+            {
+              id: "safexpay",
+              label: "safexpay",
+              isDisabled: !availableProviders?.find(
+                (item: any) =>
+                  item?.provider == "safexpay" && item?.name == "payout"
+              )?.status,
+            },
           ]}
           onChange={(value) => setProvider(value)}
-        />
+        /> */}
       </Stack>
       <Box mb={8} p={6} bgColor={"#FFF"} boxShadow={"base"} rounded={4}>
         <Formik
