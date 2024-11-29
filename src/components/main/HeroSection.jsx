@@ -75,6 +75,8 @@ const HeroSection = () => {
             flexWrap="wrap"
           >
             <Button
+              as={Link}
+              href="mailto:support@dainypay.in"
               bgGradient="linear(to-l, #0ea5e9,#2563eb)"
               _hover={{
                 bgGradient: "linear(to-l, #0ea5e9,#2563eb)",
@@ -84,14 +86,11 @@ const HeroSection = () => {
               color={"#FFF"}
               boxShadow={"md"}
             >
+              Mail Us
+            </Button>
+            <Button as={Link} href="tel:+919719090040" variant={"outline"} boxShadow={"md"}>
               Contact Us
             </Button>
-            {/* <Button
-              variant={'outline'}
-              boxShadow={'md'}
-            >
-              Watch Video
-            </Button> */}
           </HStack>
         </Stack>
         <Box ml={{ base: 0, md: 5 }} pos="relative">
