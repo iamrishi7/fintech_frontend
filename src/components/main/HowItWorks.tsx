@@ -1,21 +1,21 @@
 import { chakra, Container, Stack, HStack, VStack, Flex, Text, Image, Box } from '@chakra-ui/react';
 
 const overviewList = [
-  { id: 1, label: 'Login once per day', subLabel: 'The process should be quick.' },
+  { id: 1, label: 'Login once', subLabel: 'Securely login on Portal using your credentials' },
   {
     id: 2,
-    label: 'Do your reviews',
-    subLabel: 'Reviews come from previous flashcards that you chose.'
+    label: 'Do KYC',
+    subLabel: 'Go through the KYC process for secure transactions'
   },
   {
     id: 3,
-    label: 'Streak increase',
-    subLabel: 'Your streak increases once per day as long as you finish your reviews.'
+    label: 'Top Up your wallet',
+    subLabel: 'Make request to top-up your digital wallet. It`s super easy to begin with!'
   },
   {
     id: 4,
-    label: 'Choose your lesson',
-    subLabel: 'This will add 5 new flashcards to your reviews.'
+    label: 'Start doing Payments',
+    subLabel: 'Make your vendor payment to the desired accounts. Fast right?.'
   }
 ];
 
