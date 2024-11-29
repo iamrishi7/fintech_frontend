@@ -56,7 +56,7 @@ const HeroSection = () => {
             fontWeight="bold"
             textAlign="left"
           >
-            Do payments <br />
+            Do Vendor Payments <br />
             <chakra.span color="teal">more securely</chakra.span>
           </chakra.h1>
           <Text
@@ -66,8 +66,8 @@ const HeroSection = () => {
             fontWeight="400"
             color="gray.500"
           >
-            Dainypay is the one stop solution to all of your Vendor Payment needs. Join
-            us and enjoy amazing benefits!
+            Dainypay is the one stop solution to all of your Vendor Payment
+            needs. Join us and enjoy amazing benefits!
           </Text>
           <HStack
             spacing={{ base: 0, sm: 2, md: 4 }}
@@ -82,7 +82,7 @@ const HeroSection = () => {
               }}
               rightIcon={<MdBolt />}
               color={"#FFF"}
-              boxShadow={'md'}
+              boxShadow={"md"}
             >
               Contact Us
             </Button>
