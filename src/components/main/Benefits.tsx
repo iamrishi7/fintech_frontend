@@ -66,7 +66,7 @@ export const featuresList = [
   {
     id: 1,
     title: '24/7 customer support',
-    desc: `Day or night, we’re here for you. Talk to our support team from anywhere in the world,
+    desc: `Day or night, we’re here for you. Talk to our support team from anywhere in India,
     any hour of day.`,
     icon: (
       <svg

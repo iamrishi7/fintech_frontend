@@ -23,6 +23,8 @@ import {
   ChevronRightIcon,
 } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
+import { Logo } from "../global/Logo";
+import Link from "next/link";
 
 interface NavbarProps {
   allowSignup?: boolean;
@@ -135,7 +137,7 @@ const DesktopNav = () => {
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack direction={"row"} alignItems={'center'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
@@ -293,6 +295,10 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Services",
     children: [
       // {
@@ -365,12 +371,12 @@ const NAV_ITEMS: Array<NavItem> = [
   //     },
   //   ],
   // },
-  // {
-  //   label: "About Us",
-  //   href: "#",
-  // },
-  // {
-  //   label: "Contact",
-  //   href: "#",
-  // },
+  {
+    label: "About Us",
+    href: "#",
+  },
+  {
+    label: "Contact",
+    href: "#",
+  },
 ];
