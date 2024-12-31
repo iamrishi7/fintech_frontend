@@ -4,11 +4,11 @@ export const TOKEN_MAX_AGE = 60 * 60 * 24 * 30; // 30 Days
 export const CLIENT_BASE_URL =
   process.env.NODE_ENV == "development"
     ? "http://localhost:3000"
-    : process.env.CLIENT_URL;
+    : "https://payrapid.in";
 export const API_BASE_URL =
   process.env.NODE_ENV == "development"
     ? "http://localhost:8000/api"
-    : process.env.API_URL;
+    : "https://backend.payrapid.in/api";
 
 export const STATES = [
   {
