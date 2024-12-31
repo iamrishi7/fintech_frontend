@@ -103,7 +103,7 @@ const Footer = () => {
   );
 };
 
-export default function SmallCentered() {
+export function SmallCentered() {
   return (
     <Link
       href=""
