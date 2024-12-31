@@ -63,21 +63,21 @@ const Footer = () => {
         display={{ base: "none", md: "flex" }}
       >
         {links.map((link, index) => (
-          <CustomLink key={index} href={link.url}>{link.label}</CustomLink>
+          <Link key={index} href={link.url}>{link.label}</Link>
         ))}
       </HStack>
 
       {/* Mobile and Tablet Screens */}
       <Stack display={{ base: "flex", md: "none" }} alignItems="center">
         <HStack alignItems="center">
-          <CustomLink>Sign up</CustomLink>
+          <Link>Sign up</Link>
           <Divider h="1rem" orientation="vertical" />
-          <CustomLink>Career</CustomLink>
+          <Link>Career</Link>
         </HStack>
         <HStack alignItems="center">
-          <CustomLink href="tnc">Terms & Conditions</CustomLink>
+          <Link href="tnc">Terms & Conditions</Link>
         </HStack>
-        <CustomLink href="/privacy-policy">Privacy policy</CustomLink>
+        <Link href="/privacy-policy">Privacy policy</Link>
       </Stack>
 
       <Stack
