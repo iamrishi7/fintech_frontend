@@ -328,11 +328,11 @@ const NAV_ITEMS: Array<NavItem> = [
     children: [
       {
         label: "Phone Number",
-        subLabel: "+91 97190 90040",
+        subLabel: "+91 70374 07204",
       },
       {
         label: "Email Address",
-        subLabel: "support@dainypay.in",
+        subLabel: "support@payrapid.in",
       },
     ],
   },
