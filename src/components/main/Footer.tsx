@@ -52,7 +52,7 @@ const Footer = () => {
         <Image
           w="100px"
           src="/assets/images/layouts/hero_image.png"
-          alt="Dainypay"
+          alt="Payrapid"
         />
       </Link>
 

@@ -66,7 +66,7 @@ const HeroSection = () => {
             fontWeight="400"
             color="gray.500"
           >
-            Dainypay is the one stop solution to all of your Vendor Payment
+            Payrapid is the one stop solution to all of your Vendor Payment
             needs. Join us and enjoy amazing benefits!
           </Text>
           <HStack

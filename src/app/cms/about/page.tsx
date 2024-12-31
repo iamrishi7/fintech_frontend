@@ -94,10 +94,10 @@ const page = () => {
             </Text>
             <Heading>Our Philosophy</Heading>
             <Text color={"gray.500"} fontSize={"sm"}>
-              ADMPAY INDIA PRIVATE LIMITED is India’s leading payments
+              PAYRAPID INDIA PRIVATE LIMITED is India’s leading payments
               company. It provides full-stack payment solutions for businesses
               in India to accept payments and make payouts via easy panel. Over
-              6,00,000+ Businesses trust ADMPAY INDIA PRIVATE LIMITED with
+              6,00,000+ Businesses trust PAYRAPID INDIA PRIVATE LIMITED with
               vendor payouts, salary payouts, bulk refunds, expense
               reimbursements, loyalty and rewards, and so much more. We enable
               businesses of all we are building the payments infrastructure of

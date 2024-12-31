@@ -34,7 +34,7 @@ const contactOptions = [
   },
   {
     label: "EMAIL",
-    value: "info@admpay.in",
+    value: "info@payrapid.in",
     icon: HiOutlineMail,
   },
 ];

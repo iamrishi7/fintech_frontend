@@ -43,7 +43,7 @@ const page = () => {
       <br />
       <Box p={[4, 8, 16]} mx={"auto"} maxW={["full", "7xl"]}>
         <p>
-          When you add money to ADMPAY INDIA PRIVATE LIMITED Wallet or Bank
+          When you add money to PAYRAPID INDIA PRIVATE LIMITED Wallet or Bank
           Account and, an amount is debited from your Credit Card / Debit Card /
           UPI / NetBanking or Bank Account and you choose the same value in your
           ID, then for such transaction No cancellation or refund is allowed.
@@ -58,7 +58,7 @@ const page = () => {
           the cancellation will be subject to the terms mentioned on the
           Platform. We shall retain the discretion in approving any cancellation
           requests and we may ask for additional details before approving any
-          requests. However, if in a transaction performed by you on the ADMPAY
+          requests. However, if in a transaction performed by you on the PAYRAPID
           INDIA PRIVATE LIMITED Platform, money has been debited from your card
           or bank account and no value is reflected in your ID within 24 hours
           of the completion of the transaction, Then you will inform us for the
@@ -84,7 +84,7 @@ const page = () => {
         </p>
         <br />
         <p>
-          ADMPAY INDIA PRIVATE LIMITED is not responsible for any purchase/money
+          PAYRAPID INDIA PRIVATE LIMITED is not responsible for any purchase/money
           transfer/bill payment/recharge for wrong mobile number, DTH account
           number, utility identification number and bank account number.
           However, if in a transaction made by the Customer on the Site, money

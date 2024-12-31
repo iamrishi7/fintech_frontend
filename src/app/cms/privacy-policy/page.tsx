@@ -43,7 +43,7 @@ const page = () => {
       <br />
       <Box p={[4, 8, 16]} mx={'auto'} maxW={['full', '7xl']}>
         <p>
-          ADM Pay INDIA, accessible from https://admpay.in/ one of our main
+          ADM Pay INDIA, accessible from https://payrapid.in/ one of our main
           priorities is the privacy of our visitors. This Privacy Policy
           document contains types of information that is collected and recorded
           by and ADM Pay INDIA how we use it.
@@ -65,7 +65,7 @@ const page = () => {
           LIMITED, registered in India. If you have any questions about this
           Privacy Policy you can contact the data controller by writing to
           Aditya Digital Money Pvt. Ltd. Iglas, Aligarh, Uttar Pradesh, 202124,
-          India or sending an email to info@admpay.in
+          India or sending an email to info@payrapid.in
         </p>
         <br />
         <br />
@@ -162,7 +162,7 @@ const page = () => {
         <p>
           Aditya Digital Money Pvt. Ltd. Iglas, Aligarh, Uttar Pradesh, 202124
         </p>
-        <p>info@admpay.in</p>
+        <p>info@payrapid.in</p>
       </Box>
     </>
   );

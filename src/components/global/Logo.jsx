@@ -10,6 +10,6 @@ export const Logo = () => (
         fillRule="evenodd"
       />
     </svg>
-    <Text fontSize={"lg"} fontWeight={'semibold'}>ADMPAY</Text>
+    <Text fontSize={"lg"} fontWeight={'semibold'}>PAYRAPID</Text>
   </HStack>
 );

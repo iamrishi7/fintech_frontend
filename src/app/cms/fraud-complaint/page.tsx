@@ -45,15 +45,15 @@ const page = () => {
         <p>
           If you see a charge that you do not recognize, it may be fraud. Before
           you report fraud, please make sure that neither yourself nor an
-          authorized user made the transaction. You may report fraud to ADMPAY
-          INDIA PRIVATE LIMITED by contacting directly at dispute@admpay.in.
+          authorized user made the transaction. You may report fraud to PAYRAPID
+          INDIA PRIVATE LIMITED by contacting directly at dispute@payrapid.in.
         </p>
         <br />
         <h5>Registered Office Address</h5>
         <p>
           Aditya Digital Money Pvt. Ltd. Iglas, Aligarh, Uttar Pradesh, 202124
         </p>
-        <p>info@admpay.in</p>
+        <p>info@payrapid.in</p>
       </Box>
     </>
   );
