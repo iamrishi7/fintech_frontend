@@ -28,8 +28,8 @@ const page = () => {
             fontSize={{ base: "md", md: "md" }}
             textAlign="justify"
           >
-            DAINYPAY Technology Pvt. Ltd. built the DAINYPAY web app as a Commercial
-            web app. This SERVICE is provided by DAINYPAY Technology Pvt. Ltd. and
+            PAYRAPID Technology Pvt. Ltd. built the PAYRAPID web app as a Commercial
+            web app. This SERVICE is provided by PAYRAPID Technology Pvt. Ltd. and
             is intended for use as is. This page is used to inform website
             visitors regarding our policies with the collection, use, and
             disclosure of Personal Information if anyone decided to use our
@@ -39,7 +39,7 @@ const page = () => {
             improving the Service. We will not use or share your information
             with anyone except as described in this Privacy Policy. The terms
             used in this Privacy Policy have the same meanings as in our Terms
-            and Conditions, which is accessible at DAINYPAY unless otherwise
+            and Conditions, which is accessible at PAYRAPID unless otherwise
             defined in this Privacy Policy. We may change this Privacy Policy at
             any time by posting the revised Privacy Policy in the "Privacy
             Policy" section of the website. The revised Privacy Policy is
@@ -87,9 +87,9 @@ const page = () => {
             fontSize={{ base: "md", md: "lg" }}
             textAlign="justify"
           >
-            The data controller in respect of our portal is DAINYPAY, registered
+            The data controller in respect of our portal is PAYRAPID, registered
             in India. If you have any questions about this Privacy Policy you
-            can contact the data controller by writing to DAINYPAY, Guwahati,
+            can contact the data controller by writing to PAYRAPID, Guwahati,
             Hatigaon Puberun Path House No-2, Pincode - 781038, Indiaor sending
             an email to info@1touch.online
           </Text>
@@ -170,8 +170,8 @@ const page = () => {
           >
             We reserve the right to disclose your personal information as
             necessary to: (1) comply with the law or comply with legal process
-            served on DAINYPAY; (2) protect and defend the rights or property of
-            DAINYPAY; (3) to ensure compliance with our Terms & Conditions. DAINYPAY
+            served on PAYRAPID; (2) protect and defend the rights or property of
+            PAYRAPID; (3) to ensure compliance with our Terms & Conditions. PAYRAPID
             co-operates with law enforcement and other third parties to enforce
             laws, intellectual property, and other rights, and we reserve the
             right to report any information related to suspicion of illegal

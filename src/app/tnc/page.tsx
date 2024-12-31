@@ -36,18 +36,18 @@ const page = () => {
             Terms, you may not access the Platform. FOR APPOINTMENT AS
             RETAILER/PARTNER/DISTRIBUTOR & SUPER DISTRIBUTOR These terms and
             conditions (Terms and Conditions) shall apply to and govern the
-            commercial arrangement between DAINYPAY Technologies Pvt. Ltd. (herein
-            after referred as 'DAINYPAY') and the Retailer/ Partner /
+            commercial arrangement between PAYRAPID Technologies Pvt. Ltd. (herein
+            after referred as 'PAYRAPID') and the Retailer/ Partner /
             Distributor/Super Distributor. These Terms and Conditions and any
-            attachments hereto represent the entire agreement between DAINYPAY and
+            attachments hereto represent the entire agreement between PAYRAPID and
             the Retailer/ Partner / Distributor/Super Distributor and no changes
             to the same are binding unless they are in writing and intimated by
-            the authorized representative of DAINYPAY. “DAINYPAY”is a digital
+            the authorized representative of PAYRAPID. “PAYRAPID”is a digital
             financial facilitation service provider, a company incorporated
             under the Companies Act,, 2013 (18 of 2013 and rule 18 of the
             Companies (Incorporation) Rules, 2014) having its registered office
             at Hno 64 Kheriya Patal Sahara Khurd Iglas Aligarh Uttar
-            Pradesh-202124, INDIA (hereinafter referred to as the Company/DAINYPAY
+            Pradesh-202124, INDIA (hereinafter referred to as the Company/PAYRAPID
             which expression shall unless repugnant to the context or meaning
             thereof mean and include its successors and permitted assigns).
           </Text>
@@ -66,59 +66,59 @@ const page = () => {
             textAlign="justify"
           >
             1.1 During the Term, the Retailer/ Partner / Distributor/Super
-            Distributor shall render the services (“Services”) of DAINYPAY, by and
+            Distributor shall render the services (“Services”) of PAYRAPID, by and
             through such of its officers, employees, agents, representatives and
             affiliates as it shall designate, from time to time. Notwithstanding
-            anything contrary contained in these Terms and Conditions, DAINYPAY
+            anything contrary contained in these Terms and Conditions, PAYRAPID
             shall have the right at any time, to modify, alter and amend the
             lists of Services, including the manner, procedure, process in which
             the Retailer/ Partner / Distributor/Super Distributor will be
             required to perform the Services and the Retailer/ Partner /
             Distributor/Super Distributor shall be bound by all such
-            modifications, alterations and amendments made by DAINYPAY. 1.2 The
+            modifications, alterations and amendments made by PAYRAPID. 1.2 The
             Retailer/ Partner / Distributor/Super Distributor shall only market,
-            distribute sell or promote such DAINYPAY Services as are permitted
-            expressly by DAINYPAY. The Retailer/ Partner / Distributor/Super
+            distribute sell or promote such PAYRAPID Services as are permitted
+            expressly by PAYRAPID. The Retailer/ Partner / Distributor/Super
             Distributor shall not automatically have the right to market, sell,
             distribute, or promote any product or service that may be provided
             by other retail outlets, whether in the present or in the future. In
-            the event of any addition to the Services, DAINYPAY may, at its sole
+            the event of any addition to the Services, PAYRAPID may, at its sole
             discretion, intimate the Retailer/ Partner / Distributor/Super
             Distributor that the Retailer/ Partner / Distributor/Super
             Distributor is entitled to sell, market, distribute and promote such
-            product or service. DAINYPAY shall also have the right to direct the
+            product or service. PAYRAPID shall also have the right to direct the
             Retailer/ Partner / Distributor/Super Distributor to discontinue
-            providing any of the DAINYPAY Services at the Retail Outlet without
-            assigning any reason whatsoever. 1.3 DAINYPAY shall specify to the
+            providing any of the PAYRAPID Services at the Retail Outlet without
+            assigning any reason whatsoever. 1.3 PAYRAPID shall specify to the
             Retailer/ Partner / Distributor/Super Distributor, the necessary
             infrastructure and equipment including but not limited to computer
             terminals, peripherals attachments, internet and broadband
             connectivity, mobile device and/or any such device with GPRS
-            connectivity, HTML enabled, which is compatible enough to run DAINYPAY
-            Software/Services etc, for effectively providing the DAINYPAY
+            connectivity, HTML enabled, which is compatible enough to run PAYRAPID
+            Software/Services etc, for effectively providing the PAYRAPID
             Services, which the Retailer/ Partner / Distributor/Super
             Distributor shall acquire at its sole expense. In case of the MPOS
             Application, the Retailer/ Partner / Distributor/Super Distributor
-            shall be entitled to install the DAINYPAY Software on that particular
+            shall be entitled to install the PAYRAPID Software on that particular
             mobile device and/or any such other device, which is proposed to be
-            registered with DAINYPAY for availing DAINYPAY Services, and no other
+            registered with PAYRAPID for availing PAYRAPID Services, and no other
             mobile/device of the Retailer/ Partner / Distributor/Super
             Distributor shall have such Software installed unless registered
             under the terms and conditions of this Agreement. Further, the
             Retailer/ Partner / Distributor/Super Distributor shall prominently
-            display the DAINYPAY signage, signboards, logos, etc at a prominent
+            display the PAYRAPID signage, signboards, logos, etc at a prominent
             place in the Retail Outlet, strictly in accordance with the
-            directions issued by DAINYPAY in this regard. 1.4 Upon satisfactory
+            directions issued by PAYRAPID in this regard. 1.4 Upon satisfactory
             installation and operation of the necessary equipment and
-            peripherals, DAINYPAY shall, subject to these Terms and Conditions,
-            install the necessary software and other DAINYPAY Intellectual
+            peripherals, PAYRAPID shall, subject to these Terms and Conditions,
+            install the necessary software and other PAYRAPID Intellectual
             Property to enable the provision of the Services. All Services shall
-            be provided solely through the portal of DAINYPAY or are recorded
+            be provided solely through the portal of PAYRAPID or are recorded
             therein and no offline transactions are permitted and/or no such
             fake/false receipts should be issued by the Retailer/ Partner /
             Distributor/Super Distributor for the willful fraud transaction done
             by the Retailer/ Partner / Distributor/Super Distributor which are
-            not transacted through DAINYPAY Software/portal. However, if any
+            not transacted through PAYRAPID Software/portal. However, if any
             Retailer/ Partner / Distributor/Super Distributor is found and/or
             discovered doing any such malicious/wrong/willful/fraudulent acts
             and/or offline transactions, it shall be liable and charged for such
@@ -133,7 +133,7 @@ const page = () => {
             Distributor/Super Distributor shall keep the Retailer/ Partner /
             Distributor/Super Distributor Outlet open for business during normal
             business hours, or as permitted by law or such other time period as
-            DAINYPAY may specify from time to time. 1.7 The Retailer/ Partner /
+            PAYRAPID may specify from time to time. 1.7 The Retailer/ Partner /
             Distributor/Super Distributor shall ensure that the Retail Outlet is
             utilized for the purpose of rendering the Services in accordance
             with these Terms and Conditions. The Retailer/ Partner /
@@ -144,7 +144,7 @@ const page = () => {
             offensive, derogatory, threatening, harassing, abusive or violent
             content, to be made available in the Retail Outlet or (b) any
             activities that are proscribed under law or reasonably considered to
-            be immoral or against public interest. 1.8 DAINYPAY may, at its sole
+            be immoral or against public interest. 1.8 PAYRAPID may, at its sole
             discretion and with or without consideration, provide training
             manuals, technology support, ongoing advice and assistance to the
             Retailer/ Partner / Distributor/Super Distributor and designated
@@ -152,15 +152,15 @@ const page = () => {
             including, provision of brochures, pamphlets, charts, signboards,
             signage and other materials for the purposes of advertisement,
             promotion and marketing the Services. Any materials supplied by
-            DAINYPAY shall be utilized solely in relation to the provision of
+            PAYRAPID shall be utilized solely in relation to the provision of
             Services and the Retailer/ Partner / Distributor/Super Distributor
             shall ensure that such materials are not utilized for any other
             purpose. 1.9 The Retailer/ Partner / Distributor/Super Distributor
             shall not encroach/poach upon the areas of operation of other
             neighboring Retailer/ Partner / Distributor/Super Distributors
-            appointed by DAINYPAY or act in any manner which will prejudice the
+            appointed by PAYRAPID or act in any manner which will prejudice the
             business prospects of neighboring Retailer/ Partner /
-            Distributor/Super Distributors appointed by DAINYPAY.
+            Distributor/Super Distributors appointed by PAYRAPID.
           </Text>
 
           <Heading
@@ -303,52 +303,52 @@ const page = () => {
             with these Terms and Conditions. 3.2 The Retailer/ Partner /
             Distributor/Super Distributor acknowledges that it has read and
             understood these Terms and Conditions at the time of making an
-            application to DAINYPAY for operation of a retail outlet to provide
+            application to PAYRAPID for operation of a retail outlet to provide
             the Services (as defined herein) under the name and style of
-            “DAINYPAY” and that it has had sufficient time to evaluate the
+            “PAYRAPID” and that it has had sufficient time to evaluate the
             financial requirements, equipment required to conduct the business,
             services applicable/ enable in his area of operation and risks
             associated with the establishment and operation of the retail
             outlet. 3.3 : During the Term and subject to these Terms and
-            Conditions, DAINYPAY hereby appoints the Retailer/ Partner /
+            Conditions, PAYRAPID hereby appoints the Retailer/ Partner /
             Distributor/Super Distributor and the Retailer/ Partner /
             Distributor/Super Distributor hereby accepts the appointment as a
-            DAINYPAY Retailer/ Partner / Distributor/Super Distributor, to
+            PAYRAPID Retailer/ Partner / Distributor/Super Distributor, to
             establish and operate a retail outlet at such address as specified
             in the Retailer/ Partner / Distributor/Super Distributor application
             form attached herewith for the purpose of marketing, selling and
             providing the Services (“Retail Outlet”). No changes to the address
             as mentioned in the Retailer/ Partner / Distributor/Super
             Distributor Application form shall be permitted, except with the
-            prior written consent from DAINYPAY whereas such consent shall be
+            prior written consent from PAYRAPID whereas such consent shall be
             signed by the Authorized Representative of the level of Vice
             President or above. 3.4 The appointment of the Retailer/ Partner /
             Distributor/Super Distributor under these Terms and Conditions shall
-            remain valid up to the termination (“Term”). DAINYPAY may exercise its
+            remain valid up to the termination (“Term”). PAYRAPID may exercise its
             right of withdrawal by giving a notice in writing to the Retailer/
             Partner / Distributor/Super Distributor 1 (one) month prior to
             withdrawal unless any breach of this agreement by the Retailer/
             Partner / Distributor/Super Distributor. 3.5 The Retailer/ Partner /
             Distributor/Super Distributor may describe himself as an 'authorized
-            Retailer/ Partner / Distributor/Super Distributor' of DAINYPAY, but
-            must not hold [itself/himself] out as being entitled to bind DAINYPAY
+            Retailer/ Partner / Distributor/Super Distributor' of PAYRAPID, but
+            must not hold [itself/himself] out as being entitled to bind PAYRAPID
             in any way. The Retailer/ Partner / Distributor/Super Distributor
             shall not make, cause or permit, directly or indirectly, any
             description or projection of itself as a partner or employee or
-            officer or representative of DAINYPAY. 3.6 DAINYPAY is in the business
+            officer or representative of PAYRAPID. 3.6 PAYRAPID is in the business
             of facilitating/distributing/marketing/providing of
             product(s)/service(s) of various service providers to enable them to
             expand the distribution networks for the services provided by them.
             3.7 The Retailer/ Partner / Distributor/Super Distributor has
-            understood the business model and aware that DAINYPAY is just a
+            understood the business model and aware that PAYRAPID is just a
             facilitator and distributor of products and services and does not
-            own such services or products by itself. DAINYPAY takes reasonable
+            own such services or products by itself. PAYRAPID takes reasonable
             efforts to make available the services and products, however, shall
             not be liable and responsible for any deficiency of such services
-            and products. DAINYPAY further also takes reasonable efforts to
+            and products. PAYRAPID further also takes reasonable efforts to
             provide its best uninterrupted services at best quality; however,
             technological systems are prone to interruption for upgradation,
-            maintenance, break down of either the systems of DAINYPAY or that of
+            maintenance, break down of either the systems of PAYRAPID or that of
             the Service Providers’. The Retailer/ Partner / Distributor/Super
             Distributor shall be managing his business considering such
             interruptions.
@@ -370,9 +370,9 @@ const page = () => {
             4.1 Non Refundable Registration Fee: The Retailer/ Partner /
             Distributor/Super Distributor shall deposit such an amount
             (“Registration Fees”) by way of a non-refundable registration fee as
-            per commercial terms defined by DAINYPAY on or before the Effective
+            per commercial terms defined by PAYRAPID on or before the Effective
             Date. 4.2 Working Capital: The Retailer/ Partner / Distributor/Super
-            Distributor shall maintain and deposit with DAINYPAY working capital
+            Distributor shall maintain and deposit with PAYRAPID working capital
             (“Working Capital”) in a bank designated and intimated to the
             Retailer/ Partner / Distributor/Super Distributor for this purpose
             (“Designated Bank”) which will be an interest free deposit. The
@@ -383,7 +383,7 @@ const page = () => {
             Working Capital is maintained at the aforementioned amounts at all
             times. 4.3 Working Capital Limit: The Retailer/ Partner /
             Distributor/Super Distributor shall be entitled to a credit limit
-            equivalent to the Working Capital balance in the books of DAINYPAY
+            equivalent to the Working Capital balance in the books of PAYRAPID
             (“Credit Limit”). The Retailer/ Partner / Distributor/Super
             Distributor may enter into transactions up to the value of the
             existing Credit Limit. In the event the value of the transactions
@@ -393,40 +393,40 @@ const page = () => {
             Retailer/ Partner / Distributor/Super Distributor desires to enter
             into transactions in excess of the Credit Limit, the Retailer/
             Partner / Distributor/Super Distributor shall deposit the amount
-            either with the Distributor or DAINYPAY as the case may be to increase
-            its Credit Limit accordingly. The Distributor/ DAINYPAY shall, at
+            either with the Distributor or PAYRAPID as the case may be to increase
+            its Credit Limit accordingly. The Distributor/ PAYRAPID shall, at
             their sole discretion, permit enhancement of the Credit Limit. If
             the amount is deposited with the Distributor, the Retailer/ Partner
             / Distributor/Super Distributor need to obtain proper receipt and
-            the limit gets enhanced from the Distributor. DAINYPAY shall not be
+            the limit gets enhanced from the Distributor. PAYRAPID shall not be
             responsible for any liabilities in such an event. 4.4 Commission:
             The Retailer/ Partner / Distributor/Super Distributor shall be
             entitled to commission, which shall be adjusted on a daily
             basis/monthly basis/transaction basis, for the provision of the
-            Services at a rate to be intimated by DAINYPAY to the Retailer/
+            Services at a rate to be intimated by PAYRAPID to the Retailer/
             Partner / Distributor/Super Distributor from time to time through
             its portal, either by way of credit to the Working Capital or the
             Retailer/ Partner / Distributor/Super Distributor may deduct the
             commission due to it, prior to depositing the proceeds of a
             transaction in the Current Account. The Retailer/ Partner /
             Distributor/Super Distributor shall be regularly updated on the
-            Rates of Commission through the Portal. DAINYPAY, at its sole
+            Rates of Commission through the Portal. PAYRAPID, at its sole
             discretion shall decide the sharing of Gross Margin with the
             Retailer/ Partner / Distributor/Super Distributors and its decision
             will be final. It is presumed that the Retailer/ Partner /
             Distributor/Super Distributor has agreed to such commission / margin
             before the transaction. Any dispute in this regards will not be
-            admissible by DAINYPAY. 4.5 Prices and discounts: All prices, charges,
-            fees and discounts for all DAINYPAY Services shall be determined, and
-            may from time to time be revised, by DAINYPAY at its sole discretion.
+            admissible by PAYRAPID. 4.5 Prices and discounts: All prices, charges,
+            fees and discounts for all PAYRAPID Services shall be determined, and
+            may from time to time be revised, by PAYRAPID at its sole discretion.
             The Retailer/ Partner / Distributor/Super Distributor shall not
             collect cash from the customers by offering discounts on the
-            Services which do not have DAINYPAY's sanction. The Retailer/ Partner
+            Services which do not have PAYRAPID's sanction. The Retailer/ Partner
             / Distributor/Super Distributor shall also not provide any
             incentives, subsidies or do any act/ omission or thing, which shall
             have the effect of providing incentives or subsidies on the
             Services. The Retailer/ Partner / Distributor/Super Distributor
-            acknowledge that DAINYPAY has the right to alter the prices or nullify
+            acknowledge that PAYRAPID has the right to alter the prices or nullify
             any sales that have been entered in the portal. 4.6 Taxes: All
             current and/or future taxes or similar fees including without
             limitation GST, value added tax, service tax and other local or
@@ -435,26 +435,26 @@ const page = () => {
             the Retailer/ Partner / Distributor/Super Distributor while
             retaining its commission. Payments made to the Retailer/ Partner /
             Distributor/Super Distributor shall be subject to such withholdings
-            as prescribed under applicable law. Subject to the aforesaid, DAINYPAY
+            as prescribed under applicable law. Subject to the aforesaid, PAYRAPID
             assumes no responsibility for the tax compliance of the Retailer/
             Partner / Distributor/Super Distributor. 4.7 Costs: All costs and
-            expenses for operation of DAINYPAY Kiosk including but not limiting to
+            expenses for operation of PAYRAPID Kiosk including but not limiting to
             electricity, telephone, staff salary, traveling, promotional
             activities and other similar out-of-pocket expenses incurred in the
             performance of the Services shall be borne by the Retailer/ Partner
             / Distributor/Super Distributor. 4.8 Activity/Inactivity charges: A
-            minimum monthly charges plus Taxes may be levied by DAINYPAY and the
+            minimum monthly charges plus Taxes may be levied by PAYRAPID and the
             same shall be deducted from the Retailer/ Partner /
             Distributor/Super Distributor’s Working Capital balance. The
             Retailer/ Partner / Distributor/Super Distributor hereby agrees and
             acknowledges to pay such charges as intimated to the Retailer/
             Partner / Distributor/Super Distributor from to time. 4.9 Set off:
-            DAINYPAY may, deduct sums due from the Retailer/ Partner /
+            PAYRAPID may, deduct sums due from the Retailer/ Partner /
             Distributor/Super Distributor under these Terms and Conditions from
             any sums due to the Retailer/ Partner / Distributor/Super
             Distributor under the same and the Retailer/ Partner /
             Distributor/Super Distributor hereby consents to such set off being
-            made by DAINYPAY.
+            made by PAYRAPID.
           </Text>
 
           <Heading
@@ -486,17 +486,17 @@ const page = () => {
             employee, partner, consultant, and holder of equity or debt
             investment, lender or in any other manner or capacity): (a) market,
             offer and/or perform services similar to that being developed,
-            offered or sold by DAINYPAY; (b)solicit, induce, encourage or attempt
-            to induce or encourage any employee or consultant of DAINYPAY to
+            offered or sold by PAYRAPID; (b)solicit, induce, encourage or attempt
+            to induce or encourage any employee or consultant of PAYRAPID to
             terminate his or her employment or consulting relationship with
-            DAINYPAY, or to breach any other obligation to DAINYPAY; (c) solicit,
+            PAYRAPID, or to breach any other obligation to PAYRAPID; (c) solicit,
             interfere with, disrupt, alter or attempt to disrupt or alter the
-            relationship, contractual or otherwise, between DAINYPAY and any other
+            relationship, contractual or otherwise, between PAYRAPID and any other
             person including, without limitation, any consultant, contractor,
-            customer, potential customer, or supplier of DAINYPAY; or (d) engage
+            customer, potential customer, or supplier of PAYRAPID; or (d) engage
             in or participate in any business conducted under any name that
-            shall be the same as or similar to the name of DAINYPAY or any trade
-            name used by DAINYPAY.
+            shall be the same as or similar to the name of PAYRAPID or any trade
+            name used by PAYRAPID.
           </Text>
 
           <Heading
@@ -513,34 +513,34 @@ const page = () => {
             textAlign="justify"
           >
             6.1 No license under any patents, copyrights, trademarks or any
-            other intellectual property rights of DAINYPAY / its affiliates / its
+            other intellectual property rights of PAYRAPID / its affiliates / its
             Service Provider(s) / third party(ies) is granted to or conferred
             upon to the Retailer/ Partner / Distributor/Super Distributor by
             virtue of being the Retailer/ Partner / Distributor/Super
-            Distributor of DAINYPAY. The Retailer/ Partner / Distributor/Super
+            Distributor of PAYRAPID. The Retailer/ Partner / Distributor/Super
             Distributor shall not acquire any interest and right on the
             trademark(s), trade name(s), logo, etc. of other party including
-            DAINYPAY by virtue of this Agreement and shall not use the logos,
-            trademark of DAINYPAY/owner of intellectual property on including
+            PAYRAPID by virtue of this Agreement and shall not use the logos,
+            trademark of PAYRAPID/owner of intellectual property on including
             interalia the Retailer/ Partner / Distributor/Super Distributor’s
             Rubber stamps, letterheads, Visiting Cards, websites etc. and/or any
             such material in whatsoever manner. 7.2. The Retailer/ Partner /
             Distributor/Super Distributor agrees to protect the logo, trade name
-            and trademark of DAINYPAY and not use the same, in any unauthorised
+            and trademark of PAYRAPID and not use the same, in any unauthorised
             manner, whatsoever, including interalia as a tool for acknowledging
             payments accepted by the Retailer/ Partner / Distributor/Super
             Distributor/his representative, thereby creating false impression
             about the authenticity of such acknowledgment / receipt. The
             Retailer/ Partner / Distributor/Super Distributor hereby undertakes
-            to indemnify, defend and hold DAINYPAY harmless for all loss(es) /
+            to indemnify, defend and hold PAYRAPID harmless for all loss(es) /
             damage(s) arising due to infringement of this clause. The Retailer/
             Partner / Distributor/Super Distributor is aware of the
             consequences, if at all, the Retailer/ Partner / Distributor/Super
             Distributor and/or his representative are found in unauthorized use
-            of DAINYPAY logo/ trade name(s) in any manner, then strict action
+            of PAYRAPID logo/ trade name(s) in any manner, then strict action
             shall be taken against the Retailer/ Partner / Distributor/Super
             Distributor, including permanent deactivation of his Services, but
-            not limited to any other legal action which DAINYPAY may deem fit and
+            not limited to any other legal action which PAYRAPID may deem fit and
             proper, under the provisions of law.
           </Text>
 
@@ -563,7 +563,7 @@ const page = () => {
             personal data from unauthorised access and disclosure, and follow
             standards prescribed by applicable law. 8.1 The Retailer/ Partner /
             Distributor/Super Distributor agrees that all information disclosed
-            by DAINYPAY or which the Retailer/ Partner / Distributor/Super
+            by PAYRAPID or which the Retailer/ Partner / Distributor/Super
             Distributor gets in the course of negotiating this Agreement is
             confidential in nature and hence cannot be disclosed. Each Party may
             disclose the existence of this Agreement, but agrees that the terms
@@ -579,10 +579,10 @@ const page = () => {
             Retailer/ Partner / Distributor/Super Distributor also agrees that
             on and from the date of this Agreement all information, which the
             Retailer/ Partner / Distributor/Super Distributor may obtain from
-            DAINYPAY pursuant to this Agreement, shall be kept confidential by the
+            PAYRAPID pursuant to this Agreement, shall be kept confidential by the
             Retailer/ Partner / Distributor/Super Distributor and shall not be
             disclosed to any third party, save and except with the prior written
-            consent of the DAINYPAY.
+            consent of the PAYRAPID.
           </Text>
         </Box>
       </Container>

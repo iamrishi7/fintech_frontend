@@ -152,7 +152,7 @@ const Layout1 = ({ data, isLayout }: ReceiptLayoutProps) => {
                   fontSize={isLayout ? "2xs" : "md"}
                   fontWeight={"semibold"}
                 >
-                  DAINYPAY
+                  PAYRAPID
                 </Text>
               </HStack>
             )}

@@ -268,7 +268,7 @@ const Login = () => {
           <br />
           <br />
           <Text fontSize={"xs"}>
-            &copy; Copyright {new Date().getFullYear()} - DAINYPAY
+            &copy; Copyright {new Date().getFullYear()} - PAYRAPID
           </Text>
         </Flex>
       </Stack>

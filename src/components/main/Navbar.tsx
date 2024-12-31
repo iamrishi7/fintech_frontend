@@ -75,7 +75,7 @@ export default function WithSubnavigation() {
             as={"a"}
             href="/"
           >
-            DAINYPAY
+            PAYRAPID
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>

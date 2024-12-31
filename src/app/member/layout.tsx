@@ -207,7 +207,7 @@ const MemberSidebarContent = ({ ...props }: BoxProps) => {
           color={useColorModeValue("brand.500", "white")}
           fontWeight="semibold"
         >
-          DAINYPAY
+          PAYRAPID
         </Text>
       </Flex>
       <Flex
