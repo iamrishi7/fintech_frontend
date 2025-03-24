@@ -30,7 +30,7 @@ const page = () => {
 
   const [formData, setFormData] = useState<any>(null);
   const [provider, setProvider] = useState<string | number | boolean>(
-    "groscope"
+    "payscope"
   );
   const [availableProviders, setAvailableProviders] = useState<any>([]);
 
