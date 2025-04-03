@@ -17,6 +17,6 @@ export interface ReceiptProps {
   hideFooter?: boolean;
   footerMessage?: string;
   timestamp: string;
-  status: "success" | "pending" | "failed";
+  status: "success" | "pending" | "failed" | "queued";
   miscData?: object;
 }

@@ -75,16 +75,16 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
           p={isLayout ? 2 : 4}
           w={"full"}
           bgColor={
-            data?.status == "success"
+            data?.status == "success" || data?.status == "queued"
               ? "whatsapp.500"
               : data?.status == "pending"
-              ? "orange.500"
+              ? "whatsapp.500"
               : "red.500"
           }
         ></Box>
         {/* Receipt Header */}
         <VStack>
-          {data?.status == "success" ? (
+          {data?.status == "success" || data?.status == "queued" ? (
             <Icon
               as={IoCheckmarkDoneSharp}
               color={"whatsapp.500"}
@@ -93,7 +93,7 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
           ) : data?.status == "pending" ? (
             <Icon
               as={TbClockExclamation}
-              color={"orange.500"}
+              color={"whatsapp.500"}
               fontSize={isLayout ? "32" : "64"}
             />
           ) : data?.status == "failed" ? (
@@ -106,10 +106,10 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
           <Text
             fontWeight={"semibold"}
             color={
-              data?.status == "success"
+              data?.status == "success" || data?.status == "queued"
                 ? "whatsapp.500"
                 : data?.status == "pending"
-                ? "orange.500"
+                ? "whatsapp.500"
                 : data?.status == "failed"
                 ? "red.500"
                 : "gray.700"
@@ -117,7 +117,7 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
             textTransform={"uppercase"}
             fontSize={isLayout ? "sm" : "md"}
           >
-            {data?.status}
+            {data?.status == "queued" || data?.status == "pending" ? "success" : data?.status}
           </Text>
           <Text
             fontSize={isLayout ? "md" : "3xl"}
@@ -179,10 +179,10 @@ const Layout2 = ({ data, isLayout }: ReceiptLayoutProps) => {
           p={isLayout ? 2 : 4}
           w={"full"}
           bgColor={
-            data?.status == "success"
+            data?.status == "success" || data?.status == "queued"
               ? "whatsapp.500"
               : data?.status == "pending"
-              ? "orange.500"
+              ? "whatsapp.500"
               : "red.500"
           }
         ></Box>
