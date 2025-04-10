@@ -32,7 +32,7 @@ const PagButton = (props: any) => {
       {...(props.active && activeStyle)}
       onClick={() => {
         if (props.url) {
-          onClick(props?.url?.replace(API_BASE_URL, ""));
+          onClick(props?.url?.replace("http://backend.greenfieldorg.com/api", ""));
         }
       }}
     >
