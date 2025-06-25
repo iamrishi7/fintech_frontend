@@ -141,6 +141,7 @@ const page = () => {
             account_number_confirmation: "",
             ifsc_code: "",
             amount: "",
+            bank_name2: "",
             provider: provider,
             mode: "neft",
           }}
@@ -196,6 +197,15 @@ const page = () => {
                     placeholder=" "
                   />
                   <FormLabel>IFSC</FormLabel>
+                </FormControl>
+                <FormControl maxW={["full", "xs"]} variant={"floating"}>
+                  <Input
+                    name="bank_name2"
+                    onChange={handleChange}
+                    value={values?.bank_name2}
+                    placeholder=" "
+                  />
+                  <FormLabel>Bank Name</FormLabel>
                 </FormControl>
                 <FormControl maxW={["full", "xs"]} variant={"floating"}>
                   <NumberInput min={50}>
